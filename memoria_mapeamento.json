@@ -37,8 +37,27 @@
         "DESCRICAO|DESCRICAO DO PRODUTO": 1,
         "SP|💰 PRECO BASE": 1,
         "CODBARRA|EAN / COD. BARRAS": 1,
-        "IPI|IPI (%)": 1,
+        "IPI|IPI (%)": 2,
         "CF|NCM": 1,
-        "CODIGO CST / ORIGEM|IMPNAC": 1
+        "CODIGO CST / ORIGEM|IMPNAC": 1,
+        "COD_DS|🔑 SKU (CODIGO FORNECEDOR)": 1,
+        "MULTIPLO DE VENDA|MULTIPLOS": 1,
+        "COD_BARRA|EAN / COD. BARRAS": 1,
+        "NCM|NCM": 1,
+        "CODIGO CST / ORIGEM|ORIGEM_CST": 1,
+        "R_BRUTO_ESTADO_SP|💰 PRECO BASE": 1,
+        "CODIGOS_DS|🔑 SKU (CODIGO FORNECEDOR)": 1,
+        "CODIGO_DS|🔑 SKU (CODIGO FORNECEDOR)": 1,
+        "MULTIPLO|MULTIPLO DE VENDA": 1
+    },
+    "VIEMAR": {
+        "DESCRICAO DO PRODUTO|LINHA_PRODUTO": 2,
+        "VIEMAR|🔑 SKU (CODIGO FORNECEDOR)": 2,
+        "EMBALAGEM_MULTIPLOS|MULTIPLO DE VENDA": 2,
+        "PRECO_BRUTO_SEM_IPI|💰 PRECO BASE": 2,
+        "CODIGO CST / ORIGEM|ORIGEM": 2,
+        "IPI|IPI (%)": 2,
+        "CLASSIFICACAO_FISCAL|NCM": 2,
+        "EAN / COD. BARRAS|EANGTIN": 2
     }
 }

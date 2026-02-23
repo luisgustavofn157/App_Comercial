@@ -24,7 +24,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Simulação de perfis existentes no banco de dados
-PERFIS_EXISTENTES = ["Fornecedor DS", "Fornecedor BOSH", "Fornecedor NGK"]
+PERFIS_EXISTENTES = ["Fornecedor DS", "VIEMAR", "Fornecedor NGK"]
 
 # ==========================================
 # GERENCIAMENTO DE ESTADO
@@ -210,7 +210,7 @@ if pagina == "Fluxo Principal":
             mapeamento_usuario = {}
             
             for col in colunas_excel:
-                melhor_match = "🗑️ Ignorar / Não Importar"
+                melhor_match = "🗑️ Ignorar / Não Importa"
                 maior_nota = 0
                 detalhes_ia = None
 
