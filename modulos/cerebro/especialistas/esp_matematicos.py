@@ -2,25 +2,28 @@ import re
 import pandas as pd
 
 def avaliar_matematica(serie_dados, conceito_erp):
-    """
-    O Especialista Matemático analisa amostras de dados puros usando Regex.
-    Ele devolve dois valores:
-    1. nota_dna: Um bónus de 0 a 40 pontos se o dado bater com a regra matemática.
-    2. veto_absoluto: True se a coluna for completamente incompatível com o conceito.
-    """
     nota_dna = 0.0
     veto_absoluto = False
 
-    # Se a coluna estiver vazia, o matemático não tem o que analisar
     if serie_dados is None or serie_dados.dropna().empty:
         return nota_dna, veto_absoluto
 
-    # Pegamos uma amostra rápida de 20 linhas para o sistema ser ultrarrápido (Performance)
     amostra = serie_dados.dropna().astype(str).head(20).tolist()
     total_amostra = len(amostra)
     
     if total_amostra == 0: 
         return nota_dna, veto_absoluto
+
+    # ==========================================
+    # 🛡️ O ESCUDO ANTI-DATAS
+    # ==========================================
+    datas_encontradas = 0
+    for v in amostra:
+        v_limpo = v.strip()
+        if re.match(r'^\d{2}[-/]\d{2}[-/]\d{2,4}', v_limpo) or re.match(r'^\d{4}[-/]\d{2}[-/]\d{2}', v_limpo):
+            datas_encontradas += 1
+    if (datas_encontradas / total_amostra) > 0.3:
+        return 0.0, True
 
     acertos = 0
 
@@ -30,31 +33,33 @@ def avaliar_matematica(serie_dados, conceito_erp):
     if conceito_erp == "NCM":
         for v in amostra:
             v_limpo = v.strip()
-            # Regex matadora: 4 dígitos, opcional ponto, 2 dígitos, opcional ponto, 2 dígitos.
-            # Ignora o que vier depois (ex: 8708.99.90 ou 87089990/IMP)
             if re.match(r'^\d{4}\.?\d{2}\.?\d{2}', v_limpo):
                 acertos += 1
         
         taxa_acerto = acertos / total_amostra
-        if taxa_acerto >= 0.8: 
-            nota_dna = 40.0 # Quase tudo é NCM, bónus máximo!
-        elif taxa_acerto >= 0.4: 
-            nota_dna = 20.0 # Tem alguns NCMs, mas está sujo. Bónus médio.
-        elif taxa_acerto == 0.0:
-            veto_absoluto = True # Não tem UM ÚNICO NCM na amostra. Veto imediato!
+        if taxa_acerto >= 0.8: nota_dna = 40.0 
+        elif taxa_acerto >= 0.4: nota_dna = 20.0 
+        elif taxa_acerto == 0.0: veto_absoluto = True 
 
     # ==========================================
-    # 2. O CAÇADOR DE EAN (CÓDIGO DE BARRAS)
+    # 2. O CAÇADOR DE EAN (BLINDADO CONTRA PANDAS)
     # ==========================================
     elif conceito_erp == "EAN":
         for v in amostra:
             v_limpo = v.strip()
-            # Limpeza rápida: Se o Pandas leu o EAN como float, ele coloca um ".0" no final (ex: 78910.0)
-            if v_limpo.endswith('.0'): 
-                v_limpo = v_limpo[:-2]
+            
+            # Tenta salvar números que o Pandas transformou em float ou notação científica (ex: 7.89E+12)
+            try:
+                if 'E' in v_limpo.upper() or '.' in v_limpo:
+                    v_limpo = str(int(float(v_limpo)))
+            except:
+                pass
                 
-            # Regex: Exatamente entre 12 e 14 dígitos puros
-            if re.match(r'^\d{12,14}$', v_limpo):
+            # Extrai apenas os números puros
+            numeros_puros = re.sub(r'\D', '', v_limpo)
+            
+            # EANs/GTINs válidos no mercado têm 8, 12, 13 ou 14 dígitos exatos
+            if len(numeros_puros) in [8, 12, 13, 14]:
                 acertos += 1
                 
         taxa_acerto = acertos / total_amostra
@@ -68,14 +73,11 @@ def avaliar_matematica(serie_dados, conceito_erp):
     elif conceito_erp == "CST":
         for v in amostra:
             v_limpo = v.strip().upper()
-            # O CST é flexível: pode ser 1 a 3 dígitos (0, 040) ou os textos que você mapeou
             if re.match(r'^\d{1,3}$', v_limpo) or v_limpo in ["NAC", "NAC.", "NACIONAL", "IMP", "IMP.", "IMPORTADO"]:
                 acertos += 1
                 
         taxa_acerto = acertos / total_amostra
         if taxa_acerto >= 0.8: nota_dna = 40.0
         elif taxa_acerto >= 0.4: nota_dna = 20.0
-        # Não aplicamos o veto absoluto no CST porque ele pode vir escrito de formas muito bizarras. 
-        # Deixamos o Orquestrador decidir apenas pelo título se a matemática falhar.
 
     return nota_dna, veto_absoluto

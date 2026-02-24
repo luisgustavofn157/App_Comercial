@@ -16,6 +16,7 @@ DICIONARIO_ERP = {
     "NCM": "NCM",
     "CST": "Código CST / Origem",
     "DESCRICAO": "Descrição do Produto",
+    "LINHA": "Linha do Produto (Leve/Pesada)",
     "MULTIPLO": "Múltiplo de Venda",
     "EAN": "EAN / Cód. Barras",
     "MARCA": "Marca / Fabricante"
@@ -24,24 +25,37 @@ DICIONARIO_ERP = {
 # Lista extraída para o Streamlit desenhar os botões
 NOMES_VISUAIS_ERP = list(DICIONARIO_ERP.values())
 
-# Dicionário Reverso (Para o sistema descobrir o ID a partir do nome visual que o usuário clicou)
+# Dicionário Reverso (Para o sistema descobrir o ID a partir do nome visual)
 REVERSO_ERP = {v: k for k, v in DICIONARIO_ERP.items()}
+
+# ==========================================
+# REGRAS DE CARDINALIDADE (NOVO)
+# ==========================================
+# IDs que têm "Passe Livre" para aparecer em múltiplas colunas simultaneamente.
+# Tudo o que NÃO estiver aqui será considerado ÚNICO (1:1).
+CONCEITOS_MULTIPLOS = [
+    "IGNORAR",
+    "PRECO_SECUNDARIO",
+    "POLITICA",
+    "DESCONTO"
+]
 
 # ==========================================
 # DICIONÁRIO DE SINÔNIMOS (O LÉXICO DA IA)
 # ==========================================
-# Agora usamos os IDs Imutáveis! Se o nome visual mudar, a IA continua funcionando perfeitamente.
+
 DICIONARIO_SINONIMOS = {
     "SKU": ["COD", "CODIGO", "REF", "REFERENCIA", "PROD", "PRODUTO", "ITEM", "PARTNUMBER", "DS", "BOSH"],
-    "PRECO_BASE": ["PRECO", "VLR", "VALOR", "CUSTO", "PRC", "TABELA", "BRUTO", "UNITARIO", "VENDA"],
+    "PRECO_BASE": ["PRECO", "VLR", "VALOR", "CUSTO", "PRC", "TABELA", "BRUTO", "UNITARIO", "VENDA", "SP"],
     "PRECO_PROMO": ["PROMO", "LIQUIDO", "LIQ", "FINAL", "DESCONTADO", "OFERTA", "CAMPANHA"],
     "PRECO_SECUNDARIO": ["12", "7", "4", "ICMS", "ESTADO", "REGIAO", "SUL", "SUDESTE", "NORDESTE"],
     "IPI": ["IPI", "IMPOSTO", "ALIQ", "ALIQUOTA"],
-    "DESCONTO": ["DESC", "DESCONTO", "LIVRE", "REBATE", "BONIF"],
+    "DESCONTO": ["DESC", "DESCONTO"],
     "NCM": ["NCM", "FISCAL", "CLASS", "CLASSIFICACAO", "TIPI"],
-    "CST": ["CST", "ORIGEM", "TRIBUTACAO", "O", "C", "S", "T"],
+    "CST": ["CST", "ORIGEM"],
     "DESCRICAO": ["DESC", "DESCRICAO", "NOME", "MATERIAL", "APLICACAO", "TEXTO"],
-    "MULTIPLO": ["MULT", "MULTIPLO", "CX", "CAIXA", "EMB", "EMBALAGEM", "QTD", "MINIMO", "QNT", "PADRAO"],
+    "LINHA": ["LINHA", "SEGMENTO"],
+    "MULTIPLO": ["MULT", "MULTIPLO", "CX", "CAIXA", "EMB", "EMBALAGEM", "QTD", "MINIMO", "QNT", "PADRAO", "FRACAO"],
     "EAN": ["EAN", "BARRAS", "GTIN", "CEAN", "CODBARRAS"],
-    "MARCA": ["MARCA", "FABRICANTE", "FORNECEDOR", "LINHA"]
+    "MARCA": ["MARCA", "FABRICANTE", "FORNECEDOR"]
 }

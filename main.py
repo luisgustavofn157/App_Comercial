@@ -4,9 +4,10 @@ import traceback
 import io
 from modulos.orquestrador_importacao import processar_arquivos_upload
 from modulos.consolidador import consolidar_dataframes
-from modulos.motor_aprendizado import calcular_confianca, registar_aprendizado, esquecer_aprendizado
 from modulos.limpador_dados import limpar_e_traduzir_dados
-from modulos.config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP
+from modulos.config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
+from modulos.cerebro.orquestrador import avaliar_coluna
+from modulos.cerebro.memoria import registrar_feedback
 
 st.set_page_config(page_title="Hub Comercial - Precificação", page_icon="📊", layout="wide")
 
@@ -33,7 +34,7 @@ if "pagina_atual" not in st.session_state: st.session_state.pagina_atual = "Flux
 if "etapa_fluxo" not in st.session_state: st.session_state.etapa_fluxo = 1
 if "tabelas_extraidas" not in st.session_state: st.session_state.tabelas_extraidas = []
 if "decisoes_usuario" not in st.session_state: st.session_state.decisoes_usuario = {}
-if "fornecedor_selecionado" not in st.session_state: st.session_state.fornecedor_selecionado = "" # NOVA MEMÓRIA
+if "fornecedor_selecionado" not in st.session_state: st.session_state.fornecedor_selecionado = "" 
 
 def mudar_pagina(nome): st.session_state.pagina_atual = nome
 def resetar_fluxo():
@@ -120,7 +121,6 @@ if pagina == "Fluxo Principal":
         with col_btn:
             if pode_avancar:
                 if st.button("Analisar Arquivos ➡️", type="primary", use_container_width=True):
-                    # Salva o perfil escolhido na memória antes de processar!
                     st.session_state.fornecedor_selecionado = fornecedor_final
                     
                     with st.spinner("A IA está escaneando os arquivos e carregando as memórias..."):
@@ -199,7 +199,6 @@ if pagina == "Fluxo Principal":
                 with st.spinner("Normalizando cabeçalhos e fundindo os dados..."):
                     st.session_state.df_bruto_consolidado = consolidar_dataframes(tabelas_aprovadas)
             
-            # --- CONTEXTO DA IA ---
             fornecedor_atual = st.session_state.fornecedor_selecionado
             st.markdown(f"### 🤖 Mapeamento Automático - Perfil: **{fornecedor_atual}**")
             st.write("A IA cruzou as colunas extraídas com a memória deste perfil. Revise as sugestões abaixo:")
@@ -209,25 +208,86 @@ if pagina == "Fluxo Principal":
             
             mapeamento_usuario = {}
             
+            resultados_ia = {}
             for col in colunas_excel:
-                melhor_match = "🗑️ Ignorar / Não Importa"
-                maior_nota = 0
-                detalhes_ia = None
+                # O Orquestrador avalia tudo, mas ainda não desenha na tela
+                match, nota, detalhes = avaliar_coluna(
+                    col, 
+                    NOMES_VISUAIS_ERP, 
+                    fornecedor_atual, 
+                    df_amostra=df.head(50) 
+                )
+                resultados_ia[col] = {"match": match, "nota": nota, "detalhes": detalhes}
 
-                for conceito in NOMES_VISUAIS_ERP:
-                    if conceito == DICIONARIO_ERP["IGNORAR"]: continue 
-                    
-                    resultado = calcular_confianca(col, conceito, fornecedor_atual, serie_dados=df[col])
-                    
-                    if resultado['confianca_total'] > maior_nota:
-                        maior_nota = resultado['confianca_total']
-                        melhor_match = conceito
-                        detalhes_ia = resultado
+            # --- FASE 2: O TRIBUNAL (DESEMPATE AUTOMÁTICO) ---
+            # Agrupa as colunas pelas sugestões da IA para caçar os conflitos
+            sugestoes_por_id = {}
+            for col, res in resultados_ia.items():
+                match = res["match"]
+                if match == DICIONARIO_ERP["IGNORAR"]: continue
                 
-                if maior_nota < 40.0:
-                    melhor_match = DICIONARIO_ERP["IGNORAR"]
+                id_conceito = REVERSO_ERP.get(match)
+                
+                # Se o conceito NÃO tem passe livre (é 1:1), nós vigiamos ele
+                if id_conceito not in CONCEITOS_MULTIPLOS:
+                    if id_conceito not in sugestoes_por_id:
+                        sugestoes_por_id[id_conceito] = []
+                    sugestoes_por_id[id_conceito].append({"coluna": col, "nota": res["nota"]})
+            
+            # O Executor de Rebaixamento
+            for id_conceito, colunas_sugeridas in sugestoes_por_id.items():
+                if len(colunas_sugeridas) > 1:
+                    # Ordena do maior pro menor: O que tiver mais nota fica em primeiro [0]
+                    ordenados = sorted(colunas_sugeridas, key=lambda x: x["nota"], reverse=True)
+                    
+                    # Do segundo colocado em diante, sofrem rebaixamento compulsório
+                    for perdedor in ordenados[1:]:
+                        col_perdedora = perdedor["coluna"]
+                        resultados_ia[col_perdedora]["match"] = DICIONARIO_ERP["IGNORAR"]
+                        resultados_ia[col_perdedora]["nota"] = 0.0 # Zera a nota pra não confundir
+
+        # --- FASE 3: O GUARDIÃO DA TELA (PREPARAÇÃO) ---
+            # Lemos o estado atual dos widgets ANTES de desenhar a tela
+            selecoes_atuais = {}
+            for col in colunas_excel:
+                widget_key = f"map_{col}"
+                # Se o usuário já mexeu na caixa, pega a escolha dele. Se não, usa a sugestão limpa da IA.
+                if widget_key in st.session_state:
+                    selecoes_atuais[col] = st.session_state[widget_key]
+                else:
+                    selecoes_atuais[col] = resultados_ia[col]["match"]
+
+            # Contamos as aparições dos conceitos estritos (Regra 1:1)
+            contagem_estritos = {}
+            for col, escolha in selecoes_atuais.items():
+                if escolha == DICIONARIO_ERP["IGNORAR"]: continue
+                
+                id_conceito = REVERSO_ERP.get(escolha)
+                if id_conceito not in CONCEITOS_MULTIPLOS:
+                    contagem_estritos[escolha] = contagem_estritos.get(escolha, 0) + 1
+
+            tem_conflito_bloqueante = False
+
+            # --- FASE 4: EXIBIÇÃO NA TELA ---
+            for col in colunas_excel:
+                res = resultados_ia[col]
+                maior_nota = res["nota"]
+                
+                escolha_atual = selecoes_atuais[col]
+                id_conceito_atual = REVERSO_ERP.get(escolha_atual)
+                
+                # Verifica se esta linha específica está quebrando a regra
+                linha_em_conflito = False
+                if escolha_atual != DICIONARIO_ERP["IGNORAR"] and id_conceito_atual not in CONCEITOS_MULTIPLOS:
+                    if contagem_estritos.get(escolha_atual, 0) > 1:
+                        linha_em_conflito = True
+                        tem_conflito_bloqueante = True
                 
                 with st.container(border=True):
+                    # O Alerta Vermelho In-line
+                    if linha_em_conflito:
+                        st.error(f"⚠️ **Conflito de Regra:** Apenas uma coluna pode ser mapeada como `{escolha_atual}`. Corrija o conflito.")
+                        
                     c1, c2, c3 = st.columns([3, 1, 4])
                     with c1:
                         st.markdown(f"Excel: **`{col}`**")
@@ -235,15 +295,24 @@ if pagina == "Fluxo Principal":
                         st.caption(f"Ex: {', '.join(amostra)}..." if amostra else "Ex: (Vazio)")
                     with c2:
                         st.markdown("➡️")
-                        if melhor_match != DICIONARIO_ERP["IGNORAR"]:
-                            cor = "green" if maior_nota >= 90 else "orange"
-                            st.markdown(f"<span style='color:{cor}; font-size:12px;'>{maior_nota}% certeza</span>", unsafe_allow_html=True)
+                        if res["match"] != DICIONARIO_ERP["IGNORAR"]:
+                            cor = "#28a745" if maior_nota >= 85 else "#fd7e14"
+                            st.markdown(
+                                f"<span style='color:{cor}; font-size:13px; font-weight:600;'>"
+                                f"🎯 {int(maior_nota)}% Match</span>", 
+                                unsafe_allow_html=True
+                            )
                     with c3:
-                        index_padrao = NOMES_VISUAIS_ERP.index(melhor_match)
-                        escolha = st.selectbox("Benner/WMS:", options=NOMES_VISUAIS_ERP, index=index_padrao, key=f"map_{col}", label_visibility="collapsed")
+                        # ATENÇÃO: O index agora obedece à selecao_atual, garantindo que a tela grave a mudança do usuário
+                        index_atual = NOMES_VISUAIS_ERP.index(escolha_atual)
+                        escolha = st.selectbox("Benner/WMS:", options=NOMES_VISUAIS_ERP, index=index_atual, key=f"map_{col}", label_visibility="collapsed")
                         mapeamento_usuario[col] = escolha
             
             st.divider()
+            
+            # O Aviso Global no Rodapé
+            if tem_conflito_bloqueante:
+                st.error("🛑 **Ação Bloqueada:** O sistema detectou regras de negócio violadas (vermelho acima). Você mapeou conceitos únicos em mais de uma coluna. Resolva antes de avançar.")
             
             col_voltar, col_vazio, col_avancar = st.columns([2, 5, 3])
             with col_voltar:
@@ -253,57 +322,14 @@ if pagina == "Fluxo Principal":
                     st.rerun()
 
             with col_avancar:
-                if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True):
-                    for col_excel, conceito_erp in mapeamento_usuario.items():
-                        if conceito_erp != DICIONARIO_ERP["IGNORAR"]:
-                            registar_aprendizado(col_excel, conceito_erp, fornecedor_atual)
-                        else:
-                            for c in NOMES_VISUAIS_ERP: esquecer_aprendizado(col_excel, c, fornecedor_atual)
+                # O bloqueio físico do botão!
+                if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True, disabled=tem_conflito_bloqueante):
                     
-                    # SALVA O MAPEAMENTO NA MEMÓRIA PARA A ETAPA 4 USAR
+                    for col_excel, conceito_erp in mapeamento_usuario.items():
+                        registrar_feedback(col_excel, conceito_erp, NOMES_VISUAIS_ERP, fornecedor_atual)
+                    
                     st.session_state.mapeamento_oficial = mapeamento_usuario
                     
                     st.success("Mapeamento aprendido com sucesso!")
                     st.session_state.etapa_fluxo = 4
                     st.rerun()
-
-    # ------------------------------------------
-    # ETAPA 4: LIMPEZA E LIXEIRA DE VIDRO
-    # ------------------------------------------
-    elif st.session_state.etapa_fluxo == 4:
-        st.header("✨ Passo 4: Base Final e Limpeza")
-        
-        # Executa o nosso especialista em limpeza
-        if "df_final_limpo" not in st.session_state:
-            with st.spinner("Limpando sujeira, extraindo subtítulos e aplicando formatação ERP..."):
-                df_limpo, df_lixo = limpar_e_traduzir_dados(
-                    st.session_state.df_bruto_consolidado, 
-                    st.session_state.mapeamento_oficial
-                )
-                st.session_state.df_final_limpo = df_limpo
-                st.session_state.df_lixo = df_lixo
-
-        # Exibe o resultado da faxina
-        st.success(f"Dados limpos com sucesso! {len(st.session_state.df_final_limpo)} produtos válidos encontrados.")
-        
-        st.markdown("### 📋 Tabela Oficial (Pronta para Precificação)")
-        st.dataframe(st.session_state.df_final_limpo.head(30), use_container_width=True)
-        
-        # A LIXEIRA DE VIDRO
-        qtd_lixo = len(st.session_state.df_lixo)
-        if qtd_lixo > 0:
-            with st.expander(f"🗑️ Ver linhas descartadas automaticamente ({qtd_lixo} linhas)"):
-                st.warning("As linhas abaixo foram removidas pois não possuíam CÓDIGO ou PREÇO válido.")
-                st.dataframe(st.session_state.df_lixo, use_container_width=True)
-                
-        st.divider()
-        col_voltar, col_vazio, col_avancar = st.columns([2, 5, 3])
-        with col_voltar:
-            if st.button("⬅️ Voltar para Mapeamento"):
-                if "df_final_limpo" in st.session_state: del st.session_state.df_final_limpo
-                st.session_state.etapa_fluxo = 3
-                st.rerun()
-        with col_avancar:
-            if st.button("Calcular Variação / Integração ➡️", type="primary", use_container_width=True):
-                st.balloons()
-                st.success("Fluxo de preparação concluído! Aqui entra o motor comercial do Benner.")
