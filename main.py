@@ -25,9 +25,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Simulação de perfis existentes no banco de dados
-PERFIS_EXISTENTES = ["Fornecedor DS", "VIEMAR", "Fornecedor NGK"]
+PERFIS_EXISTENTES = ["DS", "VIEMAR"]
 
-# ==========================================
+# =============================== ===========
 # GERENCIAMENTO DE ESTADO
 # ==========================================
 if "pagina_atual" not in st.session_state: st.session_state.pagina_atual = "Fluxo Principal"
