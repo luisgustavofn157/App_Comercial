@@ -3,7 +3,7 @@ from difflib import SequenceMatcher
 from modulos.cerebro.memoria import consultar_memoria, normalizar_termo
 from modulos.cerebro.especialistas import esp_matematicos, esp_textuais, esp_financeiros
 
-from modulos.config_erp import DICIONARIO_ERP, DICIONARIO_SINONIMOS, REVERSO_ERP 
+from config_erp import DICIONARIO_ERP, DICIONARIO_SINONIMOS, REVERSO_ERP 
 
 def avaliar_coluna(coluna_excel, lista_conceitos_erp, fornecedor, df_amostra=None):
     melhor_match = DICIONARIO_ERP["IGNORAR"]

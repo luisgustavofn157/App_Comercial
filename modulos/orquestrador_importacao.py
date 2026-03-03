@@ -1,7 +1,7 @@
 import pandas as pd
 import traceback
 import io
-from modulos.importador_especialista import encontrar_tabela_valida
+from modulos.importacao_inicial import encontrar_tabela_valida
 
 def processar_arquivos_upload(arquivos_upados):
     """

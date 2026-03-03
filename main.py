@@ -1,19 +1,17 @@
 import streamlit as st
 import pandas as pd
 import traceback
-import io
 from modulos.orquestrador_importacao import processar_arquivos_upload
 from modulos.consolidador import consolidar_dataframes
-from modulos.limpador_dados import limpar_e_traduzir_dados
-from modulos.config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
+from config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
 from modulos.cerebro.orquestrador import avaliar_coluna
 from modulos.cerebro.memoria import registrar_feedback
 
+# ==========================================
+# CONFIGURAÇÃO E ESTILIZAÇÃO
+# ==========================================
 st.set_page_config(page_title="Hub Comercial - Precificação", page_icon="📊", layout="wide")
 
-# ==========================================
-# INJEÇÃO DE CSS
-# ==========================================
 st.markdown("""
     <style>
     div.stButton > button[kind="primary"] { background-color: #0066cc; border-color: #0066cc; color: white; }
@@ -24,10 +22,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Simulação de perfis existentes no banco de dados
 PERFIS_EXISTENTES = ["DS", "VIEMAR"]
 
-# =============================== ===========
+# ==========================================
 # GERENCIAMENTO DE ESTADO
 # ==========================================
 if "pagina_atual" not in st.session_state: st.session_state.pagina_atual = "Fluxo Principal"
@@ -36,14 +33,14 @@ if "tabelas_extraidas" not in st.session_state: st.session_state.tabelas_extraid
 if "decisoes_usuario" not in st.session_state: st.session_state.decisoes_usuario = {}
 if "fornecedor_selecionado" not in st.session_state: st.session_state.fornecedor_selecionado = "" 
 
-def mudar_pagina(nome): st.session_state.pagina_atual = nome
 def resetar_fluxo():
     st.session_state.etapa_fluxo = 1
     st.session_state.tabelas_extraidas = []
     st.session_state.decisoes_usuario = {}
     st.session_state.fornecedor_selecionado = ""
-    if "df_bruto_consolidado" in st.session_state: del st.session_state.df_bruto_consolidado
-    st.session_state.pagina_atual = "Fluxo Principal"
+    for k in ["df_bruto_consolidado", "mapeamento_temporario", "df_mapeamento_ui", "editor_mapeamento"]:
+        if k in st.session_state: del st.session_state[k]
+    st.rerun()
 
 # ==========================================
 # MENU LATERAL
@@ -62,274 +59,171 @@ with st.sidebar:
         else: st.markdown(f"<div class='etapa-bloqueada'>🔒 {nome}</div>", unsafe_allow_html=True)
     
     if st.session_state.etapa_fluxo > 1:
-        st.write("") 
-        if st.button("🛑 Cancelar e Recomeçar", use_container_width=True):
-            resetar_fluxo()
-            st.rerun()
-
-    st.divider()
-    st.markdown("#### 🛠️ Ferramentas Globais")
-    if st.button("📑 Perfis de Fornecedores", use_container_width=True): mudar_pagina("Perfis")
-    if st.button("📋 Logs de Execução", use_container_width=True): mudar_pagina("Logs")
+        st.button("🛑 Cancelar e Recomeçar", use_container_width=True, on_click=resetar_fluxo)
 
 # ==========================================
 # ROTEADOR DE PÁGINAS PRINCIPAL
 # ==========================================
-pagina = st.session_state.pagina_atual
-
-if pagina == "Fluxo Principal":
+if st.session_state.pagina_atual == "Fluxo Principal":
     
-    # ------------------------------------------
     # ETAPA 1: IMPORTAÇÃO E CONTEXTO
-    # ------------------------------------------
     if st.session_state.etapa_fluxo == 1:
         st.header("📂 Passo 1: Contexto e Importação")
-        
         col_perfil, col_arq = st.columns([1, 2])
         
         with col_perfil:
-            st.markdown("### 1️⃣ Defina o Perfil")
-            st.write("A IA usará a memória deste fornecedor.")
-            
-            opcoes_perfil = ["Selecione..."] + PERFIS_EXISTENTES + ["GERAL (Sem Perfil)", "➕ Criar Novo Perfil..."]
+            opcoes_perfil = ["Selecione..."] + PERFIS_EXISTENTES + ["➕ Criar Novo Perfil..."]
             perfil_escolhido = st.selectbox("Fornecedor:", opcoes_perfil)
-            
-            nome_novo_perfil = ""
-            if perfil_escolhido == "➕ Criar Novo Perfil...":
-                nome_novo_perfil = st.text_input("Digite o nome do novo fornecedor:")
+            nome_novo_perfil = st.text_input("Novo fornecedor:") if perfil_escolhido == "➕ Criar Novo Perfil..." else ""
         
         with col_arq:
-            st.markdown("### 2️⃣ Envie as Listas")
-            st.write("Formatos aceitos: Excel ou CSV.")
-            arquivos = st.file_uploader("Selecione os arquivos", type=['csv', 'xlsx', 'xlsb', 'xls'], accept_multiple_files=True, label_visibility="collapsed")
+            arquivos = st.file_uploader("Arquivos", type=['csv', 'xlsx', 'xlsb', 'xls'], accept_multiple_files=True, label_visibility="collapsed")
         
         st.divider()
+        pode_avancar = (arquivos and perfil_escolhido != "Selecione...")
+        fornecedor_final = nome_novo_perfil.strip() if perfil_escolhido == "➕ Criar Novo Perfil..." else perfil_escolhido
         
-        # --- Lógica de Validação do Botão ---
-        pode_avancar = False
-        fornecedor_final = ""
-        
-        if arquivos:
-            if perfil_escolhido not in ["Selecione...", "➕ Criar Novo Perfil..."]:
-                pode_avancar = True
-                fornecedor_final = perfil_escolhido
-            elif perfil_escolhido == "➕ Criar Novo Perfil..." and len(nome_novo_perfil.strip()) > 0:
-                pode_avancar = True
-                fornecedor_final = nome_novo_perfil.strip()
-        
-        col_vazio, col_btn = st.columns([7, 3])
-        with col_btn:
-            if pode_avancar:
-                if st.button("Analisar Arquivos ➡️", type="primary", use_container_width=True):
-                    st.session_state.fornecedor_selecionado = fornecedor_final
-                    
-                    with st.spinner("A IA está escaneando os arquivos e carregando as memórias..."):
-                        tabelas, erros = processar_arquivos_upload(arquivos)
-                        if erros:
-                            for erro in erros:
-                                st.error(f"🚨 Falha crítica no arquivo: {erro['arquivo']}")
-                                with st.expander("Ver Raio-X do erro técnico"): st.code(erro['traceback'])
-                            st.stop()
-                        
-                        st.session_state.tabelas_extraidas = tabelas
-                        st.session_state.decisoes_usuario = {} 
-                        st.session_state.etapa_fluxo = 2
-                        st.rerun()
-            else:
-                st.button("Analisar Arquivos ➡️", disabled=True, use_container_width=True)
-                if arquivos and not pode_avancar:
-                    st.warning("Selecione ou crie um perfil para habilitar a análise.")
-
-    # ------------------------------------------
-    # ETAPA 2: AUDITORIA DAS EXTRAÇÕES
-    # ------------------------------------------
-    elif st.session_state.etapa_fluxo == 2:
-        st.header("👁️ Passo 2: Auditar Inteligência do Sistema")
-        if len(st.session_state.tabelas_extraidas) == 0:
-            st.warning("Nenhuma tabela comercial foi encontrada.")
-            if st.button("⬅️ Voltar e Tentar Novamente"):
-                st.session_state.etapa_fluxo = 1
-                st.rerun()
-        else:
-            st.success(f"O sistema encontrou {len(st.session_state.tabelas_extraidas)} tabela(s) potencial(is).")
-            for tbl in st.session_state.tabelas_extraidas:
-                id_unico = tbl['id_unico']
-                with st.container(border=True):
-                    col_tabela, col_acao = st.columns([3, 1])
-                    with col_tabela:
-                        st.markdown(f"📄 **Arquivo:** `{tbl['arquivo']}` &nbsp;|&nbsp; 📑 **Aba:** `{tbl['aba']}`")
-                        st.caption(f"🤖 **Motivo:** {tbl['motivo_escolha']}")
-                        st.dataframe(tbl['dados'].head(5), use_container_width=True)
-                    with col_acao:
-                        opcoes_acao = ["❓ Pendente", "✅ Consolidar", "ℹ️ Info Técnica", "🗑️ Lixo/Ignorar"]
-                        sugestao_ia = tbl.get('sugestao_acao', "❓ Pendente")
-                        if "Lista Preço" in sugestao_ia: sugestao_ia = "✅ Consolidar"
-                        elif "Tabela Técnica" in sugestao_ia: sugestao_ia = "ℹ️ Info Técnica"
-                        
-                        decisao = st.radio("Ação Sugerida:", options=opcoes_acao, index=opcoes_acao.index(sugestao_ia) if sugestao_ia in opcoes_acao else 0, key=f"radio_{id_unico}", label_visibility="collapsed")
-                        st.session_state.decisoes_usuario[id_unico] = decisao
-
-            st.divider()
-            col_voltar, col_vazio, col_avancar = st.columns([2, 5, 3])
-            with col_voltar:
-                if st.button("⬅️ Voltar ao Início", use_container_width=True):
-                    st.session_state.etapa_fluxo = 1
-                    st.rerun()
-            with col_avancar:
-                pendentes = sum(1 for d in st.session_state.decisoes_usuario.values() if d == "❓ Pendente")
-                if pendentes > 0: st.error(f"⚠️ Há {pendentes} tabela(s) Pendente(s).")
+        if st.button("Analisar Arquivos ➡️", type="primary", use_container_width=True, disabled=not pode_avancar):
+            st.session_state.fornecedor_selecionado = fornecedor_final
+            with st.spinner("Analisando..."):
+                tabelas, erros = processar_arquivos_upload(arquivos)
+                if erros:
+                    for erro in erros:
+                        st.error(f"🚨 Erro em: {erro['arquivo']}")
+                        with st.expander("Raio-X Técnico"): st.code(erro['traceback'])
+                    st.stop()
+                st.session_state.tabelas_extraidas = tabelas
+                
+                bons = [t for t in tabelas if t.get('sugestao_acao') == "Consolidar"]
+                if len(tabelas) == 1 and len(bons) == 1:
+                    st.session_state.decisoes_usuario[tabelas[0]['id_unico']] = "✅ Consolidar"
+                    st.session_state.etapa_fluxo = 3
                 else:
-                    if st.button("Aprovar e Avançar ➡️", type="primary", use_container_width=True):
-                        st.session_state.etapa_fluxo = 3
-                        st.rerun()
+                    st.session_state.etapa_fluxo = 2
+                st.rerun()
 
-    # ------------------------------------------
-    # ETAPA 3: O GRANDE CALDEIRÃO E O DE/PARA
-    # ------------------------------------------
+    # ETAPA 2: AUDITORIA
+    elif st.session_state.etapa_fluxo == 2:
+        st.header("👁️ Passo 2: Auditoria de Intervalos")
+        for tbl in st.session_state.tabelas_extraidas:
+            with st.container(border=True):
+                c1, c2 = st.columns([3, 1])
+                with c1:
+                    st.markdown(f"📄 `{tbl['arquivo']}` | 📑 `{tbl['aba']}`")
+                    st.dataframe(tbl['dados'].head(3), width="stretch") # Corrigido width
+                with c2:
+                    opcoes = ["❓ Pendente", "✅ Consolidar", "🗑️ Lixo/Ignorar"]
+                    sugestao = 1 if tbl.get('sugestao_acao') == "Consolidar" else (2 if tbl.get('sugestao_acao') == "Ignorar" else 0)
+                    st.session_state.decisoes_usuario[tbl['id_unico']] = st.radio("Ação:", opcoes, index=sugestao, key=f"r_{tbl['id_unico']}")
+        if st.button("Aprovar e Avançar ➡️", type="primary", use_container_width=True):
+            st.session_state.etapa_fluxo = 3
+            st.rerun()
+
+    # ETAPA 3: MAPEAMENTO PROFISSIONAL (ESTILO POWERQUERY)
     elif st.session_state.etapa_fluxo == 3:
-        st.header("🔀 Passo 3: Base Consolidada e Mapeamento")
+        st.header("🔀 Passo 3: Mapeamento e Estruturação")
         
-        tabelas_aprovadas = [t for t in st.session_state.tabelas_extraidas if st.session_state.decisoes_usuario.get(t['id_unico']) == "✅ Consolidar"]
+        aprovadas = [t for t in st.session_state.tabelas_extraidas if st.session_state.decisoes_usuario.get(t['id_unico']) == "✅ Consolidar"]
         
-        if len(tabelas_aprovadas) == 0:
-            st.warning("Nenhuma tabela foi marcada para consolidação.")
-            if st.button("⬅️ Voltar para Auditoria"): st.session_state.etapa_fluxo = 2; st.rerun()
+        if not aprovadas:
+            st.warning("Nada selecionado."); st.button("Voltar", on_click=resetar_fluxo)
         else:
             if "df_bruto_consolidado" not in st.session_state:
-                with st.spinner("Normalizando cabeçalhos e fundindo os dados..."):
-                    st.session_state.df_bruto_consolidado = consolidar_dataframes(tabelas_aprovadas)
+                st.session_state.df_bruto_consolidado = consolidar_dataframes(aprovadas)
             
-            fornecedor_atual = st.session_state.fornecedor_selecionado
-            st.markdown(f"### 🤖 Mapeamento Automático - Perfil: **{fornecedor_atual}**")
-            st.write("A IA cruzou as colunas extraídas com a memória deste perfil. Revise as sugestões abaixo:")
+            df_completo = st.session_state.df_bruto_consolidado
+            colunas_reais = [c for c in df_completo.columns if not str(c).startswith("__")]
             
-            df = st.session_state.df_bruto_consolidado
-            colunas_excel = [c for c in df.columns if not c.startswith("__")] 
+            # 1. CRIANDO A TABELA DE UI APENAS UMA VEZ
+            if "df_mapeamento_ui" not in st.session_state:
+                sugestoes = {}
+                notas_ia = {}
+                for col in colunas_reais:
+                    match, nota, _ = avaliar_coluna(col, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado, df_completo.head(10))
+                    sugestoes[col] = match
+                    notas_ia[col] = float(nota) if pd.notna(nota) else 0.0
+                
+                dados_ui = []
+                for col in colunas_reais:
+                    amostra = df_completo[col].dropna().astype(str).head(3).tolist()
+                    dados_ui.append({
+                        "Coluna no Arquivo": str(col),
+                        "Confiança IA": notas_ia.get(col, 0.0),
+                        "Mapeamento (ERP)": sugestoes.get(col, DICIONARIO_ERP["IGNORAR"]),
+                        "Amostra dos Dados": " | ".join(amostra) if amostra else "(Coluna Vazia)"
+                    })
+                
+                # A base de dados nunca é sobrescrita para evitar o Cabo de Guerra
+                st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
+
+            # 2. CONSTRUÇÃO DO PAINEL DE MAPEAMENTO
+            st.markdown(f"#### ⚙️ Definir Colunas - Perfil: `{st.session_state.fornecedor_selecionado}`")
             
-            mapeamento_usuario = {}
+            # Editor com width="stretch" (Fim daquele log chato no terminal)
+            df_editado = st.data_editor(
+                st.session_state.df_mapeamento_ui,
+                width="stretch", 
+                hide_index=True,
+                disabled=["Coluna no Arquivo", "Confiança IA", "Amostra dos Dados"],
+                column_config={
+                    "Coluna no Arquivo": st.column_config.TextColumn("Coluna Original"),
+                    "Confiança IA": st.column_config.ProgressColumn("🤖 Confiança", format="%d%%", min_value=0, max_value=100),
+                    "Mapeamento (ERP)": st.column_config.SelectboxColumn("Destino (ERP)", options=NOMES_VISUAIS_ERP, required=True),
+                    "Amostra dos Dados": st.column_config.TextColumn("Amostra (3 linhas)")
+                },
+                key="editor_mapeamento" # Essa chave guarda as edições do usuário!
+            )
             
-            resultados_ia = {}
-            for col in colunas_excel:
-                # O Orquestrador avalia tudo, mas ainda não desenha na tela
-                match, nota, detalhes = avaliar_coluna(
-                    col, 
-                    NOMES_VISUAIS_ERP, 
-                    fornecedor_atual, 
-                    df_amostra=df.head(50) 
-                )
-                resultados_ia[col] = {"match": match, "nota": nota, "detalhes": detalhes}
-
-            # --- FASE 2: O TRIBUNAL (DESEMPATE AUTOMÁTICO) ---
-            # Agrupa as colunas pelas sugestões da IA para caçar os conflitos
-            sugestoes_por_id = {}
-            for col, res in resultados_ia.items():
-                match = res["match"]
-                if match == DICIONARIO_ERP["IGNORAR"]: continue
-                
-                id_conceito = REVERSO_ERP.get(match)
-                
-                # Se o conceito NÃO tem passe livre (é 1:1), nós vigiamos ele
-                if id_conceito not in CONCEITOS_MULTIPLOS:
-                    if id_conceito not in sugestoes_por_id:
-                        sugestoes_por_id[id_conceito] = []
-                    sugestoes_por_id[id_conceito].append({"coluna": col, "nota": res["nota"]})
+            # 3. ATUALIZAÇÃO E ANÁLISE DE CONFLITOS
+            mapeamento_atualizado = dict(zip(df_editado["Coluna no Arquivo"], df_editado["Mapeamento (ERP)"]))
+            st.session_state.mapeamento_temporario = mapeamento_atualizado
             
-            # O Executor de Rebaixamento
-            for id_conceito, colunas_sugeridas in sugestoes_por_id.items():
-                if len(colunas_sugeridas) > 1:
-                    # Ordena do maior pro menor: O que tiver mais nota fica em primeiro [0]
-                    ordenados = sorted(colunas_sugeridas, key=lambda x: x["nota"], reverse=True)
-                    
-                    # Do segundo colocado em diante, sofrem rebaixamento compulsório
-                    for perdedor in ordenados[1:]:
-                        col_perdedora = perdedor["coluna"]
-                        resultados_ia[col_perdedora]["match"] = DICIONARIO_ERP["IGNORAR"]
-                        resultados_ia[col_perdedora]["nota"] = 0.0 # Zera a nota pra não confundir
+            escolhas = [v for v in mapeamento_atualizado.values() if v != DICIONARIO_ERP["IGNORAR"]]
+            conceitos_estritos = [REVERSO_ERP.get(e) for e in escolhas if REVERSO_ERP.get(e) not in CONCEITOS_MULTIPLOS]
+            duplicados = [item for item in set(conceitos_estritos) if conceitos_estritos.count(item) > 1]
 
-        # --- FASE 3: O GUARDIÃO DA TELA (PREPARAÇÃO) ---
-            # Lemos o estado atual dos widgets ANTES de desenhar a tela
-            selecoes_atuais = {}
-            for col in colunas_excel:
-                widget_key = f"map_{col}"
-                # Se o usuário já mexeu na caixa, pega a escolha dele. Se não, usa a sugestão limpa da IA.
-                if widget_key in st.session_state:
-                    selecoes_atuais[col] = st.session_state[widget_key]
-                else:
-                    selecoes_atuais[col] = resultados_ia[col]["match"]
-
-            # Contamos as aparições dos conceitos estritos (Regra 1:1)
-            contagem_estritos = {}
-            for col, escolha in selecoes_atuais.items():
-                if escolha == DICIONARIO_ERP["IGNORAR"]: continue
+            # 4. AÇÕES DE UNIFICAÇÃO
+            if duplicados:
+                st.divider()
+                st.error("⚠️ **Conflitos de Mapeamento Encontrados**")
+                st.info("O ERP não aceita múltiplas colunas para os campos abaixo. Você pode unificá-las em uma só clicando no botão.")
                 
-                id_conceito = REVERSO_ERP.get(escolha)
-                if id_conceito not in CONCEITOS_MULTIPLOS:
-                    contagem_estritos[escolha] = contagem_estritos.get(escolha, 0) + 1
-
-            tem_conflito_bloqueante = False
-
-            # --- FASE 4: EXIBIÇÃO NA TELA ---
-            for col in colunas_excel:
-                res = resultados_ia[col]
-                maior_nota = res["nota"]
-                
-                escolha_atual = selecoes_atuais[col]
-                id_conceito_atual = REVERSO_ERP.get(escolha_atual)
-                
-                # Verifica se esta linha específica está quebrando a regra
-                linha_em_conflito = False
-                if escolha_atual != DICIONARIO_ERP["IGNORAR"] and id_conceito_atual not in CONCEITOS_MULTIPLOS:
-                    if contagem_estritos.get(escolha_atual, 0) > 1:
-                        linha_em_conflito = True
-                        tem_conflito_bloqueante = True
-                
-                with st.container(border=True):
-                    # O Alerta Vermelho In-line
-                    if linha_em_conflito:
-                        st.error(f"⚠️ **Conflito de Regra:** Apenas uma coluna pode ser mapeada como `{escolha_atual}`. Corrija o conflito.")
+                col_avisos, col_vazia = st.columns([2, 1])
+                with col_avisos:
+                    for d in duplicados:
+                        cols_conflito = [k for k, v in mapeamento_atualizado.items() if REVERSO_ERP.get(v) == d]
                         
-                    c1, c2, c3 = st.columns([3, 1, 4])
-                    with c1:
-                        st.markdown(f"Excel: **`{col}`**")
-                        amostra = df[col].dropna().astype(str).head(3).tolist()
-                        st.caption(f"Ex: {', '.join(amostra)}..." if amostra else "Ex: (Vazio)")
-                    with c2:
-                        st.markdown("➡️")
-                        if res["match"] != DICIONARIO_ERP["IGNORAR"]:
-                            cor = "#28a745" if maior_nota >= 85 else "#fd7e14"
-                            st.markdown(
-                                f"<span style='color:{cor}; font-size:13px; font-weight:600;'>"
-                                f"🎯 {int(maior_nota)}% Match</span>", 
-                                unsafe_allow_html=True
-                            )
-                    with c3:
-                        # ATENÇÃO: O index agora obedece à selecao_atual, garantindo que a tela grave a mudança do usuário
-                        index_atual = NOMES_VISUAIS_ERP.index(escolha_atual)
-                        escolha = st.selectbox("Benner/WMS:", options=NOMES_VISUAIS_ERP, index=index_atual, key=f"map_{col}", label_visibility="collapsed")
-                        mapeamento_usuario[col] = escolha
-            
-            st.divider()
-            
-            # O Aviso Global no Rodapé
-            if tem_conflito_bloqueante:
-                st.error("🛑 **Ação Bloqueada:** O sistema detectou regras de negócio violadas (vermelho acima). Você mapeou conceitos únicos em mais de uma coluna. Resolva antes de avançar.")
-            
-            col_voltar, col_vazio, col_avancar = st.columns([2, 5, 3])
-            with col_voltar:
-                if st.button("⬅️ Voltar para Auditoria"):
-                    if "df_bruto_consolidado" in st.session_state: del st.session_state.df_bruto_consolidado
-                    st.session_state.etapa_fluxo = 2
-                    st.rerun()
-
-            with col_avancar:
-                # O bloqueio físico do botão!
-                if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True, disabled=tem_conflito_bloqueante):
-                    
-                    for col_excel, conceito_erp in mapeamento_usuario.items():
-                        registrar_feedback(col_excel, conceito_erp, NOMES_VISUAIS_ERP, fornecedor_atual)
-                    
-                    st.session_state.mapeamento_oficial = mapeamento_usuario
-                    
-                    st.success("Mapeamento aprendido com sucesso!")
+                        if st.button(f"🪄 Mesclar colunas: {', '.join(cols_conflito)} ➡️ {DICIONARIO_ERP[d]}", key=f"unif_{d}", use_container_width=True):
+                            col_mestra = cols_conflito[0]
+                            for col_sec in cols_conflito[1:]:
+                                st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
+                                st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
+                            
+                            # Limpamos a memória do UI para forçar a recarregar as novas colunas
+                            del st.session_state.df_mapeamento_ui
+                            if "editor_mapeamento" in st.session_state:
+                                del st.session_state.editor_mapeamento
+                            st.success("Colunas mescladas!")
+                            st.rerun()
+            else:
+                st.write("")
+                if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True):
+                    for col_excel, conceito in mapeamento_atualizado.items():
+                        registrar_feedback(col_excel, conceito, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado)
+                    st.session_state.mapeamento_oficial = mapeamento_atualizado
                     st.session_state.etapa_fluxo = 4
                     st.rerun()
+
+            # 5. O DATAFRAME REAL
+            st.divider()
+            st.markdown("#### 📄 Visualização Real da Planilha")
+            st.caption("Esta é a base de dados exata que será enviada para os motores de cálculo.")
+            st.dataframe(st.session_state.df_bruto_consolidado.head(20), width="stretch") # Corrigido width
+
+    # ETAPA 4: VARIAÇÃO
+    elif st.session_state.etapa_fluxo == 4:
+        st.header("📈 Passo 4: Variação e Exportação")
+        st.success("Base de dados preparada com sucesso!")
+        if st.button("⬅️ Voltar ao Mapeamento"):
+            st.session_state.etapa_fluxo = 3
+            st.rerun()

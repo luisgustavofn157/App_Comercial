@@ -1,13 +1,19 @@
 import pandas as pd
 import unicodedata
 import numpy as np
+from config_erp import DICIONARIO_SINONIMOS, CONCEITOS_MULTIPLOS
 
 # ==========================================
-# DICIONÁRIOS DE CONCEITOS (SEMÂNTICA)
+# AUXILIARES DE SEMÂNTICA DINÂMICA
 # ==========================================
-CONCEITO_CODIGO = ["cod", "sku", "ean", "ref", "fabrica", "partnumber", "pn"]
-# Adicionamos impostos na lista de preços para não replicá-los acidentalmente
-CONCEITO_PRECO = ["preco", "valor", "custo", "tabela", "venda", "bruto", "liquido", "ipi", "st", "icms", "imposto"]
+
+SINO_PRECOS = (
+    DICIONARIO_SINONIMOS.get("PRECO_BASE", [])
+)
+
+SINO_CODIGOS = (
+    DICIONARIO_SINONIMOS.get("SKU", [])
+)
 
 def normalizar_texto(texto):
     if pd.isna(texto): return ""
@@ -44,11 +50,12 @@ def pontuar_linha_cabecalho(linha_valores):
     textos_normalizados = [normalizar_texto(val) for val in celulas_preenchidas]
     termos_encontrados = 0
     
-    palavras_gerais = CONCEITO_CODIGO + CONCEITO_PRECO + ["descricao", "produto", "ncm"]
+    # Agora varre todos os sinônimos do seu arquivo de configuração
+    todos_sinonimos = [item for sublist in DICIONARIO_SINONIMOS.values() for item in sublist]
     
     for texto in textos_normalizados:
-        for palavra in palavras_gerais:
-            if palavra in texto:
+        for palavra in todos_sinonimos:
+            if palavra.lower() in texto:
                 termos_encontrados += 1
                 break
                 
@@ -63,13 +70,16 @@ def analisar_comportamento_colunas(df):
     tem_conceito_preco = False
     colunas = [normalizar_texto(col) for col in df.columns]
     
+    # 1. Checagem por Nome de Coluna (Baseado no seu Dicionário)
     for col in colunas:
-        if any(termo in col for termo in CONCEITO_CODIGO): tem_conceito_codigo = True
-        if any(termo in col for termo in CONCEITO_PRECO): tem_conceito_preco = True
+        if any(termo.lower() in col for termo in SINO_CODIGOS): tem_conceito_codigo = True
+        if any(termo.lower() in col for termo in SINO_PRECOS): tem_conceito_preco = True
             
+    # 2. Checagem por Conteúdo (Caso o fornecedor use nomes genéricos como "Coluna 1")
     if not tem_conceito_preco:
         for col in df.columns:
             numeros = pd.to_numeric(df[col], errors='coerce')
+            # Se a coluna for majoritariamente numérica, tratamos como potencial preço
             if numeros.notna().mean() > 0.8:
                 tem_conceito_preco = True
                 break
@@ -78,6 +88,7 @@ def analisar_comportamento_colunas(df):
         for col in df.columns:
             qtd_unicos = df[col].nunique()
             qtd_total = len(df[col].dropna())
+            # Se os dados são quase todos exclusivos, tratamos como SKU/Código
             if qtd_total > 0 and (qtd_unicos / qtd_total) > 0.9:
                 tem_conceito_codigo = True
                 break
@@ -94,7 +105,7 @@ def encontrar_tabela_valida(df_bruto, nome_arquivo, nome_aba):
         
     melhor_nota = 0
     indice_melhor_linha = 0
-    df_recortado = None  # <-- Inicializamos aqui para evitar o NameError
+    df_recortado = None 
     
     limite_busca = min(50, len(df))
     for i in range(limite_busca):
@@ -103,11 +114,9 @@ def encontrar_tabela_valida(df_bruto, nome_arquivo, nome_aba):
             melhor_nota = nota
             indice_melhor_linha = i
 
-    # Se a nota for muito baixa, não é uma tabela válida
     if melhor_nota < 10: 
         return None
         
-    # Se chegamos aqui, criamos o recorte
     df_recortado = df.iloc[indice_melhor_linha:].copy()
     
     # --- TRATAMENTO DE COLUNAS ---
@@ -117,26 +126,26 @@ def encontrar_tabela_valida(df_bruto, nome_arquivo, nome_aba):
     
     df_recortado = df_recortado[1:].dropna(axis=1, how='all').dropna(axis=0, how='all').reset_index(drop=True)
     
-    # --- REPLICAÇÃO DE DADOS (FFILL) ---
+    # --- REPLICAÇÃO DE DADOS (FFILL) INTELIGENTE ---
+    # Só replica colunas que NÃO são preços (usando seu SINO_PRECOS)
     colunas_seguras_para_replicar = [
         col for col in df_recortado.columns 
-        if not any(termo in col for termo in CONCEITO_PRECO)
+        if not any(termo.lower() in col for termo in SINO_PRECOS)
     ]
     df_recortado[colunas_seguras_para_replicar] = df_recortado[colunas_seguras_para_replicar].ffill()
     
     # --- ANÁLISE DE COMPORTAMENTO ---
-    # Agora é seguro usar o df_recortado aqui
-    if df_recortado is not None and len(df_recortado) > 1:
+    if df_recortado is not None and len(df_recortado) > 0:
         tem_codigo, tem_preco = analisar_comportamento_colunas(df_recortado)
     else:
         tem_codigo, tem_preco = False, False
 
     if tem_codigo and tem_preco:
         sugestao = "Consolidar"
-        motivo = "🤖 IA: Identifiquei padrão de Lista de Preços (Código + Preço)."
+        motivo = "Bom candidato a lista de preços (Contém Código + Preço)."
     else:
         sugestao = "Ignorar"
-        motivo = "🤖 IA: Esta aba não parece conter uma estrutura de precificação completa."
+        motivo = "Não aparenta ser um intervalo de lista de preços."
 
     return {
         "id_unico": f"{nome_arquivo}_{nome_aba}".replace(".", "_"),
