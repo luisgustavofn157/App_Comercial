@@ -59,5 +59,5355 @@
         "IPI|IPI (%)": 2,
         "CLASSIFICACAO_FISCAL|NCM": 2,
         "EAN / COD. BARRAS|EANGTIN": 2
+    },
+    "fornecedores": {
+        "DS": {
+            "IGNORAR / NAO IMPORTA|LINHA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|PRECO BASE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "DESCONTO ADICIONAL|LINHA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "IPI (%)|LINHA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|NCM": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "CODIGO CST / ORIGEM|LINHA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "DESCRICAO DO PRODUTO|LINHA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 6,
+                "erros": 0
+            },
+            "LINHA|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "EAN / COD. BARRAS|LINHA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 6,
+                "erros": 0
+            },
+            "COD_DS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|IPI (%)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|NCM": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "CODIGO CST / ORIGEM|COD_DS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_DS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|IGNORAR / NAO IMPORTA": {
+                "acertos": 6,
+                "erros": 0
+            },
+            "FAMILIA|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|PRECO BASE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "DESCONTO ADICIONAL|FAMILIA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|IPI (%)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|NCM": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "CODIGO CST / ORIGEM|FAMILIA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "DESCRICAO DO PRODUTO|FAMILIA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "EAN / COD. BARRAS|FAMILIA": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "FAMILIA|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "IGNORAR / NAO IMPORTA|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLOS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLOS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLOS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLOS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "DESCONTO ADICIONAL|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "IPI (%)|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLOS|NCM": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "CODIGO CST / ORIGEM|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "DESCRICAO DO PRODUTO|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MULTIPLO DE VENDA|MULTIPLOS": {
+                "acertos": 6,
+                "erros": 0
+            },
+            "EAN / COD. BARRAS|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "MARCA / FABRICANTE|MULTIPLOS": {
+                "acertos": 0,
+                "erros": 6
+            },
+            "COD_BARRA|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|PRECO BASE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|IPI (%)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|COD_BARRA": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "COD_BARRA|EAN / COD. BARRAS": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "COD_BARRA|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|PESO_LIQ_KG": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "PESO_LIQ_KG|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_LIQ_KG|PRECO BASE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_LIQ_KG|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_LIQ_KG|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_LIQ_KG|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|PESO_LIQ_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|PESO_BRUTO_KG": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "PESO_BRUTO_KG|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_BRUTO_KG|PRECO BASE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_BRUTO_KG|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_BRUTO_KG|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PESO_BRUTO_KG|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|PESO_BRUTO_KG": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|PRECO BASE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|NCM": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "CODIGO CST / ORIGEM|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|IPI": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|PRECO BASE": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "DESCONTO ADICIONAL|IPI": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|IPI (%)": {
+                "acertos": 9,
+                "erros": 0
+            },
+            "IPI|NCM": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "CODIGO CST / ORIGEM|IPI": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "DESCRICAO DO PRODUTO|IPI": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "EAN / COD. BARRAS|IPI": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "IPI|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 9
+            },
+            "ICMS|IGNORAR / NAO IMPORTA": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "ICMS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|ICMS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|IPI (%)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|NCM": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|ICMS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|ICMS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|ICMS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ICMS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ORIGEM_CST|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ORIGEM_CST|PRECO BASE": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ORIGEM_CST|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ORIGEM_CST|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "ORIGEM_CST|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|ORIGEM_CST": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "DESCRICAO DO PRODUTO|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|ORIGEM_CST": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "R_BRUTO_ESTADO_SP|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECO BASE|R_BRUTO_ESTADO_SP": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "PRECO PROMOCIONAL|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "POLITICA COMERCIAL|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|R_BRUTO_ESTADO_SP": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "R_BRUTO_ESTADOS_RJMGPR_SC_RS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECO BASE|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECO PROMOCIONAL|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "POLITICA COMERCIAL|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IGNORAR / NAO IMPORTA|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECO BASE|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECO PROMOCIONAL|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 7,
+                "erros": 0
+            },
+            "POLITICA COMERCIAL|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCONTO ADICIONAL|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "IPI (%)|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "NCM|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO CST / ORIGEM|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "DESCRICAO DO PRODUTO|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MULTIPLO DE VENDA|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "EAN / COD. BARRAS|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "MARCA / FABRICANTE|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+                "acertos": 0,
+                "erros": 7
+            },
+            "CODIGO_DS|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "CODIGO_DS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|CODIGO_DS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_DS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO|MULTIPLO DE VENDA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "EAN / COD. BARRAS|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|MULTIPLO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 2,
+                "erros": 0
+            },
+            "CODIGO_COMERCIAL|PRECO BASE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|IPI (%)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|NCM": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|CODIGO_COMERCIAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO_COMERCIAL|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|PRECO BASE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCONTO ADICIONAL|DESCRICAO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|IPI (%)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|NCM": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|DESCRICAO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|DESCRICAO DO PRODUTO": {
+                "acertos": 2,
+                "erros": 0
+            },
+            "DESCRICAO|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "IGNORAR / NAO IMPORTA|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "QUAT_CAIXA|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECO BASE|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECO PROMOCIONAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "POLITICA COMERCIAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCONTO ADICIONAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "IPI (%)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "NCM|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO DO PRODUTO|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "MULTIPLO DE VENDA|QUAT_CAIXA": {
+                "acertos": 2,
+                "erros": 0
+            },
+            "EAN / COD. BARRAS|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "MARCA / FABRICANTE|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|IGNORAR / NAO IMPORTA": {
+                "acertos": 2,
+                "erros": 0
+            },
+            "FATOR|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|PRECO BASE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCONTO ADICIONAL|FATOR": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|IPI (%)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|NCM": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|FATOR": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO DO PRODUTO|FATOR": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "EAN / COD. BARRAS|FATOR": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "FATOR|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|IGNORAR / NAO IMPORTA": {
+                "acertos": 2,
+                "erros": 0
+            },
+            "ESTADOS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCONTO ADICIONAL|ESTADOS": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|IPI (%)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|NCM": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|ESTADOS": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO DO PRODUTO|ESTADOS": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "EAN / COD. BARRAS|ESTADOS": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "ESTADOS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "IGNORAR / NAO IMPORTA|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECO|PRECO BASE": {
+                "acertos": 1,
+                "erros": 1
+            },
+            "PRECO|PRECO PROMOCIONAL": {
+                "acertos": 1,
+                "erros": 1
+            },
+            "PRECO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "POLITICA COMERCIAL|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCONTO ADICIONAL|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "IPI (%)|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "NCM|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO DO PRODUTO|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "MULTIPLO DE VENDA|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "EAN / COD. BARRAS|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "MARCA / FABRICANTE|PRECO": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "IGNORAR / NAO IMPORTA|ST": {
+                "acertos": 2,
+                "erros": 0
+            },
+            "SKU (CODIGO FORNECEDOR)|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECO BASE|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECO PROMOCIONAL|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "POLITICA COMERCIAL|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCONTO ADICIONAL|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "IPI (%)|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "NCM|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "CODIGO CST / ORIGEM|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "DESCRICAO DO PRODUTO|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "MULTIPLO DE VENDA|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "EAN / COD. BARRAS|ST": {
+                "acertos": 0,
+                "erros": 2
+            },
+            "MARCA / FABRICANTE|ST": {
+                "acertos": 0,
+                "erros": 2
+            }
+        },
+        "VIEMAR": {
+            "IGNORAR / NAO IMPORTA|LINHA_PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|LINHA_PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|LINHA_PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|LINHA_PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|LINHA_PRODUTO": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|LINHA_PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|LINHA_PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA_PRODUTO|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|IGNORAR / NAO IMPORTA": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "DATA_LANCAMENTO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|DATA_LANCAMENTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DATA_LANCAMENTO|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "SKU (CODIGO FORNECEDOR)|VIEMAR": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "PRECO BASE|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO PROMOCIONAL|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "POLITICA COMERCIAL|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "NCM|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MULTIPLO DE VENDA|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MARCA / FABRICANTE|VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|UN": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "SKU (CODIGO FORNECEDOR)|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO BASE|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO PROMOCIONAL|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "POLITICA COMERCIAL|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "NCM|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MULTIPLO DE VENDA|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MARCA / FABRICANTE|UN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|EMBALAGEM_MULTIPLOS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|EMBALAGEM_MULTIPLOS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|EMBALAGEM_MULTIPLOS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|MULTIPLO DE VENDA": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "EAN / COD. BARRAS|EMBALAGEM_MULTIPLOS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EMBALAGEM_MULTIPLOS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO_BRUTO_SEM_IPI|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO BASE|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 3,
+                "erros": 1
+            },
+            "PRECO PROMOCIONAL|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 1,
+                "erros": 3
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "POLITICA COMERCIAL|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "NCM|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MULTIPLO DE VENDA|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MARCA / FABRICANTE|PRECO_BRUTO_SEM_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|PRECO_BRUTO_IPI": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "PRECO_BRUTO_IPI|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO BASE|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECO PROMOCIONAL|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "POLITICA COMERCIAL|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "NCM|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MULTIPLO DE VENDA|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MARCA / FABRICANTE|PRECO_BRUTO_IPI": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|CST": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "CST|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CST|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|ORIGEM": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "ORIGEM|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ORIGEM|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ORIGEM|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ORIGEM|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ORIGEM|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "NCM|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MULTIPLO DE VENDA|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MARCA / FABRICANTE|ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|IGNORAR / NAO IMPORTA": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "ICMS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|ICMS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|ICMS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|ICMS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|ICMS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "ICMS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|IPI": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|PRECO BASE": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "DESCONTO ADICIONAL|IPI": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|IPI (%)": {
+                "acertos": 5,
+                "erros": 0
+            },
+            "IPI|NCM": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "CODIGO CST / ORIGEM|IPI": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "DESCRICAO DO PRODUTO|IPI": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "EAN / COD. BARRAS|IPI": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "IPI|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 5
+            },
+            "CLASSIFICACAO_FISCAL|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|NCM": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "CLASSIFICACAO_FISCAL|CODIGO CST / ORIGEM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CLASSIFICACAO_FISCAL|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|EANGTIN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|EANGTIN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|EANGTIN": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EANGTIN|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|EANGTIN": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "EANGTIN|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IGNORAR / NAO IMPORTA|PESO_KG": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "PESO_KG|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PESO_KG|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PESO_KG|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PESO_KG|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "PESO_KG|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCONTO ADICIONAL|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "IPI (%)|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "NCM|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "DESCRICAO DO PRODUTO|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MULTIPLO DE VENDA|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "EAN / COD. BARRAS|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "MARCA / FABRICANTE|PESO_KG": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|IGNORAR / NAO IMPORTA": {
+                "acertos": 4,
+                "erros": 0
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|PRECO BASE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|IPI (%)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|NCM": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO CST / ORIGEM|COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 4
+            },
+            "CODIGO_COMERCIAL|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "CODIGO_COMERCIAL|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|CODIGO_COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|DESCRICAO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|DESCRICAO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|DESCRICAO DO PRODUTO": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "DESCRICAO|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "QUAT_CAIXA|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO BASE|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO PROMOCIONAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "POLITICA COMERCIAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "NCM|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO DE VENDA|QUAT_CAIXA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "EAN / COD. BARRAS|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|IGNORAR / NAO IMPORTA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "FATOR|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|IGNORAR / NAO IMPORTA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "ESTADOS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO|PRECO BASE": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "PRECO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "POLITICA COMERCIAL|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "NCM|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO DE VENDA|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|ST": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "SKU (CODIGO FORNECEDOR)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO BASE|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO PROMOCIONAL|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "POLITICA COMERCIAL|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "NCM|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO DE VENDA|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|ST": {
+                "acertos": 0,
+                "erros": 1
+            }
+        },
+        "CAR80": {
+            "CODIGO_COMERCIAL|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "CODIGO_COMERCIAL|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|DESCONTO ADICIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|CODIGO_COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|DESCRICAO DO PRODUTO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO_COMERCIAL|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|IGNORAR / NAO IMPORTA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|DESCRICAO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|DESCRICAO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|DESCRICAO DO PRODUTO": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "DESCRICAO|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|EAN / COD. BARRAS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "QUAT_CAIXA|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO BASE|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO PROMOCIONAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "POLITICA COMERCIAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "NCM|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO DE VENDA|QUAT_CAIXA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "EAN / COD. BARRAS|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|QUAT_CAIXA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|IGNORAR / NAO IMPORTA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "FATOR|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|FATOR": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "FATOR|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|IGNORAR / NAO IMPORTA": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "ESTADOS|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|IPI (%)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|ESTADOS": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "ESTADOS|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO|PRECO BASE": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "PRECO|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "POLITICA COMERCIAL|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "NCM|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO DE VENDA|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|PRECO": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|IPI": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|SKU (CODIGO FORNECEDOR)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|PRECO BASE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|PRECO PROMOCIONAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|POLITICA COMERCIAL": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|IPI": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|IPI (%)": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "IPI|NCM": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|IPI": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|IPI": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|LINHA DO PRODUTO (LEVE/PESADA)": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|MULTIPLO DE VENDA": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|IPI": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI|MARCA / FABRICANTE": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IGNORAR / NAO IMPORTA|ST": {
+                "acertos": 1,
+                "erros": 0
+            },
+            "SKU (CODIGO FORNECEDOR)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO BASE|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECO PROMOCIONAL|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "PRECOS SECUNDARIOS (REGIAO/ESTADO)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "POLITICA COMERCIAL|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCONTO ADICIONAL|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "IPI (%)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "NCM|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "CODIGO CST / ORIGEM|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "DESCRICAO DO PRODUTO|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "LINHA DO PRODUTO (LEVE/PESADA)|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MULTIPLO DE VENDA|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "EAN / COD. BARRAS|ST": {
+                "acertos": 0,
+                "erros": 1
+            },
+            "MARCA / FABRICANTE|ST": {
+                "acertos": 0,
+                "erros": 1
+            }
+        }
+    },
+    "global": {
+        "IGNORAR / NAO IMPORTA|LINHA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|LINHA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|LINHA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|LINHA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|LINHA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 6,
+            "erros": 0
+        },
+        "LINHA|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|LINHA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 6,
+            "erros": 0
+        },
+        "COD_DS|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|COD_DS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_DS|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|IGNORAR / NAO IMPORTA": {
+            "acertos": 6,
+            "erros": 0
+        },
+        "FAMILIA|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|FAMILIA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|FAMILIA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|FAMILIA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|FAMILIA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FAMILIA|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLOS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLOS|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLOS|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLOS|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLOS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|MULTIPLOS": {
+            "acertos": 6,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|COD_BARRA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COD_BARRA|EAN / COD. BARRAS": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "COD_BARRA|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|PESO_LIQ_KG": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "PESO_LIQ_KG|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_LIQ_KG|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_LIQ_KG|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_LIQ_KG|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_LIQ_KG|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|PESO_LIQ_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|PESO_BRUTO_KG": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "PESO_BRUTO_KG|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_BRUTO_KG|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_BRUTO_KG|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_BRUTO_KG|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_BRUTO_KG|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|PESO_BRUTO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|NCM": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|IPI (%)": {
+            "acertos": 15,
+            "erros": 0
+        },
+        "IPI|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|IGNORAR / NAO IMPORTA": {
+            "acertos": 11,
+            "erros": 0
+        },
+        "ICMS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|ICMS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|ICMS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|ICMS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|ICMS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ICMS|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM_CST|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM_CST|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM_CST|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM_CST|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM_CST|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|ORIGEM_CST": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|ORIGEM_CST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "R_BRUTO_ESTADO_SP|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|R_BRUTO_ESTADO_SP": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|R_BRUTO_ESTADO_SP": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "R_BRUTO_ESTADOS_RJMGPR_SC_RS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 7,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|LINHA_PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|LINHA_PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|LINHA_PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|LINHA_PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|LINHA_PRODUTO": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|LINHA_PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|LINHA_PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA_PRODUTO|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|IGNORAR / NAO IMPORTA": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|DATA_LANCAMENTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DATA_LANCAMENTO|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "SKU (CODIGO FORNECEDOR)|VIEMAR": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "PRECO BASE|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|UN": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "SKU (CODIGO FORNECEDOR)|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|UN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|EMBALAGEM_MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|EMBALAGEM_MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|EMBALAGEM_MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|MULTIPLO DE VENDA": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|EMBALAGEM_MULTIPLOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EMBALAGEM_MULTIPLOS|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO_BRUTO_SEM_IPI|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 3,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 1,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|PRECO_BRUTO_SEM_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|PRECO_BRUTO_IPI": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "PRECO_BRUTO_IPI|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|PRECO_BRUTO_IPI": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|CST": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "CST|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CST|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|ORIGEM": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "ORIGEM|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ORIGEM|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|NCM": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|CODIGO CST / ORIGEM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CLASSIFICACAO_FISCAL|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|EANGTIN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|EANGTIN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|EANGTIN": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EANGTIN|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|EANGTIN": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "EANGTIN|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|PESO_KG": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "PESO_KG|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_KG|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_KG|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_KG|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PESO_KG|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|PESO_KG": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|IGNORAR / NAO IMPORTA": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 1,
+            "erros": 0
+        },
+        "CODIGO_DS|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|CODIGO_DS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_DS|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO|MULTIPLO DE VENDA": {
+            "acertos": 1,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|MULTIPLO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|DESCONTO ADICIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|CODIGO_COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|DESCRICAO DO PRODUTO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO_COMERCIAL|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|IGNORAR / NAO IMPORTA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|DESCRICAO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|DESCRICAO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|DESCRICAO DO PRODUTO": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "DESCRICAO|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|EAN / COD. BARRAS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "QUAT_CAIXA|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|QUAT_CAIXA": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|QUAT_CAIXA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|IGNORAR / NAO IMPORTA": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "FATOR|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|FATOR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|FATOR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|FATOR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|FATOR": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "FATOR|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|IGNORAR / NAO IMPORTA": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "ESTADOS|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|PRECO BASE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|PRECO PROMOCIONAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|POLITICA COMERCIAL": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|ESTADOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|IPI (%)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|NCM": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|ESTADOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|ESTADOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|LINHA DO PRODUTO (LEVE/PESADA)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|MULTIPLO DE VENDA": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|ESTADOS": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "ESTADOS|MARCA / FABRICANTE": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO|SKU (CODIGO FORNECEDOR)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO|PRECO BASE": {
+            "acertos": 3,
+            "erros": 0
+        },
+        "PRECO|PRECO PROMOCIONAL": {
+            "acertos": 1,
+            "erros": 0
+        },
+        "PRECO|PRECOS SECUNDARIOS (REGIAO/ESTADO)": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|PRECO": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IGNORAR / NAO IMPORTA|ST": {
+            "acertos": 4,
+            "erros": 0
+        },
+        "SKU (CODIGO FORNECEDOR)|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO BASE|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECO PROMOCIONAL|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "PRECOS SECUNDARIOS (REGIAO/ESTADO)|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "POLITICA COMERCIAL|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCONTO ADICIONAL|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "IPI (%)|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "NCM|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "CODIGO CST / ORIGEM|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "DESCRICAO DO PRODUTO|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "LINHA DO PRODUTO (LEVE/PESADA)|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MULTIPLO DE VENDA|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "EAN / COD. BARRAS|ST": {
+            "acertos": 0,
+            "erros": 0
+        },
+        "MARCA / FABRICANTE|ST": {
+            "acertos": 0,
+            "erros": 0
+        }
     }
 }

@@ -2,7 +2,7 @@
 # DICIONÁRIO OFICIAL DO SISTEMA
 # ==========================================
 # A chave (esquerda) é o ID imutável que o código usa para trabalhar.
-# O valor (direita) é o nome visual/emoji que aparece para o usuário na tela.
+# O valor (direita) é o nome visual que aparece para o usuário na tela.
 
 DICIONARIO_ERP = {
     "IGNORAR": "Ignorar / Não Importa",
@@ -29,7 +29,30 @@ NOMES_VISUAIS_ERP = list(DICIONARIO_ERP.values())
 REVERSO_ERP = {v: k for k, v in DICIONARIO_ERP.items()}
 
 # ==========================================
-# REGRAS DE CARDINALIDADE (NOVO)
+# PROPRIEDADE DOS DADOS (DEPARTAMENTOS) - NOVO
+# ==========================================
+# Define qual equipe é a dona daquela informação para fins de geração de layout.
+# "Chave" indica que a coluna deve aparecer em TODOS os relatórios para ligar as informações.
+DEPARTAMENTOS_ERP = {
+    "IGNORAR": "Nenhum",
+    "SKU": "Chave", 
+    "PRECO_BASE": "Comercial",
+    "PRECO_PROMO": "Comercial",
+    "PRECO_SECUNDARIO": "Comercial",
+    "POLITICA": "Comercial",
+    "DESCONTO": "Comercial",
+    "IPI": "Comercial",
+    "NCM": "Comercial",
+    "CST": "Comercial",
+    "DESCRICAO": "Cadastro",
+    "LINHA": "Cadastro",
+    "MULTIPLO": "Cadastro",
+    "EAN": "Cadastro",
+    "MARCA": "Cadastro"
+}
+
+# ==========================================
+# REGRAS DE CARDINALIDADE
 # ==========================================
 # IDs que têm "Passe Livre" para aparecer em múltiplas colunas simultaneamente.
 # Tudo o que NÃO estiver aqui será considerado ÚNICO (1:1).

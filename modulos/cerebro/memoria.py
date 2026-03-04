@@ -14,11 +14,26 @@ def obter_chave(termo_a, termo_b):
     return f"{termos[0]}|{termos[1]}"
 
 def carregar_memoria():
+    # Se o arquivo não existe, cria a estrutura do zero
     if not os.path.exists(FICHEIRO_MEMORIA):
-        # Estrutura inicial: Uma área para perfis específicos e uma área Global
         return {"fornecedores": {}, "global": {}}
+        
+    # Se o arquivo existe, tenta ler
     with open(FICHEIRO_MEMORIA, 'r', encoding='utf-8') as f:
-        return json.load(f)
+        try:
+            memoria = json.load(f)
+        except json.JSONDecodeError:
+            # Se o arquivo estiver corrompido ou vazio, reseta a memória
+            memoria = {}
+
+    # --- TRAVA DE SEGURANÇA (BLINDAGEM DE ESTRUTURA) ---
+    # Garante que as chaves principais sempre existam, independente do que veio do JSON
+    if "fornecedores" not in memoria:
+        memoria["fornecedores"] = {}
+    if "global" not in memoria:
+        memoria["global"] = {}
+        
+    return memoria
 
 def salvar_memoria(memoria):
     with open(FICHEIRO_MEMORIA, 'w', encoding='utf-8') as f:
@@ -56,6 +71,8 @@ def registrar_feedback(coluna_excel, conceito_escolhido, lista_conceitos_erp, fo
     A Mágica do Aprendizado: Premia a escolha certa e PUNE todas as outras opções que a IA sugeriu.
     """
     memoria = carregar_memoria()
+    
+    # Garante a existência do fornecedor específico na memória
     if fornecedor not in memoria["fornecedores"]:
         memoria["fornecedores"][fornecedor] = {}
         
@@ -64,7 +81,7 @@ def registrar_feedback(coluna_excel, conceito_escolhido, lista_conceitos_erp, fo
         
         chave = obter_chave(coluna_excel, conceito)
         
-        # Garante que as estruturas existem
+        # Garante que as estruturas da chave existem
         if chave not in memoria["fornecedores"][fornecedor]:
             memoria["fornecedores"][fornecedor][chave] = {"acertos": 0, "erros": 0}
         if chave not in memoria["global"]:
