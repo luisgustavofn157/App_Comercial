@@ -19,7 +19,8 @@ DICIONARIO_ERP = {
     "LINHA": "Linha do Produto (Leve/Pesada)",
     "MULTIPLO": "Múltiplo de Venda",
     "EAN": "EAN / Cód. Barras",
-    "MARCA": "Marca / Fabricante"
+    "MARCA": "Marca / Fabricante",
+    "CNPJ": "CNPJ"
 }
 
 # Lista extraída para o Streamlit desenhar os botões
@@ -29,7 +30,7 @@ NOMES_VISUAIS_ERP = list(DICIONARIO_ERP.values())
 REVERSO_ERP = {v: k for k, v in DICIONARIO_ERP.items()}
 
 # ==========================================
-# PROPRIEDADE DOS DADOS (DEPARTAMENTOS) - NOVO
+# PROPRIEDADE DOS DADOS
 # ==========================================
 # Define qual equipe é a dona daquela informação para fins de geração de layout.
 # "Chave" indica que a coluna deve aparecer em TODOS os relatórios para ligar as informações.
@@ -48,7 +49,8 @@ DEPARTAMENTOS_ERP = {
     "LINHA": "Cadastro",
     "MULTIPLO": "Cadastro",
     "EAN": "Cadastro",
-    "MARCA": "Cadastro"
+    "MARCA": "Cadastro",
+    "CNPJ": "Cadastro"
 }
 
 # ==========================================
@@ -71,7 +73,7 @@ DICIONARIO_SINONIMOS = {
     "SKU": ["COD", "CODIGO", "REF", "REFERENCIA", "PROD", "PRODUTO", "ITEM", "PARTNUMBER"],
     "PRECO_BASE": ["PRECO", "VLR", "VALOR", "CUSTO", "PRC", "TABELA", "BRUTO", "UNITARIO", "VENDA", "SP"],
     "PRECO_PROMO": ["PROMO", "LIQUIDO", "LIQ", "FINAL", "DESCONTADO", "OFERTA", "CAMPANHA"],
-    "PRECO_SECUNDARIO": ["12", "7", "4", "ICMS", "ESTADO", "REGIAO", "SUL", "SUDESTE", "NORDESTE"],
+    "PRECO_SECUNDARIO": ["12", "7", "4", "ESTADO", "REGIAO", "SUL", "SUDESTE", "NORDESTE"],
     "IPI": ["IPI", "IMPOSTO", "ALIQ", "ALIQUOTA"],
     "DESCONTO": ["DESC", "DESCONTO"],
     "NCM": ["NCM", "FISCAL", "CLASS", "CLASSIFICACAO", "TIPI"],
@@ -80,5 +82,6 @@ DICIONARIO_SINONIMOS = {
     "LINHA": ["LINHA", "SEGMENTO"],
     "MULTIPLO": ["MULT", "MULTIPLO", "CX", "CAIXA", "EMB", "EMBALAGEM", "QTD", "MINIMO", "QNT", "PADRAO", "FRACAO"],
     "EAN": ["EAN", "BARRAS", "GTIN", "CEAN", "CODBARRAS"],
-    "MARCA": ["MARCA", "FABRICANTE", "FORNECEDOR"]
+    "MARCA": ["MARCA", "FABRICANTE", "FORNECEDOR"],
+    "CNPJ": ["CNPJ", "CGC", "DOCUMENTO", "EMPRESA", "FORNECEDOR", "FILIAL"]
 }

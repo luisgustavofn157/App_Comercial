@@ -4,11 +4,10 @@ import traceback
 from modulos.orquestrador_importacao import processar_arquivos_upload
 from modulos.consolidador import consolidar_dataframes
 from config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
-from modulos.cerebro.orquestrador import avaliar_coluna
-from modulos.cerebro.memoria import registrar_feedback
-from modulos.validador_comercial import higienizar_dados, processar_validacoes
-from modulos.exportador import exportar_csv_br
-
+from modulos.classificador.pipeline import avaliar_coluna
+from modulos.classificador.aprendizado import registrar_feedback
+from modulos.exportador import exportar_excel_simples, exportar_excel_com_abas
+from modulos.validador_comercial import aplicar_filtro_morte, higienizar_dados, processar_validacoes
 
 # ==========================================
 # CONFIGURAÇÃO E ESTILIZAÇÃO
@@ -52,8 +51,8 @@ with st.sidebar:
     st.markdown("---")
     
     # Seção 1: Navegação do Fluxo
-    st.caption("📍 FLUXO DE TRABALHO")
-    etapas = ["Importar", "Definir Intervalos", "Mapear Colunas", "Tratar Linhas", "Calcular Variação"]
+    st.caption("📍 Análise de Lista de Preço")
+    etapas = ["Importar Arquivos", "Definir Intervalos", "Mapear Colunas", "Tratar Linhas", "Calcular Variação"]
     
     for i, nome in enumerate(etapas, start=1):
         if i < st.session_state.etapa_fluxo:
@@ -75,16 +74,14 @@ with st.sidebar:
         st.download_button(
             label="📄 1. Lista Limpa",
             data=st.session_state.checkpoints["lista_limpa"],
-            file_name=f"01_Lista_Limpa_{st.session_state.fornecedor_selecionado}.csv",
-            mime="text/csv",
+            file_name=f"01_Lista_Limpa_{st.session_state.fornecedor_selecionado}.xlsx", # <-- MUDOU PARA .xlsx
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",   # <-- IDENTIDADE REAL DO EXCEL
             use_container_width=True,
-            type="primary" # Fica azul para chamar a atenção quando libera
+            type="primary"
         )
     else:
         st.button("🔒 1. Lista Limpa", disabled=True, use_container_width=True)
-        
-    st.button("🔒 2. Relatório de Variação", disabled=True, use_container_width=True)
-    st.button("🔒 3. Script SQL (ERP)", disabled=True, use_container_width=True)
+    st.button("🔒 2. Lista com Críticas", disabled=True, use_container_width=True)
     
     st.markdown("---")
     
@@ -265,22 +262,34 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             else:
                 st.write("")
                 if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True):
+                    # 1. Salva a Memória da IA
                     for col_excel, conceito in mapeamento_atualizado.items():
                         registrar_feedback(col_excel, conceito, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado)
                     st.session_state.mapeamento_oficial = mapeamento_atualizado
                     
-                    # PREPARAÇÃO DO DATAFRAME LIMPO
-                    df_limpo = st.session_state.df_bruto_consolidado.copy()
+                    # 2. BIFURCAÇÃO - CAMINHO A: O Checkpoint do Usuário
+                    # Descobre qual coluna original o usuário marcou como SKU
+                    col_sku_mapeada = next((k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["SKU"]), None)
+                    
+                    # Roda o Filtro de Morte mantendo todas as colunas originais
+                    df_vivos, df_lixo = aplicar_filtro_morte(st.session_state.df_bruto_consolidado, col_sku_mapeada)
+                    
+                    # Gera a planilha Excel de 2 abas
+                    excel_bytes = exportar_excel_com_abas(df_vivos, df_lixo)
+                    st.session_state.checkpoints["lista_limpa"] = excel_bytes
+                    
+                    # 3. BIFURCAÇÃO - CAMINHO B: O Motor Interno do ERP
+                    df_motor = df_vivos.copy()
+                    
+                    # Joga fora o que for Ignorar
                     colunas_uteis = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
                     colunas_lixo = [k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["IGNORAR"]]
+                    df_motor = df_motor.drop(columns=[c for c in colunas_lixo if c in df_motor.columns])
                     
-                    df_limpo = df_limpo.drop(columns=[c for c in colunas_lixo if c in df_limpo.columns])
-                    
-                    # Desambiguação de Colunas Repetidas (Resolve o erro do PyArrow)
+                    # Desambiguação de nomes repetidos
                     contagens = {}
                     for destino in colunas_uteis.values():
                         contagens[destino] = contagens.get(destino, 0) + 1
-                        
                     renomeio_final = {}
                     ocorrencias = {}
                     for col_excel, destino in colunas_uteis.items():
@@ -290,17 +299,11 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                         else:
                             renomeio_final[col_excel] = destino
                             
-                    df_limpo = df_limpo.rename(columns=renomeio_final)
+                    df_motor = df_motor.rename(columns=renomeio_final)
                     
-                    # --- A MÁGICA: CHAMA A TIPAGEM ANTES DE EXPORTAR ---
-                    df_limpo = higienizar_dados(df_limpo)
-                    
-                    # Salva no estado para a Etapa 4 usar
-                    st.session_state.df_limpo = df_limpo
-                    
-                    # A MÁGICA DO EXCEL: Usando nosso exportador blindado
-                    csv_bytes = exportar_csv_br(df_limpo)
-                    st.session_state.checkpoints["lista_limpa"] = csv_bytes
+                    # Higieniza a Tipagem (Transfoma em número/float) e salva no Estado
+                    df_motor = higienizar_dados(df_motor)
+                    st.session_state.df_limpo = df_motor
                     
                     st.session_state.etapa_fluxo = 4
                     st.rerun()
@@ -331,7 +334,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
         st.header("🕵️ Passo 4: Auditoria e Validação Comercial")
         st.write("Aplicando regras de higienização e validação aos dados mapeados...")
         
-        # Executa o Motor de Regras apenas uma vez e salva no estado
         if "df_aprovados" not in st.session_state:
             df_aprovados, df_rejeitados = processar_validacoes(st.session_state.df_limpo)
             st.session_state.df_aprovados = df_aprovados
@@ -340,7 +342,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
         df_aprovados = st.session_state.df_aprovados
         df_rejeitados = st.session_state.df_rejeitados
         
-        # KPIs
         total_linhas = len(st.session_state.df_limpo)
         linhas_erro = len(df_rejeitados)
         linhas_ok = len(df_aprovados)
@@ -361,34 +362,31 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     st.session_state.etapa_fluxo = 5
                     st.rerun()
         else:
-            st.error("⚠️ **Foram encontradas inconsistências na lista do Fornecedor.**")
-            st.write("Abaixo estão os itens que não passaram nas regras de negócio após a tentativa de higienização. Baixe o relatório para envio de devolutiva.")
+            st.error("🚨 **HARD STOP: Foram encontradas inconsistências na lista do Fornecedor.**")
+            st.write("O sistema bloqueou a integração. É necessário baixar o relatório de críticas e devolvê-lo ao fornecedor para correção na fonte.")
             
-            # Mostra o relatório na tela para conferência rápida
             st.dataframe(df_rejeitados.head(50), width="stretch", hide_index=True)
             
-            # Geração do Arquivo de Devolutiva (Checkpoint 2) usando o exportador blindado
-            csv_devolutiva = exportar_csv_br(df_rejeitados)
+            # Geração do Excel de Devolutiva
+            excel_devolutiva = exportar_excel_simples(df_rejeitados)
             
-            col_down, col_avancar = st.columns([1, 1])
+            col_down, col_reiniciar = st.columns([1, 1])
             with col_down:
                 st.download_button(
-                    label="📥 Baixar Devolutiva ao Fornecedor (.CSV)",
-                    data=csv_devolutiva,
-                    file_name=f"02_Devolutiva_Erros_{st.session_state.fornecedor_selecionado}.csv",
-                    mime="text/csv",
+                    label="📥 Baixar Devolutiva (.XLSX)",
+                    data=excel_devolutiva,
+                    file_name=f"02_Devolutiva_Erros_{st.session_state.fornecedor_selecionado}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     use_container_width=True,
                     type="primary"
                 )
-            with col_avancar:
-                st.warning("Deseja seguir apenas com os produtos validados?")
-                if st.button("Ignorar erros e Avançar com Aprovados ➡️", use_container_width=True):
-                    st.session_state.etapa_fluxo = 5
-                    st.rerun()
+            with col_reiniciar:
+                st.info("Após o fornecedor corrigir a planilha, reinicie o processo.")
+                if st.button("🔄 Reiniciar Importação", use_container_width=True):
+                    resetar_fluxo()
 
         st.divider()
         if st.button("⬅️ Voltar para Ajustes de Mapeamento"):
-            # Limpa o cache das validações se o usuário voltar para mudar o mapeamento
             for k in ["df_aprovados", "df_rejeitados"]:
                 if k in st.session_state: del st.session_state[k]
             st.session_state.etapa_fluxo = 3
