@@ -4,10 +4,20 @@ import traceback
 from modulos.orquestrador_importacao import processar_arquivos_upload
 from modulos.consolidador import consolidar_dataframes
 from config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
-from modulos.classificador.pipeline import avaliar_coluna
+
+# MUDANÇA NO IMPORT: Agora chamamos o Orquestrador Central e a Fase 1 isolada
+from modulos.classificador.pipeline import classificar_dataset_completo, avaliar_coluna_fase1
 from modulos.classificador.aprendizado import registrar_feedback
+
 from modulos.exportador import exportar_excel_simples, exportar_excel_com_abas
 from modulos.validador_comercial import aplicar_filtro_morte, higienizar_dados, processar_validacoes
+
+# ==========================================
+# 🛠️ MODO DESENVOLVEDOR (CHAVES DE DEBUG)
+# Altere para False quando quiser testar a IA Pura ou Visão de Túnel isoladamente
+# ==========================================
+DEBUG_USAR_MEMORIA = True
+DEBUG_USAR_ARBITRO = True
 
 # ==========================================
 # CONFIGURAÇÃO E ESTILIZAÇÃO
@@ -74,8 +84,8 @@ with st.sidebar:
         st.download_button(
             label="📄 1. Lista Limpa",
             data=st.session_state.checkpoints["lista_limpa"],
-            file_name=f"01_Lista_Limpa_{st.session_state.fornecedor_selecionado}.xlsx", # <-- MUDOU PARA .xlsx
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",   # <-- IDENTIDADE REAL DO EXCEL
+            file_name=f"01_Lista_Limpa_{st.session_state.fornecedor_selecionado}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             use_container_width=True,
             type="primary"
         )
@@ -157,46 +167,34 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             colunas_reais = [c for c in df_completo.columns if not str(c).startswith("__")]
             
             if "df_mapeamento_ui" not in st.session_state:
+                # Roda a IA para a planilha inteira
+                resultados_ia = classificar_dataset_completo(
+                    df_completo.head(30), 
+                    NOMES_VISUAIS_ERP, 
+                    st.session_state.fornecedor_selecionado,
+                    usar_memoria=DEBUG_USAR_MEMORIA,
+                    usar_arbitro=DEBUG_USAR_ARBITRO
+                )
+                
                 dados_ui = []
                 for col in colunas_reais:
-                    # MUDANÇA: Agora capturamos a variável 'detalhes' que o pipeline cospe!
-                    match, nota, detalhes = avaliar_coluna(col, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado, df_completo.head(10))
+                    match, nota_final, detalhes = resultados_ia[col]
                     
-                    nota_float = float(nota) if pd.notna(nota) else 0.0
-                    
-                    if nota_float >= 60.0 and detalhes:
-                        sugestao_final = match
-                        nota_final = nota_float
-                        
-                        # Extrai a anatomia da nota
-                        ia_pura = detalhes.get("ia_pura", 0.0)
-                        hist_memoria = detalhes.get("memoria", 0.0)
-                        
-                        # Monta o Raio-X Visual Colorido
-                        if hist_memoria > 0:
-                            raio_x = f"🤖 {ia_pura}% ➕ 🟩 Histórico (+{hist_memoria}%)"
-                        elif hist_memoria < 0:
-                            raio_x = f"🤖 {ia_pura}% ➖ 🟥 Penalidade ({hist_memoria}%)"
-                        else:
-                            raio_x = f"🤖 {ia_pura}% (Sem histórico)"
-                    else:
-                        sugestao_final = DICIONARIO_ERP["IGNORAR"]
+                    if nota_final is None or not detalhes:
+                        match = DICIONARIO_ERP["IGNORAR"]
                         nota_final = None 
-                        raio_x = "🚫 Abaixo da régua (60%)"
 
                     amostra = df_completo[col].dropna().astype(str).head(3).tolist()
                     dados_ui.append({
-                        "Coluna no Arquivo": str(col),
-                        "Confiança Final": nota_final,         # A barra de progresso
-                        "Raio-X (IA vs Memória)": raio_x,      # O detalhamento visual
-                        "Mapeamento (ERP)": sugestao_final,
+                        "Coluna Original": str(col),
+                        "Confiança": nota_final,
+                        "Destino (ERP)": match,
                         "Amostra dos Dados": " | ".join(amostra) if amostra else "(Vazia)"
                     })
                 st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
 
             st.markdown(f"#### ⚙️ Definir Colunas - Perfil: `{st.session_state.fornecedor_selecionado}`")
-            
-            st.info("**Legenda de Confiança:** 🤖 **IA Pura** (A máquina calculando) | 🟩 **Bônus** (Outro analista já ensinou isso) | 🟥 **Penalidade** (A IA tomou um 'Não' no passado)")
+            # A legenda de emojis foi removida para manter o visual limpo!
 
             altura_dinamica = (len(st.session_state.df_mapeamento_ui) * 35) + 42
 
@@ -205,38 +203,40 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 width="stretch", 
                 height=altura_dinamica,
                 hide_index=True,
-                disabled=["Coluna no Arquivo", "Confiança IA", "Amostra dos Dados"],
+                disabled=["Coluna Original", "Confiança", "Amostra dos Dados"],
                 column_config={
-                    "Coluna no Arquivo": st.column_config.TextColumn("Coluna Original"),
-                    "Confiança IA": st.column_config.ProgressColumn("🤖 Confiança", format="%d%%", min_value=0, max_value=100),
-                    "Mapeamento (ERP)": st.column_config.SelectboxColumn("Destino (ERP)", options=NOMES_VISUAIS_ERP, required=True),
+                    "Coluna Original": st.column_config.TextColumn("Coluna Original", width="medium"),
+                    "Confiança": st.column_config.ProgressColumn("Confiança", format="%d%%", min_value=0, max_value=100, width="small"),
+                    "Destino (ERP)": st.column_config.SelectboxColumn("Destino (ERP)", options=NOMES_VISUAIS_ERP, required=True, width="medium"),
                     "Amostra dos Dados": st.column_config.TextColumn("Amostra (3 linhas)")
                 },
                 key="editor_mapeamento"
             )
 
-
             houve_alteracao_dropdown = False
             for i in range(len(df_editado)):
-                col_excel = df_editado.at[i, "Coluna no Arquivo"]
-                novo_mapeamento = df_editado.at[i, "Mapeamento (ERP)"]
-                mapeamento_antigo = st.session_state.df_mapeamento_ui.at[i, "Mapeamento (ERP)"]
+                col_excel = df_editado.at[i, "Coluna Original"]
+                novo_mapeamento = df_editado.at[i, "Destino (ERP)"]
+                mapeamento_antigo = st.session_state.df_mapeamento_ui.at[i, "Destino (ERP)"]
 
                 if novo_mapeamento != mapeamento_antigo:
                     if novo_mapeamento == DICIONARIO_ERP["IGNORAR"]:
                         nova_nota_final = None
                     else:
-                        match_recalculado, nota_recalculada, _ = avaliar_coluna(col_excel, [novo_mapeamento], st.session_state.fornecedor_selecionado, df_completo.head(10))
-                        nota_float_recalculada = float(nota_recalculada) if pd.notna(nota_recalculada) else 0.0
-                        nova_nota_final = nota_float_recalculada if nota_float_recalculada >= 70.0 else None
+                        # Recálculo silencioso ao trocar dropdown na mão
+                        boletim = avaliar_coluna_fase1(col_excel, [novo_mapeamento], st.session_state.fornecedor_selecionado, df_completo.head(10))
+                        if boletim:
+                            nova_nota_final = boletim[0]["nota"]
+                        else:
+                            nova_nota_final = None
                     
-                    df_editado.at[i, "Confiança IA"] = nova_nota_final
+                    df_editado.at[i, "Confiança"] = nova_nota_final
                     houve_alteracao_dropdown = True
 
             st.session_state.df_mapeamento_ui = df_editado.copy()
             if houve_alteracao_dropdown: st.rerun()
 
-            mapeamento_atualizado = dict(zip(df_editado["Coluna no Arquivo"], df_editado["Mapeamento (ERP)"]))
+            mapeamento_atualizado = dict(zip(df_editado["Coluna Original"], df_editado["Destino (ERP)"]))
             st.session_state.mapeamento_temporario = mapeamento_atualizado
             
             escolhas = [v for v in mapeamento_atualizado.values() if v != DICIONARIO_ERP["IGNORAR"]]
@@ -250,21 +250,14 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 for d in duplicados:
                     cols_conflito = [k for k, v in mapeamento_atualizado.items() if REVERSO_ERP.get(v) == d]
                     
-                    # --- NOVA LÓGICA: VERIFICAÇÃO DE SOBREPOSIÇÃO (OVERLAP) ---
                     df_subset = st.session_state.df_bruto_consolidado[cols_conflito]
-                    
-                    # 1. Cria uma máscara: True onde tem dado útil, False onde é vazio/NaN
-                    # Transformamos em string, tiramos espaços em branco e convertemos pra minúsculo para checar nulos
                     df_str = df_subset.fillna("").astype(str).apply(lambda col: col.str.strip().str.lower())
                     mask_df = (df_str != "") & (~df_str.isin(["nan", "none", "<na>"]))
-                    
-                    # 2. Soma a quantidade de colunas preenchidas linha a linha
-                    # Se alguma linha tiver soma > 1, significa que há choque de dados!
                     tem_sobreposicao = (mask_df.sum(axis=1) > 1).any()
                     
                     with st.container(border=True):
                         if tem_sobreposicao:
-                            st.error(f"🚨 **Conflito de Dados Bloqueante em: `{DICIONARIO_ERP[d]}`**")
+                            st.error(f"🚨 **Coluna Duplicada: `{DICIONARIO_ERP[d]}`**")
                             st.write(f"As colunas **{', '.join(cols_conflito)}** possuem valores preenchidos na mesma linha. Mesclá-las causaria **perda de informações**.")
                             st.info("👉 **Ação Exigida:** Revise o painel acima e altere o destino de uma dessas colunas para outro conceito ou 'Ignorar'.")
                         else:
@@ -275,7 +268,7 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                                 for col_sec in cols_conflito[1:]:
                                     st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
                                     st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
-                                    st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna no Arquivo"] != col_sec]
+                                    st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original"] != col_sec]
                                 st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui.reset_index(drop=True)
                                 st.success("Colunas mescladas com segurança!")
                                 st.rerun()
@@ -284,29 +277,23 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True):
                     # 1. Salva a Memória da IA
                     for col_excel, conceito in mapeamento_atualizado.items():
-                        registrar_feedback(col_excel, conceito, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado)
+                        registrar_feedback(col_excel, conceito, st.session_state.fornecedor_selecionado)
                     st.session_state.mapeamento_oficial = mapeamento_atualizado
                     
-                    # 2. BIFURCAÇÃO - CAMINHO A: O Checkpoint do Usuário
-                    # Descobre qual coluna original o usuário marcou como SKU
+                    # 2. O Checkpoint do Usuário
                     col_sku_mapeada = next((k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["SKU"]), None)
-                    
-                    # Roda o Filtro de Morte mantendo todas as colunas originais
                     df_vivos, df_lixo = aplicar_filtro_morte(st.session_state.df_bruto_consolidado, col_sku_mapeada)
                     
-                    # Gera a planilha Excel de 2 abas
                     excel_bytes = exportar_excel_com_abas(df_vivos, df_lixo)
                     st.session_state.checkpoints["lista_limpa"] = excel_bytes
                     
-                    # 3. BIFURCAÇÃO - CAMINHO B: O Motor Interno do ERP
+                    # 3. O Motor Interno do ERP
                     df_motor = df_vivos.copy()
                     
-                    # Joga fora o que for Ignorar
                     colunas_uteis = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
                     colunas_lixo = [k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["IGNORAR"]]
                     df_motor = df_motor.drop(columns=[c for c in colunas_lixo if c in df_motor.columns])
                     
-                    # Desambiguação de nomes repetidos
                     contagens = {}
                     for destino in colunas_uteis.values():
                         contagens[destino] = contagens.get(destino, 0) + 1
@@ -321,7 +308,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                             
                     df_motor = df_motor.rename(columns=renomeio_final)
                     
-                    # Higieniza a Tipagem (Transfoma em número/float) e salva no Estado
                     df_motor = higienizar_dados(df_motor)
                     st.session_state.df_limpo = df_motor
                     
@@ -333,19 +319,13 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             st.markdown("#### 📄 Visualização Real da Planilha")
             st.caption("Esta é a base de dados exata que será enviada para a próxima etapa (colunas ignoradas estão ocultas).")
             
-            # --- MÁGICA DO VISUALIZADOR VIVO ---
-            # Identifica em tempo real tudo o que o usuário marcou como IGNORAR
             colunas_para_ocultar = [col for col, destino in mapeamento_atualizado.items() if destino == DICIONARIO_ERP["IGNORAR"]]
-            
-            # Cria uma cópia apenas para exibição, dropando o "lixo"
             df_visualizacao = st.session_state.df_bruto_consolidado.drop(
                 columns=[c for c in colunas_para_ocultar if c in st.session_state.df_bruto_consolidado.columns]
             )
             
-            # Pega as colunas úteis
             colunas_uteis_temp = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
             
-            # --- CORREÇÃO: Lógica de desambiguação para o visualizador ---
             contagens_vis = {}
             for destino in colunas_uteis_temp.values():
                 contagens_vis[destino] = contagens_vis.get(destino, 0) + 1
@@ -359,13 +339,10 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 else:
                     renomeio_vis[col_excel] = destino
             
-            # Renomeia o cabeçalho aplicando a desambiguação (evita colunas duplicadas)
             df_visualizacao = df_visualizacao.rename(columns=renomeio_vis)
-            
-            # Desenha a tabela limpa
             st.dataframe(df_visualizacao.head(9), width="stretch")
 
-    # ETAPA 4: TRATAR LINHAS (O MOTOR DE VALIDAÇÃO ISOLADO)
+    # ETAPA 4: TRATAR LINHAS
     elif st.session_state.etapa_fluxo == 4:
         st.header("🕵️ Passo 4: Auditoria e Validação Comercial")
         st.write("Aplicando regras de higienização e validação aos dados mapeados...")
@@ -403,7 +380,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             
             st.dataframe(df_rejeitados.head(50), width="stretch", hide_index=True)
             
-            # Geração do Excel de Devolutiva
             excel_devolutiva = exportar_excel_simples(df_rejeitados)
             
             col_down, col_reiniciar = st.columns([1, 1])
