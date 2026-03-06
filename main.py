@@ -4,11 +4,8 @@ import traceback
 from modulos.orquestrador_importacao import processar_arquivos_upload
 from modulos.consolidador import consolidar_dataframes
 from config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
-
-# MUDANÇA NO IMPORT: Agora chamamos o Orquestrador Central e a Fase 1 isolada
 from modulos.classificador.pipeline import classificar_dataset_completo, avaliar_coluna_fase1
-from modulos.classificador.aprendizado import registrar_feedback
-
+from modulos.classificador.aprendizado import registrar_feedback, obter_perfis_salvos
 from modulos.exportador import exportar_excel_simples, exportar_excel_com_abas
 from modulos.validador_comercial import aplicar_filtro_morte, higienizar_dados, processar_validacoes
 
@@ -31,7 +28,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-PERFIS_EXISTENTES = ["DS", "VIEMAR"]
+PERFIS_EXISTENTES = obter_perfis_salvos()
 
 # ==========================================
 # GERENCIAMENTO DE ESTADO
@@ -167,9 +164,8 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             colunas_reais = [c for c in df_completo.columns if not str(c).startswith("__")]
             
             if "df_mapeamento_ui" not in st.session_state:
-                # Roda a IA para a planilha inteira
                 resultados_ia = classificar_dataset_completo(
-                    df_completo.head(30), 
+                    df_completo,  
                     NOMES_VISUAIS_ERP, 
                     st.session_state.fornecedor_selecionado,
                     usar_memoria=DEBUG_USAR_MEMORIA,
@@ -223,8 +219,8 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     if novo_mapeamento == DICIONARIO_ERP["IGNORAR"]:
                         nova_nota_final = None
                     else:
-                        # Recálculo silencioso ao trocar dropdown na mão
-                        boletim = avaliar_coluna_fase1(col_excel, [novo_mapeamento], st.session_state.fornecedor_selecionado, df_completo.head(10))
+                        # MUDANÇA: Tire o df_completo.head(10) e mande o df_completo inteiro
+                        boletim = avaliar_coluna_fase1(col_excel, [novo_mapeamento], st.session_state.fornecedor_selecionado, df_completo)
                         if boletim:
                             nova_nota_final = boletim[0]["nota"]
                         else:
@@ -252,8 +248,15 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     
                     df_subset = st.session_state.df_bruto_consolidado[cols_conflito]
                     df_str = df_subset.fillna("").astype(str).apply(lambda col: col.str.strip().str.lower())
-                    mask_df = (df_str != "") & (~df_str.isin(["nan", "none", "<na>"]))
-                    tem_sobreposicao = (mask_df.sum(axis=1) > 1).any()
+                    
+                    lixo_planilha = ["nan", "none", "<na>", "null", "0", "0.0", "-", "_", "."]
+                    mask_df = (df_str != "") & (~df_str.isin(lixo_planilha))
+                    
+                    linhas_colisao = (mask_df.sum(axis=1) > 1).sum()
+                    total_linhas = len(df_subset)
+                    taxa_colisao = linhas_colisao / total_linhas if total_linhas > 0 else 0
+                    
+                    tem_sobreposicao = taxa_colisao > 0.02
                     
                     with st.container(border=True):
                         if tem_sobreposicao:
@@ -266,11 +269,20 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                             if st.button(f"🪄 Mesclar colunas sem perda de dados", key=f"unif_{d}", use_container_width=True):
                                 col_mestra = cols_conflito[0]
                                 for col_sec in cols_conflito[1:]:
+                                    
+                                    # 🧠 NOVO: A INJEÇÃO DE MEMÓRIA INSTANTÂNEA!
+                                    # Antes de destruir a coluna secundária, nós a ensinamos para a IA.
+                                    registrar_feedback(col_sec, DICIONARIO_ERP[d], st.session_state.fornecedor_selecionado)
+                                    
+                                    # Mescla os dados preenchendo os buracos (NaNs) da coluna mestra
                                     st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
+                                    
+                                    # Destrói a coluna secundária do DataFrame original e da Interface
                                     st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
                                     st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original"] != col_sec]
+                                    
                                 st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui.reset_index(drop=True)
-                                st.success("Colunas mescladas com segurança!")
+                                st.success("Colunas mescladas e padrão memorizado com segurança!")
                                 st.rerun()
             else:
                 st.write("")

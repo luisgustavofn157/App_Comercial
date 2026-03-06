@@ -1,7 +1,6 @@
 import pandas as pd
-from difflib import SequenceMatcher
 from modulos.classificador.aprendizado import consultar_memoria, normalizar_termo
-from modulos.classificador.heuristicas import numericas, textuais, financeiras
+from modulos.classificador.heuristicas import numericas, textuais, financeiras, lexical
 
 # Adicionamos CONCEITOS_MULTIPLOS na importação para o Árbitro saber quem pode repetir
 from config_erp import DICIONARIO_ERP, DICIONARIO_SINONIMOS, REVERSO_ERP, CONCEITOS_MULTIPLOS
@@ -17,7 +16,9 @@ def avaliar_coluna_fase1(coluna_excel, lista_conceitos_erp, fornecedor, df_amost
     serie_atual = None
     if df_amostra is not None and not df_amostra.empty:
         if coluna_excel in df_amostra.columns:
-            serie_atual = df_amostra[coluna_excel]
+            # O SEGREDO: Limpa os NaNs e pega os 50 primeiros dados REAIS.
+            # Assim colunas do Intervalo 3 não são avaliadas como vazias!
+            serie_atual = df_amostra[coluna_excel].dropna().head(50)
             
     for conceito_visual in lista_conceitos_erp:
         if conceito_visual == DICIONARIO_ERP["IGNORAR"]: continue
@@ -29,20 +30,7 @@ def avaliar_coluna_fase1(coluna_excel, lista_conceitos_erp, fornecedor, df_amost
         # 1. PILAR LÉXICO (Peso: 35%)
         # ==========================================
         conceito_norm = normalizar_termo(conceito_visual)
-        nota_lexica = SequenceMatcher(None, col_norm, conceito_norm).ratio() * 100
-
-        if len(col_norm) <= 4 and len(conceito_norm) <= 4 and col_norm != conceito_norm:
-            nota_lexica = 0.0
-
-        if id_conceito in DICIONARIO_SINONIMOS:
-            for termo in DICIONARIO_SINONIMOS[id_conceito]:
-                termo_norm = normalizar_termo(termo)
-                if termo_norm == col_norm:
-                    nota_lexica = 100.0
-                    break # <-- CORREÇÃO: Freio de processamento adicionado!
-                elif termo_norm in col_norm:
-                    proporcao = len(termo_norm) / len(col_norm)
-                    nota_lexica = max(nota_lexica, 60.0 * proporcao)
+        nota_lexica = lexical.avaliar_titulo(col_norm, conceito_norm, id_conceito)
         
         # ==========================================
         # 2. PILAR SEMÂNTICO (Peso: 65%)
@@ -100,57 +88,65 @@ def fase2_arbitro_global(mapa_boletins, df_amostra):
     FASE 2 (Visão de Águia): Resolve conflitos onde múltiplas colunas disputam 
     um conceito único (1:1) do ERP.
     """
-    # Descobre quem está ganhando em cada coluna no momento
-    vencedores_atuais = {} # { "Nome_Coluna_Excel": "ID_CONCEITO" }
+    vencedores_atuais = {} 
     for col, boletim in mapa_boletins.items():
         if boletim:
             vencedores_atuais[col] = boletim[0]["id_conceito"]
 
-    # Identifica os Conflitos (Conceitos Únicos sendo apontados por mais de uma coluna)
-    # Ignoramos CONCEITOS_MULTIPLOS porque eles podem repetir sem problema.
     contagem_conceitos = {}
     for conceito in vencedores_atuais.values():
         contagem_conceitos[conceito] = contagem_conceitos.get(conceito, 0) + 1
 
     conflitos = [conc for conc, qtd in contagem_conceitos.items() if qtd > 1 and conc not in CONCEITOS_MULTIPLOS]
 
-    # Se não tem conflito, o Árbitro não faz nada (encerra a sessão)
     if not conflitos:
         return mapa_boletins
 
     # O TRIBUNAL DE DESEMPATE
     for conceito_em_disputa in conflitos:
-        # Pega o nome das colunas do Excel que estão brigando por esse conceito
         colunas_brigando = [col for col, conc in vencedores_atuais.items() if conc == conceito_em_disputa]
         
         # ========================================================
-        # REGRA 1: A GUERRA DOS PREÇOS (Base vs Promo)
+        # 🛡️ NOVO: O ESCUDO DE COMPLEMENTARIDADE (Tolerância a Ruído)
         # ========================================================
+        df_subset = df_amostra[colunas_brigando]
+        df_str = df_subset.fillna("").astype(str).apply(lambda col: col.str.strip().str.lower())
+        
+        lixo_planilha = ["nan", "none", "<na>", "null", "0", "0.0", "-", "_", "."]
+        mask_df = (df_str != "") & (~df_str.isin(lixo_planilha))
+        
+        # A MÁGICA: Em vez de .any() que quebra com 1 erro, usamos % de colisão
+        linhas_colisao = (mask_df.sum(axis=1) > 1).sum()
+        total_linhas = len(df_amostra)
+        taxa_colisao = linhas_colisao / total_linhas if total_linhas > 0 else 0
+        
+        # Se a colisão for menor que 2%, consideramos que é lixo de Excel e damos o Salvo-Conduto!
+        tem_sobreposicao = taxa_colisao > 0.02
+        
+        if not tem_sobreposicao:
+            continue
+            
+        # ========================================================
+        # Se chegou aqui, as colunas colidem e vão causar perda de dados.
+        # O Árbitro volta a ser implacável e aplica as regras de execução.
+        # ========================================================
+        
+        # REGRA 1: A GUERRA DOS PREÇOS (Base vs Promo)
         if conceito_em_disputa == "PRECO_BASE":
             medias = {}
             for col in colunas_brigando:
                 try:
-                    # Tenta converter a coluna para número e tirar a média
-                    # Limpeza rápida similar a do Especialista Financeiro
                     s_num = df_amostra[col].astype(str).str.replace(r'[^\d,-]', '', regex=True).str.replace(',', '.').astype(float)
                     medias[col] = s_num.mean()
                 except:
                     medias[col] = 0.0
-                    
-            # O Vencedor é a coluna que tem a Maior Média (O Preço Base é sempre o maior)
             coluna_vencedora = max(medias, key=medias.get)
             
-        # ========================================================
         # REGRA 2: O HIGHLANDER (Regra Geral de Desempate)
-        # ========================================================
         else:
-            # Para NCM, EAN, SKU, etc. Ganha quem tiver a maior "Nota Bruta" na Fase 1.
-            # Se a máquina teve 120 de nota bruta em um e 105 no outro, o 120 vence.
             notas_brutas = {}
             for col in colunas_brigando:
-                # Pega a nota bruta do primeiro lugar do boletim
                 notas_brutas[col] = mapa_boletins[col][0]["bruta"]
-                
             coluna_vencedora = max(notas_brutas, key=notas_brutas.get)
 
         # --------------------------------------------------------
@@ -158,10 +154,7 @@ def fase2_arbitro_global(mapa_boletins, df_amostra):
         # --------------------------------------------------------
         for col in colunas_brigando:
             if col != coluna_vencedora:
-                # Remove o 1º lugar do boletim do perdedor (o conceito que ele perdeu)
                 mapa_boletins[col].pop(0)
-                # Como tiramos o 1º lugar, a coluna assume a sua 2ª opção automaticamente.
-                # Se o boletim ficar vazio, ela vira IGNORAR lá na frente.
 
     return mapa_boletins
 
@@ -175,7 +168,7 @@ def classificar_dataset_completo(df_amostra, lista_conceitos_erp, fornecedor, us
     # RODA A FASE 1 (Gera todos os boletins de forma isolada)
     mapa_boletins = {}
     for col in colunas_excel:
-        mapa_boletins[col] = avaliar_coluna_fase1(col, lista_conceitos_erp, fornecedor, df_amostra)
+        mapa_boletins[col] = avaliar_coluna_fase1(col, lista_conceitos_erp, fornecedor, df_amostra, usar_memoria=usar_memoria)
         
     # RODA A FASE 2 (O Tribunal - se a Feature Flag estiver ligada)
     if usar_arbitro:

@@ -5,6 +5,11 @@ from config_erp import REVERSO_ERP, DICIONARIO_ERP
 
 ARQUIVO_MEMORIA = "banco_memoria.json"
 
+def obter_perfis_salvos():
+    """Lê o banco de memória e retorna a lista de fornecedores já mapeados."""
+    memoria = carregar_memoria()
+    return sorted(list(memoria.keys()))
+
 def normalizar_termo(texto):
     """Remove acentos, espaços extras e deixa tudo maiúsculo."""
     if not isinstance(texto, str): return ""

@@ -21,8 +21,8 @@
             "PENALIZACAO_IGNORAR": 0.0
         },
         "PRECO_BRUTO_SEM_IPI": {
-            "PRECO_BASE": 40.0,
-            "PENALIZACAO_IGNORAR": 0.0
+            "PRECO_BASE": 0.0,
+            "PENALIZACAO_IGNORAR": -40.0
         },
         "PRECO_BRUTO_IPI": {
             "IGNORAR": 0.0,
@@ -59,6 +59,73 @@
         "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR": {
             "IGNORAR": 0.0,
             "PENALIZACAO_IGNORAR": -60.0
+        }
+    },
+    "DS": {
+        "MULTIPLO": {
+            "MULTIPLO": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "CODIGOS_DS": {
+            "SKU": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "CODIGO_DS": {
+            "SKU": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "LINHA": {
+            "LINHA": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "COD_DS": {
+            "SKU": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "FAMILIA": {
+            "DESCRICAO": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "MULTIPLOS": {
+            "MULTIPLO": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "COD_BARRA": {
+            "EAN": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "PESO_LIQ_KG": {
+            "PENALIZACAO_IGNORAR": -60.0
+        },
+        "PESO_BRUTO_KG": {
+            "PENALIZACAO_IGNORAR": -60.0
+        },
+        "NCM": {
+            "NCM": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "IPI": {
+            "IPI": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "ICMS": {
+            "PENALIZACAO_IGNORAR": -60.0
+        },
+        "ORIGEM_CST": {
+            "CST": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "R_BRUTO_ESTADO_SP": {
+            "PRECO_BASE": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "R_BRUTO_ESTADOS_RJMGPR_SC_RS": {
+            "PRECO_SECUNDARIO": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "R_BRUTO_REGIAO_NORTENORDESTE_CENTROOESTE_ES": {
+            "PRECO_SECUNDARIO": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
         }
     }
 }
