@@ -3,7 +3,7 @@ from modulos.classificador.aprendizado import consultar_memoria, normalizar_term
 from modulos.classificador.heuristicas import numericas, textuais, financeiras, lexical
 
 # Adicionamos CONCEITOS_MULTIPLOS na importação para o Árbitro saber quem pode repetir
-from config_erp import DICIONARIO_ERP, DICIONARIO_SINONIMOS, REVERSO_ERP, CONCEITOS_MULTIPLOS
+from config_erp import DICIONARIO_ERP, REVERSO_ERP, CONCEITOS_MULTIPLOS
 
 def avaliar_coluna_fase1(coluna_excel, lista_conceitos_erp, fornecedor, df_amostra=None, usar_memoria=True):
     """

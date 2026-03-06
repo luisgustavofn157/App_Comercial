@@ -67,8 +67,8 @@ def avaliar_matematica(serie_dados, conceito_erp):
     if serie_dados is None or serie_dados.dropna().empty:
         return 0.0, True
 
-    # Pega uma amostra representativa (aumentei para 30 para termos mais margem estatística)
-    amostra = serie_dados.dropna().head(30)
+    # Pega uma amostra representativa (os 50 dados reais já filtrados pelo pipeline)
+    amostra = serie_dados.dropna()
     total_amostra = len(amostra)
     if total_amostra == 0: 
         return 0.0, True
@@ -76,11 +76,9 @@ def avaliar_matematica(serie_dados, conceito_erp):
     # ==========================================
     # 🛡️ O ESCUDO ANTI-DATAS (Nível Pandas)
     # ==========================================
-    # 1. Checa se o próprio Pandas já tipou a coluna como data na importação
     if pd.api.types.is_datetime64_any_dtype(serie_dados):
         return 0.0, True
         
-    # 2. Checa as strings (Formato BR e Americano)
     datas_encontradas = sum(
         1 for v in amostra.astype(str) 
         if re.match(r'^\d{2}[-/]\d{2}[-/]\d{2,4}', v.strip()) or re.match(r'^\d{4}[-/]\d{2}[-/]\d{2}', v.strip())
@@ -96,8 +94,14 @@ def avaliar_matematica(serie_dados, conceito_erp):
     # ==========================================
     if conceito_erp == "NCM":
         for v in amostra.astype(str):
-            # Limpa tudo que não for número (tira pontos, traços e o maldito ".0" do pandas)
-            v_limpo = re.sub(r'\D', '', v.split('.')[0])
+            v_str = v.strip()
+            
+            # 1. Tira o fantasma do float (ex: "85439090.0" vira "85439090") sem quebrar NCMs com pontos reais
+            if re.match(r'^\d{8}\.0$', v_str):
+                v_str = v_str[:-2]
+                
+            # 2. Agora sim, remove tudo que não for número (ex: "8543.90.90" vira "85439090")
+            v_limpo = re.sub(r'\D', '', v_str)
             
             # NCM tem exatamente 8 dígitos e começa com capítulos válidos (01 a 97)
             if len(v_limpo) == 8:
@@ -117,7 +121,6 @@ def avaliar_matematica(serie_dados, conceito_erp):
         for v in amostra.astype(str):
             v_limpo = v.strip().upper()
             
-            # Salva da notação científica (ex: 7.89E+12)
             if 'E' in v_limpo or ('.' in v_limpo and v_limpo.endswith('0')):
                 try:
                     v_limpo = str(int(float(v_limpo)))
@@ -127,15 +130,15 @@ def avaliar_matematica(serie_dados, conceito_erp):
             numeros_puros = re.sub(r'\D', '', v_limpo)
             
             if len(numeros_puros) in [8, 12, 13, 14]:
-                acertos_simples += 1 # O tamanho bate
+                acertos_simples += 1 
                 if calcular_digito_verificador_ean(numeros_puros):
-                    acertos_perfeitos += 1 # A matemática bate!
+                    acertos_perfeitos += 1 
                     
         taxa_perfeita = acertos_perfeitos / total_amostra
         taxa_simples = acertos_simples / total_amostra
         
-        if taxa_perfeita >= 0.5: nota_dna = 100.0  # Se metade tem matemática válida, É UMA COLUNA DE EAN!
-        elif taxa_simples >= 0.8: nota_dna = 60.0  # O tamanho bate, mas a matemática não (fornecedor gerou código falso internamente)
+        if taxa_perfeita >= 0.5: nota_dna = 100.0  
+        elif taxa_simples >= 0.8: nota_dna = 60.0  
         elif taxa_simples == 0.0: veto_absoluto = True
 
     # ==========================================
@@ -143,17 +146,19 @@ def avaliar_matematica(serie_dados, conceito_erp):
     # ==========================================
     elif conceito_erp == "MULTIPLO":
         for v in amostra.astype(str):
-            try:
-                # Múltiplo precisa ser convertível para número
-                valor_float = float(v.replace(',', '.'))
-                # Precisa ser inteiro e maior que zero
-                if valor_float.is_integer() and valor_float > 0:
-                    acertos_simples += 1
-                    # Bônus: 90% das autopeças são vendidas em caixas de 1, 2, 4, 6, 12, 24...
-                    if valor_float in [1, 2, 3, 4, 5, 6, 10, 12, 18, 20, 24, 30, 36, 50, 100]:
-                        acertos_perfeitos += 1
-            except:
-                pass
+            # Procura o primeiro bloco numérico da string (Salva dados como "1 UN", "10cx")
+            match = re.search(r'(\d+[.,]?\d*)', v)
+            if match:
+                try:
+                    v_num = match.group(1).replace(',', '.')
+                    valor_float = float(v_num)
+                    
+                    if valor_float.is_integer() and valor_float > 0:
+                        acertos_simples += 1
+                        if valor_float in [1, 2, 3, 4, 5, 6, 10, 12, 18, 20, 24, 30, 36, 50, 100]:
+                            acertos_perfeitos += 1
+                except:
+                    pass
                 
         taxa_simples = acertos_simples / total_amostra
         taxa_perfeita = acertos_perfeitos / total_amostra
@@ -167,13 +172,17 @@ def avaliar_matematica(serie_dados, conceito_erp):
     elif conceito_erp == "CST":
         for v in amostra.astype(str):
             v_limpo = v.strip().upper()
-            # Foco em palavras-chave
+            
+            # Regra 1: Textual (Nacional/Importado)
             if v_limpo in ["NAC", "NACIONAL", "IMP", "IMPORTADO"]:
                 acertos_simples += 1
+            else:
+                # Regra 2: Numérica (Códigos Fiscais oficiais de 1, 2 ou 3 dígitos)
+                v_num = re.sub(r'\D', '', v_limpo)
+                if 1 <= len(v_num) <= 3 and len(v_num) == len(v_limpo):
+                    acertos_simples += 1
                 
         taxa = acertos_simples / total_amostra
-        # CST nunca ganha 100 sozinho na Semântica porque pode confundir com IPI. 
-        # Deixamos no máximo em 75, forçando o Árbitro ou o Lexical a confirmar o título da coluna.
         if taxa >= 0.8: nota_dna = 75.0 
         elif taxa >= 0.4: nota_dna = 40.0
 
@@ -201,13 +210,11 @@ def avaliar_matematica(serie_dados, conceito_erp):
             qtd_unicos = len(set(valores))
             proporcao_unicos = qtd_unicos / total
 
-            # Heurísticas de Veto (Cara de Preço)
             if max_abs > 60:
                 veto_absoluto = True
             elif proporcao_unicos > 0.4 and total >= 10:
                 veto_absoluto = True
             else:
-                # Whitelist de alíquotas
                 aliquotas_pct = {
                     0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.25, 3.5, 4.0, 4.5, 5.0,
                     6.0, 6.5, 7.0, 7.5, 8.0, 9.0, 10.0, 11.0, 11.7, 11.75, 12.0, 13.0, 14.0,
@@ -233,14 +240,12 @@ def avaliar_matematica(serie_dados, conceito_erp):
                     if x > 1.0 and casas_decimais(x) > 2: sinais_preco += 1
 
                 taxa_whitelist = acertos_whitelist / total
-                taxa_intervalo = acertos_intervalo / total
                 taxa_sinais_preco = sinais_preco / total
-                taxa_repeticao = 1.0 - (qtd_unicos / total)
+                taxa_repeticao = 1.0 - proporcao_unicos
 
-                # Decisão Final
                 if taxa_sinais_preco > 0.15:
                     veto_absoluto = True
-                elif taxa_whitelist >= 0.6: # <-- Mudei de 0.7 para 0.6 aqui
+                elif taxa_whitelist >= 0.6: 
                     nota_dna = 90.0 if taxa_repeticao > 0.4 else 75.0
                 else:
                     veto_absoluto = True
@@ -250,23 +255,21 @@ def avaliar_matematica(serie_dados, conceito_erp):
     # ==========================================
     elif conceito_erp == "CNPJ":
         for v in amostra.astype(str):
-            # Limpa a pontuação. Ex: "44.023.471/0002-71" vira "44023471000271"
             v_limpo = re.sub(r'\D', '', v)
             
-            # O Excel costuma comer os zeros à esquerda do CNPJ. 
             if 0 < len(v_limpo) <= 14:
                 v_limpo = v_limpo.zfill(14)
                 
             if len(v_limpo) == 14:
-                acertos_simples += 1 # O tamanho bate
+                acertos_simples += 1 
                 if calcular_digito_verificador_cnpj(v_limpo):
-                    acertos_perfeitos += 1 # A matemática bate!
+                    acertos_perfeitos += 1 
                     
         taxa_perfeita = acertos_perfeitos / total_amostra
         taxa_simples = acertos_simples / total_amostra
         
-        if taxa_perfeita >= 0.5: nota_dna = 100.0  # Se metade tem matemática válida, É CNPJ!
-        elif taxa_simples >= 0.8: nota_dna = 60.0  # Tamanho bate, mas matemática não
+        if taxa_perfeita >= 0.5: nota_dna = 100.0  
+        elif taxa_simples >= 0.8: nota_dna = 60.0  
         elif taxa_simples == 0.0: veto_absoluto = True
 
     return nota_dna, veto_absoluto

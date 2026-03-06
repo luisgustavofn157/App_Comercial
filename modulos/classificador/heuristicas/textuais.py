@@ -56,28 +56,42 @@ def avaliar_texto(serie_dados, conceito_erp):
     # 1. O CAÇADOR DE SKU
     # ==========================================
     if conceito_erp == "SKU":
-        # SKU em autopeças: Pode ser número, letra ou misto. É curto e não tem muito espaço.
         for v in amostra_bruta:
             v_limpo = v.strip().upper()
+            
+            # Limpeza do artefato fantasma do Pandas (ex: 23710.0 vira 23710)
+            if re.match(r'^\d+\.0$', v_limpo):
+                v_limpo = v_limpo[:-2]
+                
             tamanho = len(v_limpo)
             espacos = v_limpo.count(' ')
             
-            if 2 <= tamanho <= 25 and espacos <= 1:
-                # Pontua base
-                acertos += 1
+            # VETO 1: Se for muito longo ou tiver muitos espaços (ex: Descrição)
+            if tamanho < 2 or tamanho > 25 or espacos > 1:
+                continue
                 
-                # Bônus do SKU: Se tiver hífens, pontos ou misturar letras e números, é MUITO cara de SKU.
-                tem_hifen = '-' in v_limpo or '.' in v_limpo
-                tem_letra_e_numero = bool(re.search(r'\d', v_limpo)) and bool(re.search(r'[A-Z]', v_limpo))
-                if tem_hifen or tem_letra_e_numero:
-                    acertos += 0.5 # Bônus de 50%
-                    
+            # VETO 2: Se for puramente um número decimal longo (ex: Preço, Peso)
+            if re.match(r'^\d+\.\d{2,}$', v_limpo):
+                continue
+
+            # Pontua base (Passou pelas travas, tem cara de SKU)
+            acertos += 1
+            
+            # Bônus do SKU: Misto de letras e números, ou hífens/pontos bem colocados
+            tem_letra_e_numero = bool(re.search(r'\d', v_limpo)) and bool(re.search(r'[A-Z]', v_limpo))
+            tem_hifen = '-' in v_limpo
+            
+            # Só dá bônus de ponto se NÃO for apenas um número com vírgula (ex: 8543.90.90 ganha, 5.0 não)
+            tem_ponto_complexo = '.' in v_limpo and not re.match(r'^\d+\.\d+$', v_limpo)
+            
+            if tem_hifen or tem_letra_e_numero or tem_ponto_complexo:
+                acertos += 0.5 
+                
         taxa = acertos / total_amostra
-        if taxa >= 1.0: nota_dna = 85.0 # Pode passar de 1.0 com o bônus
+        if taxa >= 1.0: nota_dna = 85.0 
         elif taxa >= 0.8: nota_dna = 70.0 
         elif taxa >= 0.5: nota_dna = 40.0
         
-        # Veto: Se a coluna inteira tem textos gigantescos, impossível ser SKU
         if sum(1 for v in amostra_bruta if len(v.strip()) > 35) / total_amostra > 0.8:
             veto_absoluto = True
 
