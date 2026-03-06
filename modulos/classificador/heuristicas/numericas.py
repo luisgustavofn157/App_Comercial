@@ -167,7 +167,7 @@ def avaliar_matematica(serie_dados, conceito_erp):
     elif conceito_erp == "CST":
         for v in amostra.astype(str):
             v_limpo = v.strip().upper()
-            # Foco em códigos exatos de CST/CSOSN (2 a 3 dígitos) e palavras-chave
+            # Foco em palavras-chave
             if v_limpo in ["NAC", "NACIONAL", "IMP", "IMPORTADO"]:
                 acertos_simples += 1
                 

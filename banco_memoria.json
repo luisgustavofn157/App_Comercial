@@ -1,0 +1,49 @@
+{
+    "VIEMAR": {
+        "LINHA_PRODUTO": {
+            "conceito_aprovado": "Descri\u00e7\u00e3o do Produto"
+        },
+        "DATA_LANCAMENTO": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        },
+        "VIEMAR": {
+            "conceito_aprovado": "SKU (C\u00f3digo Fornecedor)"
+        },
+        "UN": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        },
+        "EMBALAGEM_MULTIPLOS": {
+            "conceito_aprovado": "M\u00faltiplo de Venda"
+        },
+        "PRECO_BRUTO_SEM_IPI": {
+            "conceito_aprovado": "Pre\u00e7o Base"
+        },
+        "PRECO_BRUTO_IPI": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        },
+        "CST": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        },
+        "ORIGEM": {
+            "conceito_aprovado": "C\u00f3digo CST / Origem"
+        },
+        "ICMS": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        },
+        "IPI": {
+            "conceito_aprovado": "IPI (%)"
+        },
+        "CLASSIFICACAO_FISCAL": {
+            "conceito_aprovado": "NCM"
+        },
+        "EANGTIN": {
+            "conceito_aprovado": "EAN / C\u00f3d. Barras"
+        },
+        "PESO_KG": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        },
+        "COPIE_COLE_LINK_ABAIXO_EM_SEU_NAVEGADOR_ACESSE_DIRETAMENTE_ITEM_NO_CATALOGO_VIEMAR": {
+            "conceito_aprovado": "Ignorar / N\u00e3o Importa"
+        }
+    }
+}

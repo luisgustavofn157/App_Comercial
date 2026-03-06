@@ -55,7 +55,8 @@ def pontuar_linha_cabecalho(linha_valores):
     
     for texto in textos_normalizados:
         for palavra in todos_sinonimos:
-            if palavra.lower() in texto:
+            #if palavra.lower() in texto:
+            if palavra.lower() == texto:
                 termos_encontrados += 1
                 break
                 

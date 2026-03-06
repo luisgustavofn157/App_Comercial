@@ -111,7 +111,7 @@ if st.session_state.pagina_atual == "Fluxo Principal":
         
         if st.button("Analisar Arquivos ➡️", type="primary", use_container_width=True, disabled=not pode_avancar):
             st.session_state.fornecedor_selecionado = fornecedor_final
-            with st.spinner("Analisando..."):
+            with st.spinner("Aguardo enquanto o sistema está lendo o arquivo..."):
                 tabelas, erros = processar_arquivos_upload(arquivos)
                 if erros:
                     for erro in erros: st.error(f"🚨 Erro em: {erro['arquivo']}")
@@ -159,26 +159,45 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             if "df_mapeamento_ui" not in st.session_state:
                 dados_ui = []
                 for col in colunas_reais:
-                    match, nota, _ = avaliar_coluna(col, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado, df_completo.head(10))
+                    # MUDANÇA: Agora capturamos a variável 'detalhes' que o pipeline cospe!
+                    match, nota, detalhes = avaliar_coluna(col, NOMES_VISUAIS_ERP, st.session_state.fornecedor_selecionado, df_completo.head(10))
+                    
                     nota_float = float(nota) if pd.notna(nota) else 0.0
                     
-                    if nota_float >= 70.0:
+                    if nota_float >= 60.0 and detalhes:
                         sugestao_final = match
                         nota_final = nota_float
+                        
+                        # Extrai a anatomia da nota
+                        ia_pura = detalhes.get("ia_pura", 0.0)
+                        hist_memoria = detalhes.get("memoria", 0.0)
+                        
+                        # Monta o Raio-X Visual Colorido
+                        if hist_memoria > 0:
+                            raio_x = f"🤖 {ia_pura}% ➕ 🟩 Histórico (+{hist_memoria}%)"
+                        elif hist_memoria < 0:
+                            raio_x = f"🤖 {ia_pura}% ➖ 🟥 Penalidade ({hist_memoria}%)"
+                        else:
+                            raio_x = f"🤖 {ia_pura}% (Sem histórico)"
                     else:
                         sugestao_final = DICIONARIO_ERP["IGNORAR"]
                         nota_final = None 
+                        raio_x = "🚫 Abaixo da régua (60%)"
 
                     amostra = df_completo[col].dropna().astype(str).head(3).tolist()
                     dados_ui.append({
                         "Coluna no Arquivo": str(col),
-                        "Confiança IA": nota_final,
+                        "Confiança Final": nota_final,         # A barra de progresso
+                        "Raio-X (IA vs Memória)": raio_x,      # O detalhamento visual
                         "Mapeamento (ERP)": sugestao_final,
-                        "Amostra dos Dados": " | ".join(amostra) if amostra else "(Coluna Vazia)"
+                        "Amostra dos Dados": " | ".join(amostra) if amostra else "(Vazia)"
                     })
                 st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
 
             st.markdown(f"#### ⚙️ Definir Colunas - Perfil: `{st.session_state.fornecedor_selecionado}`")
+            
+            st.info("**Legenda de Confiança:** 🤖 **IA Pura** (A máquina calculando) | 🟩 **Bônus** (Outro analista já ensinou isso) | 🟥 **Penalidade** (A IA tomou um 'Não' no passado)")
+
             altura_dinamica = (len(st.session_state.df_mapeamento_ui) * 35) + 42
 
             df_editado = st.data_editor(
@@ -195,6 +214,7 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 },
                 key="editor_mapeamento"
             )
+
 
             houve_alteracao_dropdown = False
             for i in range(len(df_editado)):
@@ -322,9 +342,25 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 columns=[c for c in colunas_para_ocultar if c in st.session_state.df_bruto_consolidado.columns]
             )
             
-            # Renomeia o cabeçalho para o usuário já ver como vai ficar no ERP
+            # Pega as colunas úteis
             colunas_uteis_temp = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
-            df_visualizacao = df_visualizacao.rename(columns=colunas_uteis_temp)
+            
+            # --- CORREÇÃO: Lógica de desambiguação para o visualizador ---
+            contagens_vis = {}
+            for destino in colunas_uteis_temp.values():
+                contagens_vis[destino] = contagens_vis.get(destino, 0) + 1
+                
+            renomeio_vis = {}
+            ocorrencias_vis = {}
+            for col_excel, destino in colunas_uteis_temp.items():
+                if contagens_vis[destino] > 1:
+                    ocorrencias_vis[destino] = ocorrencias_vis.get(destino, 0) + 1
+                    renomeio_vis[col_excel] = f"{destino} ({ocorrencias_vis[destino]})"
+                else:
+                    renomeio_vis[col_excel] = destino
+            
+            # Renomeia o cabeçalho aplicando a desambiguação (evita colunas duplicadas)
+            df_visualizacao = df_visualizacao.rename(columns=renomeio_vis)
             
             # Desenha a tabela limpa
             st.dataframe(df_visualizacao.head(9), width="stretch")

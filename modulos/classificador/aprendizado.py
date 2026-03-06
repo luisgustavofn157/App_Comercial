@@ -2,98 +2,57 @@ import json
 import os
 import unicodedata
 
-FICHEIRO_MEMORIA = "memoria_mapeamento.json"
+ARQUIVO_MEMORIA = "banco_memoria.json"
 
-def normalizar_termo(termo):
-    if not termo or str(termo).strip() == "": return ""
-    t = str(termo).upper().strip()
-    return ''.join(c for c in unicodedata.normalize('NFD', t) if unicodedata.category(c) != 'Mn')
-
-def obter_chave(termo_a, termo_b):
-    termos = sorted([normalizar_termo(termo_a), normalizar_termo(termo_b)])
-    return f"{termos[0]}|{termos[1]}"
+def normalizar_termo(texto):
+    """Remove acentos, espaços extras e deixa tudo maiúsculo."""
+    if not isinstance(texto, str): return ""
+    texto = unicodedata.normalize('NFKD', str(texto)).encode('ASCII', 'ignore').decode('utf-8')
+    return texto.strip().upper()
 
 def carregar_memoria():
-    # Se o arquivo não existe, cria a estrutura do zero
-    if not os.path.exists(FICHEIRO_MEMORIA):
-        return {"fornecedores": {}, "global": {}}
-        
-    # Se o arquivo existe, tenta ler
-    with open(FICHEIRO_MEMORIA, 'r', encoding='utf-8') as f:
-        try:
-            memoria = json.load(f)
-        except json.JSONDecodeError:
-            # Se o arquivo estiver corrompido ou vazio, reseta a memória
-            memoria = {}
+    if os.path.exists(ARQUIVO_MEMORIA):
+        with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
 
-    # --- TRAVA DE SEGURANÇA (BLINDAGEM DE ESTRUTURA) ---
-    # Garante que as chaves principais sempre existam, independente do que veio do JSON
-    if "fornecedores" not in memoria:
-        memoria["fornecedores"] = {}
-    if "global" not in memoria:
-        memoria["global"] = {}
-        
-    return memoria
+def salvar_memoria(dados):
+    with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as f:
+        json.dump(dados, f, indent=4)
 
-def salvar_memoria(memoria):
-    with open(FICHEIRO_MEMORIA, 'w', encoding='utf-8') as f:
-        json.dump(memoria, f, indent=4, ensure_ascii=False)
+def consultar_memoria(coluna_excel, conceito_visual, fornecedor):
+    """Retorna o bônus/penalidade do histórico."""
+    memoria = carregar_memoria()
+    fornecedor_norm = normalizar_termo(fornecedor)
+    col_norm = normalizar_termo(coluna_excel)
+    
+    if fornecedor_norm in memoria:
+        if col_norm in memoria[fornecedor_norm]:
+            historico = memoria[fornecedor_norm][col_norm]
+            if historico.get("conceito_aprovado") == conceito_visual:
+                # Se no passado aprovaram isso, ganha bônus de +20 pontos
+                return 20.0 
+            elif historico.get("conceito_rejeitado") == conceito_visual:
+                # Se no passado rejeitaram isso, toma penalidade de -30 pontos
+                return -30.0
+    return 0.0
 
-def consultar_memoria(coluna_excel, conceito_erp, fornecedor):
+def registrar_feedback(coluna_excel, conceito_escolhido, lista_conceitos, fornecedor):
     """
-    Retorna o bônus histórico somando a experiência do Fornecedor + Experiência Global.
+    Quando o usuário clica em 'Salvar Perfil', gravamos a decisão num JSON físico.
     """
     memoria = carregar_memoria()
-    chave = obter_chave(coluna_excel, conceito_erp)
+    fornecedor_norm = normalizar_termo(fornecedor)
+    col_norm = normalizar_termo(coluna_excel)
     
-    bonus_local = 0
-    bonus_global = 0
+    if fornecedor_norm not in memoria:
+        memoria[fornecedor_norm] = {}
+        
+    # Salva a decisão positiva (O que o usuário escolheu)
+    memoria[fornecedor_norm][col_norm] = {
+        "conceito_aprovado": conceito_escolhido,
+        # Poderíamos guardar o rejeitado se a IA tivesse sugerido algo diferente do que o usuário escolheu,
+        # mas para manter simples, cravamos a aprovação como a verdade absoluta.
+    }
     
-    # 1. Consulta o Perfil Específico
-    if fornecedor in memoria.get("fornecedores", {}) and chave in memoria["fornecedores"][fornecedor]:
-        stats = memoria["fornecedores"][fornecedor][chave]
-        # Cada acerto vale +15%, cada erro (punição) tira -10%
-        bonus_local = (stats.get("acertos", 0) * 15.0) - (stats.get("erros", 0) * 10.0)
-        
-    # 2. Consulta o Cérebro Global (Transfer Learning)
-    if chave in memoria.get("global", {}):
-        stats_globais = memoria["global"][chave]
-        # O global dá um "empurrãozinho" de +5% por cada vez que qualquer fornecedor usou isso
-        bonus_global = stats_globais.get("acertos", 0) * 5.0
-        
-    # O bônus nunca pode ser negativo na soma final (no pior dos casos, é 0)
-    bonus_final = max(bonus_local + bonus_global, 0.0)
-    
-    return min(bonus_final, 100.0)
-
-def registrar_feedback(coluna_excel, conceito_escolhido, lista_conceitos_erp, fornecedor):
-    """
-    A Mágica do Aprendizado: Premia a escolha certa e PUNE todas as outras opções que a IA sugeriu.
-    """
-    memoria = carregar_memoria()
-    
-    # Garante a existência do fornecedor específico na memória
-    if fornecedor not in memoria["fornecedores"]:
-        memoria["fornecedores"][fornecedor] = {}
-        
-    for conceito in lista_conceitos_erp:
-        if conceito == "🗑️ Ignorar / Não Importa": continue
-        
-        chave = obter_chave(coluna_excel, conceito)
-        
-        # Garante que as estruturas da chave existem
-        if chave not in memoria["fornecedores"][fornecedor]:
-            memoria["fornecedores"][fornecedor][chave] = {"acertos": 0, "erros": 0}
-        if chave not in memoria["global"]:
-            memoria["global"][chave] = {"acertos": 0, "erros": 0}
-            
-        if conceito == conceito_escolhido:
-            # PREMIAÇÃO (O usuário escolheu este)
-            memoria["fornecedores"][fornecedor][chave]["acertos"] += 1
-            memoria["global"][chave]["acertos"] += 1
-        else:
-            # PUNIÇÃO (O usuário rejeitou este conceito para esta coluna)
-            memoria["fornecedores"][fornecedor][chave]["erros"] += 1
-            # Não punimos o global para não estragar a regra de outros fornecedores
-            
     salvar_memoria(memoria)
