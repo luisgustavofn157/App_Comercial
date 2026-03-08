@@ -21,8 +21,8 @@
             "PENALIZACAO_IGNORAR": 0.0
         },
         "PRECO_BRUTO_SEM_IPI": {
-            "PRECO_BASE": 0.0,
-            "PENALIZACAO_IGNORAR": -40.0
+            "PRECO_BASE": 40.0,
+            "PENALIZACAO_IGNORAR": 0.0
         },
         "PRECO_BRUTO_IPI": {
             "IGNORAR": 0.0,
@@ -112,8 +112,8 @@
             "PENALIZACAO_IGNORAR": -60.0
         },
         "ORIGEM_CST": {
-            "CST": 40.0,
-            "PENALIZACAO_IGNORAR": 0.0
+            "CST": 0.0,
+            "PENALIZACAO_IGNORAR": -60.0
         },
         "R_BRUTO_ESTADO_SP": {
             "PRECO_BASE": 40.0,

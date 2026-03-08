@@ -3,21 +3,29 @@ import pandas as pd
 import numpy as np
 
 def extrair_valor_numerico(valor):
-    """Função ultrarrápida para limpar strings de moeda e transformar em float."""
+    """Função inteligente para limpar strings de moeda em BR ou US format."""
     if pd.isna(valor): return np.nan
     v = str(valor).strip()
     
     eh_negativo = v.startswith('-') or v.endswith('-') or ('(' in v and ')' in v) 
     
-    if ',' in v and '.' in v:
-        v = v.replace('.', '').replace(',', '.')
-    elif ',' in v:
-        v = v.replace(',', '.')
-        
-    v = re.sub(r'[^\d.]', '', v)
+    # Mantém apenas números, ponto e vírgula
+    v_clean = re.sub(r'[^\d.,]', '', v)
+    if not v_clean: return np.nan
     
+    # Descobre quem é o separador decimal olhando para a ÚLTIMA ocorrência
+    last_comma = v_clean.rfind(',')
+    last_dot = v_clean.rfind('.')
+    
+    if last_comma > last_dot:
+        # Formato BR: 1.000,50 ou 1000,50
+        v_clean = v_clean.replace('.', '').replace(',', '.')
+    elif last_dot > last_comma:
+        # Formato US: 1,000.50 ou 1000.50
+        v_clean = v_clean.replace(',', '')
+        
     try: 
-        numero = float(v)
+        numero = float(v_clean)
         return -numero if eh_negativo else numero
     except: 
         return np.nan
@@ -33,7 +41,7 @@ def avaliar_financeiro(serie_dados, conceito_erp):
     if serie_dados is None or serie_dados.dropna().empty:
         return 0.0, True
 
-    amostra_bruta = serie_dados.dropna().astype(str).head(30)
+    amostra_bruta = serie_dados.dropna().astype(str).head(50)
     serie_numerica = amostra_bruta.apply(extrair_valor_numerico).dropna()
     total_amostra = len(serie_numerica)
     
@@ -41,18 +49,18 @@ def avaliar_financeiro(serie_dados, conceito_erp):
         return 0.0, True
 
     # ==========================================
-    # 🛡️ ESCUDO ANTI-NEGATIVOS
+    # 🛡️ ESCUDO ANTI-NEGATIVOS E ANTI-ZEROS
     # ==========================================
     qtd_negativos = (serie_numerica < 0).sum()
-    if qtd_negativos > 0:
-        taxa_negativos = qtd_negativos / total_amostra
-        if taxa_negativos > 0.1: # Tolerância caiu para 10%. Preço comercial não é negativo.
-            return 0.0, True
-        else:
-            return 0.0, False # Zera a nota, mas não veta (pode ser um erro de digitação isolado)
-
-    # Métricas da coluna
+    if (qtd_negativos / total_amostra) > 0.1:
+        return 0.0, True
+        
+    # Métricas estatísticas poderosas
     media_atual = serie_numerica.mean()
+    maximo = serie_numerica.max()
+    qtd_unicos = serie_numerica.nunique()
+    proporcao_unicos = qtd_unicos / total_amostra
+
     tem_cifrao = amostra_bruta.str.contains(r'R\$|\$', regex=True, flags=re.IGNORECASE).any()
     tem_porcentagem = amostra_bruta.str.contains('%').any()
 
@@ -60,37 +68,32 @@ def avaliar_financeiro(serie_dados, conceito_erp):
     # 1. OS PREÇOS (Base, Promo, Secundário)
     # ==========================================
     if conceito_erp in ["PRECO_BASE", "PRECO_PROMO", "PRECO_SECUNDARIO"]:
-        # Regra de Ouro: Preço tem que ser maior que zero
         if media_atual <= 0:
             return 0.0, True
 
-        acertos_casas_decimais = 0
-        for v_str in amostra_bruta:
-            # Conta quantas casas decimais tem após a vírgula/ponto
-            if ',' in v_str or '.' in v_str:
-                partes = v_str.replace(',', '.').split('.')
-                if len(partes) == 2 and len(partes[1].strip()) in [2, 4]:
-                    acertos_casas_decimais += 1
+        # Veto Cruzado: Se tem %, NUNCA será preço. É imposto ou desconto.
+        if tem_porcentagem:
+            return 0.0, True
 
+        # NOVA REGRA DE CASAS DECIMAIS: Usa Regex para não ser enganado pelos milhares
+        # Procura um ponto ou vírgula seguido de exatamente 2 ou 4 números no final da string
+        acertos_casas_decimais = amostra_bruta.str.contains(r'[.,]\d{2,4}\b', regex=True).sum()
         taxa_decimais = acertos_casas_decimais / total_amostra
 
-        # Pontuação Base (Cara de dinheiro)
+        # Bônus de Existência: Se chegou até aqui vivo e é positivo, tem alguma chance de ser preço
+        nota_dna += 15.0
+
         if tem_cifrao: 
-            nota_dna += 50.0 # Se tem R$, é dinheiro (Preço) com certeza!
+            nota_dna += 50.0 
         
         if taxa_decimais >= 0.8: 
-            nota_dna += 30.0 # Bônus: Formatação contábil perfeita (ex: 15,00)
+            nota_dna += 30.0 
         elif taxa_decimais >= 0.4:
             nota_dna += 15.0 
-
-        # Se for um número solto (ex: "15"), ganha uma nota média. 
-        # O Árbitro e o Lexical (Título da Coluna) vão ter que confirmar depois.
-        
-        # Sem cifrao, sem formatação contábil = não tenho evidência suficiente
-        # Deixa nota_dna = 0.0 e deixa o Árbitro decidir com mais contexto
-
-        # O Especialista NÃO tenta adivinhar quem é o Base ou Promo aqui. 
-        # Ele dá a MESMA nota para os três conceitos, garantindo que eles cheguem vivos no Árbitro.
+            
+        # O Pulo do Gato (Variância): Preços têm muitos valores diferentes. Descontos se repetem muito.
+        if proporcao_unicos >= 0.5:
+            nota_dna += 20.0
 
     # ==========================================
     # 2. OS DESCONTOS E POLÍTICAS (%)
@@ -99,14 +102,23 @@ def avaliar_financeiro(serie_dados, conceito_erp):
         if media_atual < 0:
             return 0.0, True
             
-        # Desconto em 99% das vezes é uma taxa entre 0% e 100%
-        if 0 <= media_atual <= 100:
-            nota_dna += 30.0
+        # Veto Cruzado: Se tem R$, é preço.
+        if tem_cifrao:
+            return 0.0, True
+            
+        # Desconto na Rede Âncora em 99% das vezes é taxa percentual entre 0 e 100
+        if 0 <= maximo <= 100:
+            
             if tem_porcentagem:
-                nota_dna += 50.0 # Certeza quase absoluta
+                nota_dna += 60.0 # Certeza quase absoluta!
+            else:
+                nota_dna += 15.0 # Bônus de Existência (números pequenos)
+            
+            # O Pulo do Gato Inverso (Variância): Descontos se repetem muito! (ex: tudo 5%, tudo 10%)
+            # Se tiver muita repetição, ganha bônus de Desconto
+            if proporcao_unicos < 0.3:
+                nota_dna += 20.0
         else:
-            # Se a média for 1500, não é desconto, é preço.
             veto_absoluto = True
 
-    # Limita a nota ao teto máximo de Semântica (100)
     return min(100.0, nota_dna), veto_absoluto

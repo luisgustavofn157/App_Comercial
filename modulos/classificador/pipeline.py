@@ -59,7 +59,7 @@ def avaliar_coluna_fase1(coluna_excel, lista_conceitos_erp, fornecedor, df_amost
         if veto_absoluto:
             continue # Se tomou veto, nem entra no boletim
             
-        nota_ia_pura = (nota_lexica * 0.35) + (nota_dna * 0.65)
+        nota_ia_pura = (nota_lexica * 0.40) + (nota_dna * 0.60)
         pontuacao_bruta = nota_ia_pura + nota_memoria
         confianca_final = min(max(pontuacao_bruta, 0.0), 100.0)
         

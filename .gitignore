@@ -1,6 +1,7 @@
 # Ignorar arquivos de ambiente
 .env
 *.env
+.streamlit
 
 # Ignorar o ambiente virtual
 venv/
