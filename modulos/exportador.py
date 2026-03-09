@@ -75,18 +75,18 @@ def exportar_lista_limpa(df_principal, df_excluidos):
         # Aba 1: Lista Consolidada
         df_principal.to_excel(writer, sheet_name='Lista_Consolidada', index=False)
         worksheet1 = writer.sheets['Lista_Consolidada']
-        aplicar_estilo_ancora(worksheet1, df_principal)
+        aplicar_estilo_basico(worksheet1, df_principal)
         
         # Aba 2: Lixo / Excluídos
         if not df_excluidos.empty:
             df_excluidos.to_excel(writer, sheet_name='Excluidos_Automaticamente', index=False)
             worksheet2 = writer.sheets['Excluidos_Automaticamente']
-            aplicar_estilo_ancora(worksheet2, df_excluidos)
+            aplicar_estilo_basico(worksheet2, df_excluidos)
         else:
             df_vazio = pd.DataFrame([{"Mensagem": "Nenhuma linha precisou ser excluída automaticamente."}])
             df_vazio.to_excel(writer, sheet_name='Excluidos_Automaticamente', index=False)
             worksheet2 = writer.sheets['Excluidos_Automaticamente']
-            aplicar_estilo_ancora(worksheet2, df_vazio)
+            aplicar_estilo_basico(worksheet2, df_vazio)
             
     return output.getvalue()
 

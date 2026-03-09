@@ -193,12 +193,13 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     dados_ui.append({
                         "Coluna Original": str(col),
                         "Confiança": nota_final,
-                        "Destino (ERP)": match,
+                        "Tipo de Dado": match,
                         "Amostra dos Dados": " | ".join(amostra) if amostra else "(Vazia)"
                     })
                 st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
 
-            st.markdown(f"#### ⚙️ Definir Colunas - Perfil: `{st.session_state.fornecedor_selecionado}`")
+            st.markdown(f"#### ⚙️ Perfil Selecionado: `{st.session_state.fornecedor_selecionado}`")
+            st.write("O sistema já identificou algumas colunas, revise e corrija se necessário")
 
             altura_dinamica = (len(st.session_state.df_mapeamento_ui) * 35) + 42
 
@@ -211,7 +212,7 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 column_config={
                     "Coluna Original": st.column_config.TextColumn("Coluna Original", width="medium"),
                     "Confiança": st.column_config.ProgressColumn("Confiança", format="%d%%", min_value=0, max_value=100, width="small"),
-                    "Destino (ERP)": st.column_config.SelectboxColumn("Destino (ERP)", options=NOMES_VISUAIS_ERP, required=True, width="medium"),
+                    "Tipo de Dado": st.column_config.SelectboxColumn("Tipo de Dado", options=NOMES_VISUAIS_ERP, required=True, width="medium"),
                     "Amostra dos Dados": st.column_config.TextColumn("Amostra (3 linhas)")
                 },
                 key="editor_mapeamento"
@@ -220,8 +221,8 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             houve_alteracao_dropdown = False
             for i in range(len(df_editado)):
                 col_excel = df_editado.at[i, "Coluna Original"]
-                novo_mapeamento = df_editado.at[i, "Destino (ERP)"]
-                mapeamento_antigo = st.session_state.df_mapeamento_ui.at[i, "Destino (ERP)"]
+                novo_mapeamento = df_editado.at[i, "Tipo de Dado"]
+                mapeamento_antigo = st.session_state.df_mapeamento_ui.at[i, "Tipo de Dado"]
 
                 if novo_mapeamento != mapeamento_antigo:
                     if novo_mapeamento == DICIONARIO_ERP["IGNORAR"]:
@@ -239,7 +240,7 @@ if st.session_state.pagina_atual == "Fluxo Principal":
             st.session_state.df_mapeamento_ui = df_editado.copy()
             if houve_alteracao_dropdown: st.rerun()
 
-            mapeamento_atualizado = dict(zip(df_editado["Coluna Original"], df_editado["Destino (ERP)"]))
+            mapeamento_atualizado = dict(zip(df_editado["Coluna Original"], df_editado["Tipo de Dado"]))
             st.session_state.mapeamento_temporario = mapeamento_atualizado
             
             escolhas = [v for v in mapeamento_atualizado.values() if v != DICIONARIO_ERP["IGNORAR"]]
@@ -328,34 +329,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     
                     st.session_state.etapa_fluxo = 4
                     st.rerun()
-
-            # # 6. O DATAFRAME REAL (VISUALIZADOR VIVO)
-            # st.divider()
-            # st.markdown("#### 📄 Visualização Real da Planilha")
-            # st.caption("Esta é a base de dados exata que será enviada para a próxima etapa (colunas ignoradas estão ocultas).")
-            
-            # colunas_para_ocultar = [col for col, destino in mapeamento_atualizado.items() if destino == DICIONARIO_ERP["IGNORAR"]]
-            # df_visualizacao = st.session_state.df_bruto_consolidado.drop(
-            #     columns=[c for c in colunas_para_ocultar if c in st.session_state.df_bruto_consolidado.columns]
-            # )
-            
-            # colunas_uteis_temp = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
-            
-            # contagens_vis = {}
-            # for destino in colunas_uteis_temp.values():
-            #     contagens_vis[destino] = contagens_vis.get(destino, 0) + 1
-                
-            # renomeio_vis = {}
-            # ocorrencias_vis = {}
-            # for col_excel, destino in colunas_uteis_temp.items():
-            #     if contagens_vis[destino] > 1:
-            #         ocorrencias_vis[destino] = ocorrencias_vis.get(destino, 0) + 1
-            #         renomeio_vis[col_excel] = f"{destino} ({ocorrencias_vis[destino]})"
-            #     else:
-            #         renomeio_vis[col_excel] = destino
-            
-            # df_visualizacao = df_visualizacao.rename(columns=renomeio_vis)
-            # st.dataframe(df_visualizacao.head(9), width="stretch")
 
     # ETAPA 4: TRATAR LINHAS E HUMAN-IN-THE-LOOP
     elif st.session_state.etapa_fluxo == 4:
