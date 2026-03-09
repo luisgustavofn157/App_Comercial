@@ -3,10 +3,8 @@ import os
 import unicodedata
 from configuracoes.config_erp import REVERSO_ERP, DICIONARIO_ERP
 
-# 1. Atualizamos a variável para apontar para a pasta correta usando os.path.join
-# Isso garante que vai funcionar tanto no Windows (onde se usa \) quanto no Linux/Nuvem (onde se usa /)
 PASTA_MEMORIA = "memoria"
-ARQUIVO_MEMORIA = os.path.join(PASTA_MEMORIA, "banco_memoria.json")
+ARQUIVO_MEMORIA = os.path.join(PASTA_MEMORIA, "memoria_coluna_por_perfil.json")
 
 def obter_perfis_salvos():
     """Lê o banco de memória e retorna a lista de fornecedores já mapeados."""
