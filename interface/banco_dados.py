@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import urllib
-import time # <-- NOVA IMPORTAÇÃO PARA O CRONÔMETRO
+import time
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError, ProgrammingError
 from biblioteca_sql import BIBLIOTECA_SQL
@@ -164,22 +164,38 @@ if vai_executar:
             except ValueError as ve:
                 st.error("🛡️ Ação não permitida")
                 st.warning(str(ve))
+                
             except ProgrammingError as pe:
                 st.error("❌ Erro de Sintaxe SQL")
-                st.warning("Verifique se o nome da tabela ou colunas estão corretos.")
-                with st.expander("Ver Detalhes"): st.code(str(pe))
+                st.warning("O banco de dados não entendeu o comando. Verifique se o nome da tabela ou das colunas estão corretos.")
+                with st.expander("Ver Detalhes Técnicos (Para Analistas)"):
+                    st.code(str(pe))
+                    
             except OperationalError as oe:
                 erro_str = str(oe)
                 if "08001" in erro_str or "08S01" in erro_str:
-                    st.error("🔌 Falha de Conexão. Verifique a VPN.")
+                    st.error("🔌 Falha de Conexão com o Servidor (Tempo Excedido)")
+                    st.info("""
+                    **O que fazer:**
+                    1. Verifique se sua internet está funcionando.
+                    2. Se não estiver no escritório, verifique se a sua **VPN** está conectada.
+                    3. Se a internet e a VPN estiverem OK, o acesso ao banco do Benner pode estar com problemas, acione o TI.
+                    """)
                 elif "28000" in erro_str or "Login failed" in erro_str:
-                    st.error("🔐 Acesso Negado. Verifique usuário/senha.")
+                    st.error("🔐 Acesso Negado (Autenticação Falhou)")
+                    st.info("""
+                    **O que fazer:**
+                    1. Solicite ao TI que a sua máquina seja colocada no domínio da empresa.
+                    """)
                 else:
-                    st.error("⚠️ Erro Operacional.")
-                    with st.expander("Ver Detalhes"): st.code(erro_str)
+                    st.error("⚠️ Erro Operacional de Banco de Dados")
+                    with st.expander("Ver Detalhes Técnicos"):
+                        st.code(erro_str)
+                        
             except Exception as e:
                 st.error("🚨 Erro Inesperado na Execução")
-                with st.expander("Ver Detalhes"): st.code(str(e))
+                with st.expander("Ver Detalhes Técnicos"):
+                    st.code(str(e))
 
 # ==========================================
 # VISUALIZAÇÃO NA TELA

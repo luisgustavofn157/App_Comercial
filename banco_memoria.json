@@ -127,5 +127,41 @@
             "PRECO_SECUNDARIO": 40.0,
             "PENALIZACAO_IGNORAR": 0.0
         }
+    },
+    "ORI": {
+        "COD_ORI": {
+            "SKU": 20.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "NUMERO_ORIGINAL": {
+            "PENALIZACAO_IGNORAR": -40.0
+        },
+        "DESCRICAO": {
+            "DESCRICAO": 20.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "PRECO_BRUTO": {
+            "PRECO_BASE": 20.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "IPI": {
+            "IPI": 20.0,
+            "PENALIZACAO_IGNORAR": 0.0
+        },
+        "IPI1": {
+            "PENALIZACAO_IGNORAR": -40.0
+        },
+        "IPI2": {
+            "PENALIZACAO_IGNORAR": -40.0
+        },
+        "LANC": {
+            "PENALIZACAO_IGNORAR": -40.0
+        },
+        "COD_UNI": {
+            "PENALIZACAO_IGNORAR": -40.0
+        },
+        "COD_UNI1": {
+            "PENALIZACAO_IGNORAR": -40.0
+        }
     }
 }

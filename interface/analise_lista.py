@@ -6,8 +6,10 @@ from modulos.consolidador import consolidar_dataframes
 from config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
 from modulos.classificador.pipeline import classificar_dataset_completo, avaliar_coluna_fase1
 from modulos.classificador.aprendizado import registrar_feedback, obter_perfis_salvos
-from modulos.exportador import exportar_excel_simples, exportar_excel_com_abas
-from modulos.validador_comercial import aplicar_filtro_morte, higienizar_dados, processar_validacoes
+from modulos.exportador import exportar_devolutiva_erros, exportar_lista_limpa
+from modulos.validador_comercial import aplicar_filtro_morte, higienizar_dados
+from modulos.novo_validador_comercial import processar_validacoes
+
 
 # ==========================================
 # 🛠️ MODO DESENVOLVEDOR (CHAVES DE DEBUG)
@@ -45,7 +47,8 @@ def resetar_fluxo():
     st.session_state.decisoes_usuario = {}
     st.session_state.fornecedor_selecionado = ""
     st.session_state.checkpoints = {}
-    for k in ["df_bruto_consolidado", "mapeamento_temporario", "df_mapeamento_ui", "df_limpo", "df_aprovados", "df_rejeitados"]:
+    for k in ["df_bruto_consolidado", "mapeamento_temporario", "df_mapeamento_ui", "df_limpo", 
+              "df_aprovados", "df_rejeitados", "df_conflitos", "df_conflitos_ui", "auditoria_concluida"]:
         if k in st.session_state: del st.session_state[k]
     st.rerun()
 
@@ -93,7 +96,7 @@ with st.sidebar:
             
         if tem_criticas:
             # Reutiliza a função de exportação simples para gerar o arquivo na hora se precisar
-            excel_devolutiva = exportar_excel_simples(st.session_state.df_rejeitados)
+            excel_devolutiva = exportar_devolutiva_erros(st.session_state.df_rejeitados)
             st.download_button(
                 label="🚨 Baixar Lista com Críticas",
                 data=excel_devolutiva,
@@ -196,7 +199,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                 st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
 
             st.markdown(f"#### ⚙️ Definir Colunas - Perfil: `{st.session_state.fornecedor_selecionado}`")
-            # A legenda de emojis foi removida para manter o visual limpo!
 
             altura_dinamica = (len(st.session_state.df_mapeamento_ui) * 35) + 42
 
@@ -225,7 +227,6 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     if novo_mapeamento == DICIONARIO_ERP["IGNORAR"]:
                         nova_nota_final = None
                     else:
-                        # MUDANÇA: Tire o df_completo.head(10) e mande o df_completo inteiro
                         boletim = avaliar_coluna_fase1(col_excel, [novo_mapeamento], st.session_state.fornecedor_selecionado, df_completo)
                         if boletim:
                             nova_nota_final = boletim[0]["nota"]
@@ -276,14 +277,10 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                                 col_mestra = cols_conflito[0]
                                 for col_sec in cols_conflito[1:]:
                                     
-                                    # 🧠 NOVO: A INJEÇÃO DE MEMÓRIA INSTANTÂNEA!
-                                    # Antes de destruir a coluna secundária, nós a ensinamos para a IA.
                                     registrar_feedback(col_sec, DICIONARIO_ERP[d], st.session_state.fornecedor_selecionado)
                                     
-                                    # Mescla os dados preenchendo os buracos (NaNs) da coluna mestra
                                     st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
                                     
-                                    # Destrói a coluna secundária do DataFrame original e da Interface
                                     st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
                                     st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original"] != col_sec]
                                     
@@ -302,7 +299,7 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     col_sku_mapeada = next((k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["SKU"]), None)
                     df_vivos, df_lixo = aplicar_filtro_morte(st.session_state.df_bruto_consolidado, col_sku_mapeada)
                     
-                    excel_bytes = exportar_excel_com_abas(df_vivos, df_lixo)
+                    excel_bytes = exportar_lista_limpa(df_vivos, df_lixo)
                     st.session_state.checkpoints["lista_limpa"] = excel_bytes
                     
                     # 3. O Motor Interno do ERP
@@ -332,95 +329,136 @@ if st.session_state.pagina_atual == "Fluxo Principal":
                     st.session_state.etapa_fluxo = 4
                     st.rerun()
 
-            # 6. O DATAFRAME REAL (VISUALIZADOR VIVO)
-            st.divider()
-            st.markdown("#### 📄 Visualização Real da Planilha")
-            st.caption("Esta é a base de dados exata que será enviada para a próxima etapa (colunas ignoradas estão ocultas).")
+            # # 6. O DATAFRAME REAL (VISUALIZADOR VIVO)
+            # st.divider()
+            # st.markdown("#### 📄 Visualização Real da Planilha")
+            # st.caption("Esta é a base de dados exata que será enviada para a próxima etapa (colunas ignoradas estão ocultas).")
             
-            colunas_para_ocultar = [col for col, destino in mapeamento_atualizado.items() if destino == DICIONARIO_ERP["IGNORAR"]]
-            df_visualizacao = st.session_state.df_bruto_consolidado.drop(
-                columns=[c for c in colunas_para_ocultar if c in st.session_state.df_bruto_consolidado.columns]
-            )
+            # colunas_para_ocultar = [col for col, destino in mapeamento_atualizado.items() if destino == DICIONARIO_ERP["IGNORAR"]]
+            # df_visualizacao = st.session_state.df_bruto_consolidado.drop(
+            #     columns=[c for c in colunas_para_ocultar if c in st.session_state.df_bruto_consolidado.columns]
+            # )
             
-            colunas_uteis_temp = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
+            # colunas_uteis_temp = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
             
-            contagens_vis = {}
-            for destino in colunas_uteis_temp.values():
-                contagens_vis[destino] = contagens_vis.get(destino, 0) + 1
+            # contagens_vis = {}
+            # for destino in colunas_uteis_temp.values():
+            #     contagens_vis[destino] = contagens_vis.get(destino, 0) + 1
                 
-            renomeio_vis = {}
-            ocorrencias_vis = {}
-            for col_excel, destino in colunas_uteis_temp.items():
-                if contagens_vis[destino] > 1:
-                    ocorrencias_vis[destino] = ocorrencias_vis.get(destino, 0) + 1
-                    renomeio_vis[col_excel] = f"{destino} ({ocorrencias_vis[destino]})"
-                else:
-                    renomeio_vis[col_excel] = destino
+            # renomeio_vis = {}
+            # ocorrencias_vis = {}
+            # for col_excel, destino in colunas_uteis_temp.items():
+            #     if contagens_vis[destino] > 1:
+            #         ocorrencias_vis[destino] = ocorrencias_vis.get(destino, 0) + 1
+            #         renomeio_vis[col_excel] = f"{destino} ({ocorrencias_vis[destino]})"
+            #     else:
+            #         renomeio_vis[col_excel] = destino
             
-            df_visualizacao = df_visualizacao.rename(columns=renomeio_vis)
-            st.dataframe(df_visualizacao.head(9), width="stretch")
+            # df_visualizacao = df_visualizacao.rename(columns=renomeio_vis)
+            # st.dataframe(df_visualizacao.head(9), width="stretch")
 
-    # ETAPA 4: TRATAR LINHAS
+    # ETAPA 4: TRATAR LINHAS E HUMAN-IN-THE-LOOP
     elif st.session_state.etapa_fluxo == 4:
         st.header("🕵️ Passo 4: Auditoria e Validação Comercial")
-        st.write("Aplicando regras de higienização e validação aos dados mapeados...")
+        st.write("O Motor de Inteligência aplicou as regras de negócio da Rede Âncora.")
         
+        # Roda o motor uma única vez garantindo que a base é checada
         if "df_aprovados" not in st.session_state:
-            df_aprovados, df_rejeitados = processar_validacoes(st.session_state.df_limpo)
-            st.session_state.df_aprovados = df_aprovados
-            st.session_state.df_rejeitados = df_rejeitados
+            df_ap, df_rej, df_conf = processar_validacoes(st.session_state.df_limpo, st.session_state.mapeamento_oficial)
+            st.session_state.df_aprovados = df_ap
+            st.session_state.df_rejeitados = df_rej
+            st.session_state.df_conflitos = df_conf
+            
+            # Prepara a tabela do purgatório com uma coluna de Checkbox sem afetar o dado original
+            df_conf_ui = df_conf.copy()
+            if not df_conf_ui.empty:
+                df_conf_ui.insert(0, "Aprovar Linha", False)
+            st.session_state.df_conflitos_ui = df_conf_ui
+            
+            st.session_state.auditoria_concluida = True
 
         df_aprovados = st.session_state.df_aprovados
         df_rejeitados = st.session_state.df_rejeitados
-        
+        df_conflitos = st.session_state.df_conflitos
+
+        # 📊 1. PAINEL DE MÉTRICAS (Resumo da Faxina)
         total_linhas = len(st.session_state.df_limpo)
-        linhas_erro = len(df_rejeitados)
         linhas_ok = len(df_aprovados)
+        linhas_erro = len(df_rejeitados)
+        linhas_conflito = len(df_conflitos)
         taxa = (linhas_ok / total_linhas) * 100 if total_linhas > 0 else 0
 
-        c1, c2, c3 = st.columns(3)
-        c1.metric("📦 Total de Produtos", total_linhas)
-        c2.metric("✅ Prontos para Variação", linhas_ok)
-        c3.metric("🚨 Com Críticas", linhas_erro, delta=f"{taxa:.1f}% de Aceitação", delta_color="off")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("📦 Linhas Iniciais", total_linhas)
+        c2.metric("✅ Validadas 100%", linhas_ok, delta=f"{taxa:.1f}% Retenção", delta_color="normal")
+        c3.metric("🚨 Quarentena (Erros)", linhas_erro, delta="- Remoção Automática", delta_color="off")
+        c4.metric("⚖️ Purgatório (Conflitos)", linhas_conflito, delta="Ação Necessária", delta_color="inverse" if linhas_conflito > 0 else "off")
         
         st.divider()
 
-        if df_rejeitados.empty:
-            st.success("🎉 Sensacional! Todos os dados estão higienizados e validados com 100% de precisão.")
-            col_vazia, col_btn = st.columns([3, 1])
-            with col_btn:
-                if st.button("Avançar para Variação ➡️", type="primary", use_container_width=True):
-                    st.session_state.etapa_fluxo = 5
-                    st.rerun()
-        else:
-            st.error("🚨 **HARD STOP: Foram encontradas inconsistências na lista do Fornecedor.**")
-            st.write("O sistema bloqueou a integração. É necessário baixar o relatório de críticas e devolvê-lo ao fornecedor para correção na fonte.")
+        # ⚖️ 2. O PURGATÓRIO (Human-in-the-Loop)
+        if linhas_conflito > 0:
+            st.warning("⚠️ **ATENÇÃO: Informações Conflitantes!** O fornecedor enviou o mesmo código de produto mais de uma vez com dados diferentes (ex: preços diferentes).")
+            st.write("Decida abaixo qual linha é a verdadeira marcando a caixa **'Aprovar Linha'**. As que sobrarem serão rejeitadas.")
             
-            st.dataframe(df_rejeitados.head(50), width="stretch", hide_index=True)
+            # O Data Editor Mágico do Streamlit
+            df_editado = st.data_editor(
+                st.session_state.df_conflitos_ui,
+                column_config={"Aprovar Linha": st.column_config.CheckboxColumn("✅ Aprovar", default=False)},
+                disabled=list(df_conflitos.columns), # Bloqueia edição de dados de forma segura (como lista)
+                hide_index=True,
+                use_container_width=True
+            )
             
-            excel_devolutiva = exportar_excel_simples(df_rejeitados)
-            
-            col_down, col_reiniciar = st.columns([1, 1])
-            with col_down:
+            # Salva a decisão do usuário em tempo real
+            st.session_state.df_conflitos_ui = df_editado
+
+        # 🚨 3. A DEVOLUTIVA DE ERROS (Quarentena)
+        if linhas_erro > 0:
+            with st.expander(f"📥 Ver Itens em Quarentena (Total: {linhas_erro})", expanded=False):
+                st.error("Estes itens violaram regras de negócio (sem preço, CST inexistente, NCM corrompido) e foram removidos automaticamente.")
+                st.dataframe(df_rejeitados.head(50), use_container_width=True)
+                
+                excel_devolutiva = exportar_devolutiva_erros(df_rejeitados)
                 st.download_button(
-                    label="📥 Baixar Devolutiva (.XLSX)",
+                    label="Baixar Planilha de Devolutiva (.XLSX)",
                     data=excel_devolutiva,
                     file_name=f"02_Devolutiva_Erros_{st.session_state.fornecedor_selecionado}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    use_container_width=True,
                     type="primary"
                 )
-            with col_reiniciar:
-                st.info("Após o fornecedor corrigir a planilha, reinicie o processo.")
-                if st.button("🔄 Reiniciar Importação", use_container_width=True):
-                    resetar_fluxo()
 
         st.divider()
-        if st.button("⬅️ Voltar para Ajustes de Mapeamento"):
-            for k in ["df_aprovados", "df_rejeitados"]:
-                if k in st.session_state: del st.session_state[k]
-            st.session_state.etapa_fluxo = 3
-            st.rerun()
+
+        # 🚀 4. BOTÃO DE AVANÇO (O Fluxo Nunca Para!)
+        st.success("Tudo pronto! A base limpa já pode ser comparada com os preços atuais do ERP.")
+        
+        col_voltar, col_avancar = st.columns([1, 2])
+        
+        with col_voltar:
+            if st.button("⬅️ Voltar"):
+                for k in ["auditoria_concluida", "df_aprovados", "df_rejeitados", "df_conflitos", "df_conflitos_ui"]:
+                    if k in st.session_state: del st.session_state[k]
+                st.session_state.etapa_fluxo = 3
+                st.rerun()
+                
+        with col_avancar:
+            # O pulo do gato: Junta os 100% válidos com os que o usuário marcou no Purgatório!
+            if st.button("Calcular Variações de Preço ➡️", type="primary", use_container_width=True):
+                
+                df_final_para_etapa_5 = df_aprovados.copy()
+                
+                # Se tinha conflito, pega só os aprovados pelo usuário e junta na base de forma segura
+                if linhas_conflito > 0:
+                    salvos_pelo_usuario = st.session_state.df_conflitos_ui[st.session_state.df_conflitos_ui["Aprovar Linha"] == True].copy()
+                    if not salvos_pelo_usuario.empty:
+                        salvos_pelo_usuario = salvos_pelo_usuario.drop(columns=["Aprovar Linha"])
+                        df_final_para_etapa_5 = pd.concat([df_final_para_etapa_5, salvos_pelo_usuario], ignore_index=True)
+                
+                # Guarda a base purificada final para o Motor de Variação
+                st.session_state.df_lista_purificada = df_final_para_etapa_5
+                st.session_state.etapa_fluxo = 5
+                st.rerun()
 
     # ETAPA 5: CALCULAR VARIAÇÃO 
     elif st.session_state.etapa_fluxo == 5:

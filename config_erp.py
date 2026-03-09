@@ -17,7 +17,7 @@ DICIONARIO_ERP = {
     "CST": "Código CST / Origem",
     "DESCRICAO": "Descrição do Produto",
     "LINHA": "Linha do Produto (Leve/Pesada)",
-    "MULTIPLO": "Múltiplo de Venda",
+    "MULTIPLO": "Fração de Compra",
     "EAN": "EAN / Cód. Barras",
     "MARCA": "Marca / Fabricante",
     "CNPJ": "CNPJ"
