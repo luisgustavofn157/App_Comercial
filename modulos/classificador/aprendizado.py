@@ -1,9 +1,12 @@
 import json
 import os
 import unicodedata
-from config_erp import REVERSO_ERP, DICIONARIO_ERP
+from configuracoes.config_erp import REVERSO_ERP, DICIONARIO_ERP
 
-ARQUIVO_MEMORIA = "banco_memoria.json"
+# 1. Atualizamos a variável para apontar para a pasta correta usando os.path.join
+# Isso garante que vai funcionar tanto no Windows (onde se usa \) quanto no Linux/Nuvem (onde se usa /)
+PASTA_MEMORIA = "memoria"
+ARQUIVO_MEMORIA = os.path.join(PASTA_MEMORIA, "banco_memoria.json")
 
 def obter_perfis_salvos():
     """Lê o banco de memória e retorna a lista de fornecedores já mapeados."""
@@ -17,12 +20,17 @@ def normalizar_termo(texto):
     return texto.strip().upper()
 
 def carregar_memoria():
+    # 2. Corrigimos o verificador. Sai 'memoria.exists' e entra 'os.path.exists'
     if os.path.exists(ARQUIVO_MEMORIA):
         with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as f:
             return json.load(f)
     return {}
 
 def salvar_memoria(dados):
+    # 3. Trava de segurança: Se a pasta "memoria" não existir, o Python cria ela antes de salvar
+    if not os.path.exists(PASTA_MEMORIA):
+        os.makedirs(PASTA_MEMORIA)
+        
     with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as f:
         json.dump(dados, f, indent=4, ensure_ascii=False)
 

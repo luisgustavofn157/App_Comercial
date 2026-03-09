@@ -4,7 +4,7 @@ import urllib
 import time
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError, ProgrammingError
-from biblioteca_sql import BIBLIOTECA_SQL
+from memoria.biblioteca_sql import BIBLIOTECA_SQL
 from modulos.exportador import exportar_consulta_sql
 
 # ==========================================

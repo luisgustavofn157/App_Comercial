@@ -1,5 +1,5 @@
 import pandas as pd
-from config_erp import DICIONARIO_ERP
+from configuracoes.config_erp import DICIONARIO_ERP
 
 def processar_validacoes(df_input, mapeamento_oficial):
     """

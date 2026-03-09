@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
-from config_erp import DICIONARIO_ERP
+from configuracoes.config_erp import DICIONARIO_ERP
 
 def limpar_preco_br(valor):
     if pd.isna(valor) or str(valor).strip() == "": return np.nan

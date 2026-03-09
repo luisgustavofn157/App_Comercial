@@ -1,5 +1,5 @@
 # modulos/cerebro/mapeador.py
-from config_erp import DICIONARIO_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
+from configuracoes.config_erp import DICIONARIO_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
 import pandas as pd
 import numpy as np
 

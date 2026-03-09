@@ -1,7 +1,7 @@
 import pandas as pd
 import unicodedata
 import numpy as np
-from config_erp import DICIONARIO_SINONIMOS, CONCEITOS_MULTIPLOS
+from configuracoes.config_erp import DICIONARIO_SINONIMOS, CONCEITOS_MULTIPLOS
 
 # ==========================================
 # AUXILIARES DE SEMÂNTICA DINÂMICA
