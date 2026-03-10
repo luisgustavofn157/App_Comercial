@@ -1,10 +1,10 @@
 import streamlit as st
 from modulos.orquestrador_importacao import processar_arquivos_upload
-from modulos.gerenciador_memoria import obter_marcas_por_perfil, obter_perfis_salvos, atualizar_marcas_do_perfil
+from modulos.gerenciador_memoria import obter_marcas_por_perfil, obter_perfis_salvos, atualizar_marcas_do_perfil, obter_todas_marcas_cadastradas
 
-def obter_todas_marcas_cadastradas():
-    # Mantido intacto. No futuro, isso pode ser movido para o gerenciador também.
-    return ["ZF", "TRW", "LEMFORDER", "BOSCH", "SKIL", "COBREQ", "MONROE", "SABÓ"]
+# def obter_todas_marcas_cadastradas():
+#     # Mantido intacto. No futuro, isso pode ser movido para o gerenciador também.
+#     return ["DS", "VIEMAR"]
 
 def salvar_edicao_callback(perfil, chave_do_widget):
     """Callback executado ANTES da tela recarregar ao clicar em Salvar"""
