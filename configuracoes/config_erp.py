@@ -1,3 +1,10 @@
+from pathlib import Path
+
+DIRETORIO_RAIZ = Path(__file__).resolve().parent.parent
+
+CAMINHO_MEMORIA_MARCAS = DIRETORIO_RAIZ / 'memoria' / 'memoria_marca_por_perfil.json'
+CAMINHO_MEMORIA_COLUNAS = DIRETORIO_RAIZ / 'memoria' / 'memoria_coluna_por_perfil.json'
+
 # ==========================================
 # DICIONÁRIO OFICIAL DO SISTEMA
 # ==========================================
