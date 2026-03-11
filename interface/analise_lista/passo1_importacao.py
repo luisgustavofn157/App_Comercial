@@ -1,10 +1,23 @@
 import streamlit as st
 from modulos.orquestrador_importacao import processar_arquivos_upload
-from modulos.gerenciador_memoria import obter_marcas_por_perfil, obter_perfis_salvos, atualizar_marcas_do_perfil, obter_todas_marcas_cadastradas
+from memoria.gerenciador_memoria import obter_marcas, obter_perfis, atualizar_marcas_do_perfil
 
-# def obter_todas_marcas_cadastradas():
-#     # Mantido intacto. No futuro, isso pode ser movido para o gerenciador também.
-#     return ["DS", "VIEMAR"]
+def obter_todas_marcas_cadastradas():
+    """Busca a lista de marcas direto do banco SQLite local"""
+    # Importe o conectar_banco no topo do arquivo se já não estiver lá
+    from memoria.inicializar_sqlite import conectar_banco 
+    
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    
+    # O ORDER BY garante que a lista apareça em ordem alfabética no Streamlit
+    cursor.execute("SELECT nome_marca FROM tb_marca ORDER BY nome_marca")
+    
+    # Extrai os nomes das marcas e transforma em uma lista do Python
+    marcas = [linha['nome_marca'] for linha in cursor.fetchall()]
+    
+    conn.close()
+    return marcas
 
 def salvar_edicao_callback(perfil, chave_do_widget):
     """Callback executado ANTES da tela recarregar ao clicar em Salvar"""
@@ -23,11 +36,11 @@ def renderizar_passo_1():
     
     col_perfil, col_marca, col_arq = st.columns([1.5, 2, 2])
     
-    todas_marcas_db = obter_todas_marcas_cadastradas()
+    todas_marcas_db = obter_marcas()
     
     # IMPORTANTE: Buscar os perfis DENTRO da função de renderização garante
     # que a lista esteja sempre atualizada se um perfil for criado em outra tela.
-    perfis_existentes = obter_perfis_salvos()
+    perfis_existentes = obter_perfis()
     
     with col_perfil:
         opcoes_perfil = ["Selecione..."] + ["➕ Criar Novo Perfil..."] + perfis_existentes
@@ -60,7 +73,7 @@ def renderizar_passo_1():
             
         # Cenário 3: Perfil já existente
         else:
-            marcas_vinculadas_db = obter_marcas_por_perfil(perfil_escolhido)
+            marcas_vinculadas_db = obter_marcas(perfil_escolhido)
             opcoes_disponiveis = list(set(todas_marcas_db + marcas_vinculadas_db))
             
             # O Toggle

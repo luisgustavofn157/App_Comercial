@@ -2,20 +2,17 @@ import sqlite3
 from pathlib import Path
 import streamlit as st
 
-# Define o caminho absoluto para o banco de dados
 DIRETORIO_RAIZ = Path(__file__).resolve().parent.parent
-CAMINHO_BANCO = DIRETORIO_RAIZ / 'memoria' / 'memoria_app.db'
+CAMINHO_BANCO = DIRETORIO_RAIZ / 'memoria' / 'BD_App_Comercial.db'
 
 def conectar_banco():
     """Cria e retorna a conexão com o banco SQLite."""
     try:
-        # check_same_thread=False é necessário para o Streamlit não reclamar de threads
         conn = sqlite3.connect(CAMINHO_BANCO, check_same_thread=False)
-        # Permite acessar as colunas pelo nome (como um dicionário)
         conn.row_factory = sqlite3.Row 
         return conn
     except Exception as e:
-        st.error(f"🚨 ERRO DE CONEXÃO: Não foi possível conectar ao banco local. Detalhes: {e}")
+        st.error(f"🚨 ERRO DE CONEXÃO: Não foi possível conectar ao banco de dados local. Detalhes: {e}")
         st.stop()
 
 def inicializar_banco():
@@ -51,7 +48,7 @@ def inicializar_banco():
         )
     ''')
 
-    # Tabela 4: Memória de aprendizado de colunas (Substitui o JSON de colunas)
+    # Tabela 4: Memória de aprendizado de colunas
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tb_memoria_coluna (
             id_mapeamento INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +61,7 @@ def inicializar_banco():
         )
     ''')
 
-    # Nova Tabela: Log de Sincronização (Auditoria)
+    # Tabela 5: Log de Sincronização (Auditoria)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tb_log_sincronizacao (
             id_log INTEGER PRIMARY KEY AUTOINCREMENT,

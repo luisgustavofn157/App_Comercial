@@ -2,7 +2,7 @@ import urllib
 import streamlit as st
 import sqlalchemy as sa
 from sqlalchemy import text
-from modulos.setup_sqlite import conectar_banco
+from memoria.inicializar_sqlite import conectar_banco
 
 # ==========================================
 # MOTOR DE CONEXÃO (Extraído do banco_dados.py)

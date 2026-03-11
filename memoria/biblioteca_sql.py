@@ -1,7 +1,3 @@
-# ==========================================
-# 📚 CATÁLOGO DE CONSULTAS SQL
-# ==========================================
-
 BIBLIOTECA_SQL = {
     "Selecione uma consulta pronta...": "",
     "Tanque de Compra": """
