@@ -23,11 +23,12 @@ def inicializar_banco():
     conn = conectar_banco()
     cursor = conn.cursor()
     
-    # Tabela 1: Marcas (O Cache do ERP)
+    # Tabela 1: Marcas
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tb_marca (
             id_marca INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome_marca TEXT UNIQUE NOT NULL
+            handle_benner INTEGER UNIQUE,
+            nome_marca TEXT NOT NULL
         )
     ''')
     
@@ -49,7 +50,33 @@ def inicializar_banco():
             PRIMARY KEY (id_perfil, id_marca)
         )
     ''')
-    
+
+    # Tabela 4: Memória de aprendizado de colunas (Substitui o JSON de colunas)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS tb_memoria_coluna (
+            id_mapeamento INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_perfil INTEGER,
+            coluna_planilha TEXT NOT NULL,
+            campo_sistema TEXT NOT NULL,
+            pontuacao REAL NOT NULL,
+            FOREIGN KEY(id_perfil) REFERENCES tb_perfil(id_perfil) ON DELETE CASCADE,
+            UNIQUE(id_perfil, coluna_planilha, campo_sistema)
+        )
+    ''')
+
+    # Nova Tabela: Log de Sincronização (Auditoria)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS tb_log_sincronizacao (
+            id_log INTEGER PRIMARY KEY AUTOINCREMENT,
+            tabela_destino TEXT NOT NULL,
+            data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+            linhas_inseridas INTEGER DEFAULT 0,
+            linhas_atualizadas INTEGER DEFAULT 0,
+            linhas_deletadas INTEGER DEFAULT 0,
+            status TEXT NOT NULL
+        )
+    ''')
+
     conn.commit()
     conn.close()
 

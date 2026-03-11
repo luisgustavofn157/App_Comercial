@@ -33,7 +33,7 @@ def renderizar_passo_3():
         resultados_ia = classificar_dataset_completo(
             df_completo,  
             NOMES_VISUAIS_ERP, 
-            st.session_state.fornecedor_selecionado,
+            st.session_state.perfil_selecionado,
             usar_memoria=DEBUG_USAR_MEMORIA,
             usar_arbitro=DEBUG_USAR_ARBITRO
         )
@@ -54,7 +54,7 @@ def renderizar_passo_3():
             })
         st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
 
-    st.markdown(f"#### ⚙️ Perfil Selecionado: `{st.session_state.fornecedor_selecionado}`")
+    st.markdown(f"#### ⚙️ Perfil Selecionado: `{st.session_state.perfil_selecionado}`")
     st.write("O sistema já identificou algumas colunas, revise e corrija se necessário")
 
     altura_dinamica = (len(st.session_state.df_mapeamento_ui) * 35) + 42
@@ -84,7 +84,7 @@ def renderizar_passo_3():
             if novo_mapeamento == DICIONARIO_ERP["IGNORAR"]:
                 nova_nota_final = None
             else:
-                boletim = avaliar_coluna_fase1(col_excel, [novo_mapeamento], st.session_state.fornecedor_selecionado, df_completo)
+                boletim = avaliar_coluna_fase1(col_excel, [novo_mapeamento], st.session_state.perfil_selecionado, df_completo)
                 nova_nota_final = boletim[0]["nota"] if boletim else None
             
             df_editado.at[i, "Confiança"] = nova_nota_final
@@ -129,7 +129,7 @@ def renderizar_passo_3():
                     if st.button(f"🪄 Mesclar colunas sem perda de dados", key=f"unif_{d}", use_container_width=True):
                         col_mestra = cols_conflito[0]
                         for col_sec in cols_conflito[1:]:
-                            registrar_feedback(col_sec, DICIONARIO_ERP[d], st.session_state.fornecedor_selecionado)
+                            registrar_feedback(col_sec, DICIONARIO_ERP[d], st.session_state.perfil_selecionado)
                             st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
                             st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
                             st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original"] != col_sec]
@@ -142,7 +142,7 @@ def renderizar_passo_3():
         if st.button("Salvar Perfil e Avançar ➡️", type="primary", use_container_width=True):
             # 1. Salva a Memória da IA
             for col_excel, conceito in mapeamento_atualizado.items():
-                registrar_feedback(col_excel, conceito, st.session_state.fornecedor_selecionado)
+                registrar_feedback(col_excel, conceito, st.session_state.perfil_selecionado)
             st.session_state.mapeamento_oficial = mapeamento_atualizado
             
             # 2. O Checkpoint do Usuário

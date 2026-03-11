@@ -96,3 +96,48 @@ def atualizar_marcas_do_perfil(nome_perfil, novas_marcas):
         st.stop()
     finally:
         conn.close()
+
+def obter_pesos_coluna(nome_perfil, coluna_planilha):
+    """Busca os pesos de uma coluna específica no banco local."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    
+    query = '''
+        SELECT mc.campo_sistema, mc.pontuacao
+        FROM tb_memoria_coluna mc
+        INNER JOIN tb_perfil p ON mc.id_perfil = p.id_perfil
+        WHERE p.nome_perfil = ? AND mc.coluna_planilha = ?
+    '''
+    cursor.execute(query, (nome_perfil, coluna_planilha))
+    
+    # Converte as linhas do banco para um dicionário idêntico ao que o sistema já espera
+    pesos = {linha['campo_sistema']: linha['pontuacao'] for linha in cursor.fetchall()}
+    
+    conn.close()
+    return pesos
+
+def salvar_pesos_coluna(nome_perfil, coluna_planilha, dicionario_pesos):
+    """Salva ou atualiza os pesos de aprendizado no banco."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    
+    try:
+        # Garante que o perfil existe (vital para salvar a memória do perfil genérico "")
+        cursor.execute("INSERT OR IGNORE INTO tb_perfil (nome_perfil) VALUES (?)", (nome_perfil,))
+        cursor.execute("SELECT id_perfil FROM tb_perfil WHERE nome_perfil = ?", (nome_perfil,))
+        id_perfil = cursor.fetchone()['id_perfil']
+        
+        for campo_sistema, pontuacao in dicionario_pesos.items():
+            # INSERT OR REPLACE atualiza a nota se já existir, ou cria se for nova
+            cursor.execute('''
+                INSERT OR REPLACE INTO tb_memoria_coluna 
+                (id_perfil, coluna_planilha, campo_sistema, pontuacao)
+                VALUES (?, ?, ?, ?)
+            ''', (id_perfil, coluna_planilha, campo_sistema, pontuacao))
+            
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        st.error(f"🚨 ERRO DE APRENDIZADO: Falha ao gravar no banco. Detalhes: {e}")
+    finally:
+        conn.close()
