@@ -3,10 +3,9 @@ import streamlit as st
 st.title("👋 Bem-vindo ao App Comercial")
 st.markdown("---")
 st.markdown("""
-Esta é a central de ferramentas de inteligência da área comercial.
-Utilize o menu lateral para navegar entre as soluções disponíveis:
+Este é o HUB ferramentas desenvolvidas em python de uso comum da área comercial
 
-* **📊 Análise de Lista de Preço:** Motor de IA para higienização e mapeamento de listas de fornecedores.
-* **🗄️ Acesso ao Banco de Dados:** (Em breve) Consulta e integração direta com o ERP.
-* **🧮 Memória de Cálculo:** (Em breve) Rastreio da formação de preços e markups.
+* **📊 Análise de Lista de Preço:** Acompanha o usuário e agiliza o processo de análise de listas de preço dos fornecedores.
+* **🗄️ Acesso ao Banco de Dados:** Ambiente de consulta ao banco de dados do Benner.
+* **🧮 Memória de Cálculo:** (Em Construção) Simulador de preços por item.
 """)

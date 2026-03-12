@@ -1,98 +1,89 @@
 import streamlit as st
 from modulos.orquestrador_importacao import processar_arquivos_upload
-from memoria.gerenciador_memoria import obter_marcas, obter_perfis, atualizar_marcas_do_perfil
+from banco_de_dados.gerenciador_memoria import obter_perfis, atualizar_marcas_do_perfil, obter_marcas_por_perfil
+from banco_de_dados.conexao_benner import executar_consulta_benner
 
-def obter_todas_marcas_cadastradas():
-    """Busca a lista de marcas direto do banco SQLite local"""
-    # Importe o conectar_banco no topo do arquivo se já não estiver lá
-    from memoria.inicializar_sqlite import conectar_banco 
-    
-    conn = conectar_banco()
-    cursor = conn.cursor()
-    
-    # O ORDER BY garante que a lista apareça em ordem alfabética no Streamlit
-    cursor.execute("SELECT nome_marca FROM tb_marca ORDER BY nome_marca")
-    
-    # Extrai os nomes das marcas e transforma em uma lista do Python
-    marcas = [linha['nome_marca'] for linha in cursor.fetchall()]
-    
-    conn.close()
-    return marcas
-
-def salvar_edicao_callback(perfil, chave_do_widget):
-    """Callback executado ANTES da tela recarregar ao clicar em Salvar"""
-    # Lemos as marcas buscando pela chave dinâmica exata daquele perfil
+def salvar_edicao_callback(perfil, chave_do_widget, chave_do_toggle):
     novas_marcas = st.session_state[chave_do_widget] 
     atualizar_marcas_do_perfil(perfil, novas_marcas)
-    st.session_state.toggle_edicao = False # Desliga o toggle com segurança
+    st.session_state[chave_do_toggle] = False 
 
-def cancelar_edicao_callback():
-    """Callback executado ANTES da tela recarregar ao clicar em Cancelar"""
-    st.session_state.toggle_edicao = False # Desliga o toggle com segurança
-
+def cancelar_edicao_callback(chave_do_toggle):
+    st.session_state[chave_do_toggle] = False 
 
 def renderizar_passo_1():
-    st.header("📂 Passo 1: Importar Arquivos")
+    st.header("📂 Passo 1: Importar Listas de Preço")
     
-    col_perfil, col_marca, col_arq = st.columns([1.5, 2, 2])
+    col_perfil, col_marca, col_arq = st.columns([1, 1, 2])
     
-    todas_marcas_db = obter_marcas()
-    
-    # IMPORTANTE: Buscar os perfis DENTRO da função de renderização garante
-    # que a lista esteja sempre atualizada se um perfil for criado em outra tela.
     perfis_existentes = obter_perfis()
     
     with col_perfil:
         opcoes_perfil = ["Selecione..."] + ["➕ Criar Novo Perfil..."] + perfis_existentes
-        perfil_escolhido = st.selectbox("Perfil:", opcoes_perfil)
+        perfil_escolhido = st.selectbox("Perfil:", opcoes_perfil, key="selectbox_perfil")
         
         if perfil_escolhido == "➕ Criar Novo Perfil...":
             nome_novo_perfil = st.text_input("Nome do Novo Perfil:")
         else:
             nome_novo_perfil = ""
 
+    chave_toggle = f"toggle_edicao_{perfil_escolhido}"
+
     with col_marca:
-        # Cenário 1: Nada selecionado
         if perfil_escolhido == "Selecione...":
             marcas_escolhidas = st.multiselect("Marcas vinculadas:", options=[], disabled=True)
             
-        # Cenário 2: Criando um perfil do zero
         elif perfil_escolhido == "➕ Criar Novo Perfil...":
+            # CARREGAMENTO SOB DEMANDA 1: Vai ao Benner apenas ao criar perfil
+            with st.spinner("🔄 A consultar o Benner em tempo real..."):
+                QUERY_BENNER = "select nome from PD_MARCASPRODUTOS pm"
+                df_marcas = executar_consulta_benner(QUERY_BENNER)
+                todas_marcas_db = sorted(df_marcas.iloc[:, 0].astype(str).str.strip().dropna().unique().tolist())
+                
             marcas_escolhidas = st.multiselect(
                 "Selecione as marcas deste novo perfil:", 
                 options=todas_marcas_db,
                 placeholder="Escolha uma ou mais marcas..."
             )
             
-            # Ciclo encapsulado para CRIAR NOVO PERFIL
             if nome_novo_perfil.strip() and marcas_escolhidas:
                 if st.button("💾 Salvar Novo Perfil", type="primary", use_container_width=True):
                     atualizar_marcas_do_perfil(nome_novo_perfil, marcas_escolhidas)
                     st.toast("✅ Perfil criado com sucesso!")
                     st.rerun()
-            
-        # Cenário 3: Perfil já existente
+                    
         else:
-            marcas_vinculadas_db = obter_marcas(perfil_escolhido)
-            opcoes_disponiveis = list(set(todas_marcas_db + marcas_vinculadas_db))
+            # DIA A DIA: Carrega ultra-rápido APENAS do banco local SQLite
+            marcas_vinculadas_db = obter_marcas_por_perfil(perfil_escolhido)
+            modo_edicao = st.toggle("✏️ Editar marcas deste perfil", key=chave_toggle)
+            chave_dinamica_widget = f"marcas_widget_{perfil_escolhido}"
             
-            # O Toggle
-            modo_edicao = st.toggle("✏️ Editar marcas deste perfil", key="toggle_edicao")
-            
-            # 💡 A CHAVE MÁGICA: O nome do perfil faz parte da key do widget
-            chave_dinamica = f"marcas_widget_{perfil_escolhido}"
-            
-            marcas_escolhidas = st.multiselect(
-                "Marcas vinculadas:",
-                options=opcoes_disponiveis,
-                default=marcas_vinculadas_db,
-                disabled=not modo_edicao,
-                key=chave_dinamica, # <-- Usamos a chave dinâmica aqui
-                placeholder="Nenhuma marca vinculada." if modo_edicao else ""
-            )
-            
-            # Ciclo encapsulado com Callbacks
-            if modo_edicao:
+            if not modo_edicao:
+                # O ecrã fica bloqueado mostrando os dados da memória local (Zero queries ao Benner)
+                marcas_escolhidas = st.multiselect(
+                    "Marcas vinculadas:",
+                    options=marcas_vinculadas_db,
+                    default=marcas_vinculadas_db,
+                    disabled=True,
+                    key=chave_dinamica_widget
+                )
+            else:
+                # CARREGAMENTO SOB DEMANDA 2: Vai ao Benner apenas se o toggle de edição for ativado
+                with st.spinner("🔄 A consultar o Benner em tempo real para edição..."):
+                    QUERY_BENNER = "select nome from PD_MARCASPRODUTOS pm"
+                    df_marcas = executar_consulta_benner(QUERY_BENNER)
+                    todas_marcas_db = sorted(df_marcas.iloc[:, 0].astype(str).str.strip().dropna().unique().tolist())
+                
+                # O filtro de segurança para não travar o Streamlit continua ativo
+                marcas_validas_padrao = [m for m in marcas_vinculadas_db if m in todas_marcas_db]
+                
+                marcas_escolhidas = st.multiselect(
+                    "Marcas vinculadas:",
+                    options=todas_marcas_db,
+                    default=marcas_validas_padrao,
+                    key=chave_dinamica_widget
+                )
+                
                 col_btn_salvar, col_btn_cancelar = st.columns(2)
                 
                 with col_btn_salvar:
@@ -101,15 +92,15 @@ def renderizar_passo_1():
                         type="primary", 
                         use_container_width=True,
                         on_click=salvar_edicao_callback,
-                        # Passamos o perfil e a chave dinâmica para o callback saber onde ler
-                        args=(perfil_escolhido, chave_dinamica) 
+                        args=(perfil_escolhido, chave_dinamica_widget, chave_toggle) 
                     )
                         
                 with col_btn_cancelar:
                     st.button(
                         "❌ Cancelar", 
                         use_container_width=True,
-                        on_click=cancelar_edicao_callback
+                        on_click=cancelar_edicao_callback,
+                        args=(chave_toggle,)
                     )
 
     with col_arq:
@@ -123,20 +114,22 @@ def renderizar_passo_1():
     
     st.divider()
     
-    # Regras para poder avançar
-    tem_nome_perfil = bool(nome_novo_perfil.strip()) if perfil_escolhido == "➕ Criar Novo Perfil..." else True
+    # --- REGRAS DE AVANÇO CORRIGIDAS ---
+    esta_editando = st.session_state.get(chave_toggle, False)
     tem_marcas = len(marcas_escolhidas) > 0
     
-    # Se a chave do toggle existir e for True, ele está editando
-    esta_editando = st.session_state.get("toggle_edicao", False) 
+    # Bloqueia estritamente o avanço se o usuário estiver na tela de criação (evita "perfil fantasma")
+    perfil_valido_para_avanco = perfil_escolhido not in ["Selecione...", "➕ Criar Novo Perfil..."]
     
-    # Adicionamos 'not esta_editando' na trava. Não avança se tiver edição pendente.
-    pode_avancar = (arquivos and perfil_escolhido != "Selecione..." and tem_nome_perfil and tem_marcas and not esta_editando)
-    
-    perfil_final = nome_novo_perfil.strip() if perfil_escolhido == "➕ Criar Novo Perfil..." else perfil_escolhido
+    pode_avancar = (
+        arquivos and 
+        perfil_valido_para_avanco and 
+        tem_marcas and 
+        not esta_editando
+    )
     
     if st.button("Analisar Arquivos ➡️", type="primary", use_container_width=True, disabled=not pode_avancar):
-        st.session_state.perfil_selecionado = perfil_final
+        st.session_state.perfil_selecionado = perfil_escolhido
         st.session_state.marcas_selecionadas = marcas_escolhidas 
         
         with st.spinner("Aguardo enquanto o sistema está lendo o arquivo..."):

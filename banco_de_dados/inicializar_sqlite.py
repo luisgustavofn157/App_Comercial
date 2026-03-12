@@ -3,7 +3,7 @@ from pathlib import Path
 import streamlit as st
 
 DIRETORIO_RAIZ = Path(__file__).resolve().parent.parent
-CAMINHO_BANCO = DIRETORIO_RAIZ / 'memoria' / 'BD_App_Comercial.db'
+CAMINHO_BANCO = DIRETORIO_RAIZ / 'banco_de_dados' / 'bd_local.db'
 
 def conectar_banco():
     """Cria e retorna a conexão com o banco SQLite."""

@@ -2,7 +2,7 @@ import unicodedata
 from configuracoes.config_erp import REVERSO_ERP, DICIONARIO_ERP
 
 # Importamos as funções do banco de dados em vez de lidar com JSON
-from memoria.gerenciador_memoria import obter_pesos_coluna, salvar_pesos_coluna
+from banco_de_dados.gerenciador_memoria import obter_pesos_coluna, salvar_pesos_coluna
 
 def normalizar_termo(texto):
     """Remove acentos, espaços extras e deixa tudo maiúsculo."""

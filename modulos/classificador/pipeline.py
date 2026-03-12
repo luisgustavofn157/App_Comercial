@@ -1,8 +1,6 @@
 import pandas as pd
 from modulos.classificador.aprendizado import consultar_memoria, normalizar_termo
 from modulos.classificador.heuristicas import numericas, textuais, financeiras, lexical
-
-# Adicionamos CONCEITOS_MULTIPLOS na importação para o Árbitro saber quem pode repetir
 from configuracoes.config_erp import DICIONARIO_ERP, REVERSO_ERP, CONCEITOS_MULTIPLOS
 
 def avaliar_coluna_fase1(coluna_excel, lista_conceitos_erp, fornecedor, df_amostra=None, usar_memoria=True):

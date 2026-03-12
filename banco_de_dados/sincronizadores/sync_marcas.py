@@ -1,33 +1,9 @@
-import urllib
-import streamlit as st
-import sqlalchemy as sa
-from sqlalchemy import text
-from memoria.inicializar_sqlite import conectar_banco
+import logging
+from banco_de_dados.inicializar_sqlite import conectar_banco
+from banco_de_dados.conexao_benner import executar_consulta_benner
 
-# ==========================================
-# MOTOR DE CONEXÃO (Extraído do banco_dados.py)
-# ==========================================
-AMBIENTE_DEV_LOCAL = True
+logging.getLogger("streamlit.runtime.scriptrunner_utils.script_run_context").setLevel(logging.ERROR)
 
-def criar_engine_benner():
-    """Cria a conexão segura com o SQL Server do ERP."""
-    db_host = st.secrets["BENNER_DB_HOST"]
-    db_name = st.secrets["BENNER_DB_NAME"]
-    
-    if AMBIENTE_DEV_LOCAL:
-        driver = urllib.parse.quote_plus("SQL Server")
-        url = f"mssql+pyodbc://@{db_host}/{db_name}?driver={driver}&Trusted_Connection=yes"
-    else:
-        driver = urllib.parse.quote_plus("ODBC Driver 18 for SQL Server")
-        db_user = st.secrets["BENNER_DB_USER"]
-        db_pass = st.secrets["BENNER_DB_PASS"]
-        url = f"mssql+pyodbc://{db_user}:{db_pass}@{db_host}/{db_name}?driver={driver}&Encrypt=yes&TrustServerCertificate=yes"
-        
-    return sa.create_engine(url)
-
-# ==========================================
-# A EXTRAÇÃO
-# ==========================================
 QUERY_BENNER = """
 SELECT DISTINCT M.HANDLE,
 M.NOME AS MARCA
@@ -46,22 +22,15 @@ GROUP BY M.HANDLE, M.NOME
 def sincronizar_marcas():
     print("🔄 Iniciando sincronização de Marcas com o Benner...")
     
-    # ---------------------------------------------------------
-    # 1. EXTRAÇÃO (Trazendo a verdade do Benner)
-    # ---------------------------------------------------------
     try:
-        engine = criar_engine_benner()
-        with engine.connect() as conn_benner:
-            resultado = conn_benner.execute(text(QUERY_BENNER))
-            marcas_benner = {linha.HANDLE: linha.MARCA for linha in resultado}
-        print(f"📥 Extração concluída: {len(marcas_benner)} marcas ativas encontradas no ERP.")
+        resultado = executar_consulta_benner(QUERY_BENNER)
+        marcas_benner = resultado.set_index('HANDLE')['MARCA'].to_dict()
+        print(f"📥 Extração concluída: {len(marcas_benner)} marcas ativas encontradas no Benner.")
     except Exception as e:
         print(f"🚨 ERRO DE CONEXÃO COM BENNER: {e}")
         return
 
-    # ---------------------------------------------------------
-    # 2. LEITURA LOCAL E COMPARAÇÃO DELTA
-    # ---------------------------------------------------------
+    # Análise de alterações
     conn_sqlite = conectar_banco()
     cursor = conn_sqlite.cursor()
     
@@ -78,9 +47,7 @@ def sincronizar_marcas():
     
     print(f"📊 Análise de Alterações: Inserir ({len(inserir)}) | Atualizar ({len(atualizar)}) | Deletar ({len(deletar)})")
 
-    # ---------------------------------------------------------
-    # 3. APLICAÇÃO NO SQLITE
-    # ---------------------------------------------------------
+    # Atualizar banco local
     try:
         for h in inserir:
             cursor.execute("INSERT INTO tb_marca (handle_benner, nome_marca) VALUES (?, ?)", (h, marcas_benner[h]))

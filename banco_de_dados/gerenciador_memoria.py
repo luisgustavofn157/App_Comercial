@@ -1,5 +1,5 @@
 import streamlit as st
-from memoria.inicializar_sqlite import conectar_banco, inicializar_banco
+from banco_de_dados.inicializar_sqlite import conectar_banco, inicializar_banco
 
 # Garante que as tabelas sempre existam quando o gerenciador for acionado
 inicializar_banco()
@@ -15,7 +15,6 @@ def obter_perfis():
     return perfis
 
 def obter_marcas_por_perfil(perfil):
-
     if not perfil or perfil == "Selecione...":
         return []
         
@@ -47,6 +46,7 @@ def atualizar_marcas_do_perfil(nome_perfil, novas_marcas):
         cursor.execute("DELETE FROM tb_perfil_marca WHERE id_perfil = ?", (id_perfil,))
         
         for marca in novas_marcas:
+            # Crescimento Orgânico: Se a marca não existir no SQLite, ele cria um ID novo automaticamente
             cursor.execute("INSERT OR IGNORE INTO tb_marca (nome_marca) VALUES (?)", (marca,))
             cursor.execute("SELECT id_marca FROM tb_marca WHERE nome_marca = ?", (marca,))
             id_marca = cursor.fetchone()['id_marca']
@@ -55,20 +55,10 @@ def atualizar_marcas_do_perfil(nome_perfil, novas_marcas):
         conn.commit()
     except Exception as e:
         conn.rollback()
-        st.error(f"🚨 ERRO: Falha ao salvar vínculos. Detalhes: {e}")
+        st.error(f"🚨 ERRO: Falha ao guardar vínculos. Detalhes: {e}")
         st.stop()
     finally:
         conn.close()
-
-def obter_marcas():
-    conn = conectar_banco()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT nome_marca FROM tb_marca ORDER BY nome_marca")
-    marcas = [linha['nome_marca'] for linha in cursor.fetchall()]
-
-    conn.close()
-    return marcas
 
 def obter_pesos_coluna(nome_perfil, coluna_planilha):
     conn = conectar_banco()
@@ -106,6 +96,6 @@ def salvar_pesos_coluna(nome_perfil, coluna_planilha, dicionario_pesos):
         conn.commit()
     except Exception as e:
         conn.rollback()
-        st.error(f"🚨 ERRO: Falha ao gravar o aprendizado no banco. Detalhes: {e}")
+        st.error(f"🚨 ERRO: Falha ao gravar a aprendizagem no banco. Detalhes: {e}")
     finally:
         conn.close()
