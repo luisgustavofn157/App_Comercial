@@ -4,28 +4,17 @@ import urllib
 import time
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError, ProgrammingError
-from memoria.biblioteca_sql import BIBLIOTECA_SQL
+from memoria.consultas_rapidas_benner import consultas_rapidas_benner
 from modulos.exportador import exportar_consulta_sql
-
-# ==========================================
-# 🛠️ CHAVE DE AMBIENTE (LIGA/DESLIGA)
-# ==========================================
-AMBIENTE_DEV_LOCAL = True
 
 @st.cache_resource
 def criar_engine_benner():
     db_host = st.secrets["BENNER_DB_HOST"]
     db_name = st.secrets["BENNER_DB_NAME"]
     
-    if AMBIENTE_DEV_LOCAL:
-        driver = urllib.parse.quote_plus("SQL Server")
-        url = f"mssql+pyodbc://@{db_host}/{db_name}?driver={driver}&Trusted_Connection=yes"
-    else:
-        driver = urllib.parse.quote_plus("ODBC Driver 18 for SQL Server")
-        db_user = st.secrets["BENNER_DB_USER"]
-        db_pass = st.secrets["BENNER_DB_PASS"]
-        url = f"mssql+pyodbc://{db_user}:{db_pass}@{db_host}/{db_name}?driver={driver}&Encrypt=yes&TrustServerCertificate=yes"
-        
+    driver = urllib.parse.quote_plus("SQL Server")
+    url = f"mssql+pyodbc://@{db_host}/{db_name}?driver={driver}&Trusted_Connection=yes"
+
     return create_engine(url)
 
 def executar_consulta_segura(query):
@@ -39,8 +28,8 @@ def executar_consulta_segura(query):
         df = pd.read_sql(text(query), conexao)
         return df
 
+#Remove quebras de linha internas e protege contra dados binários (imagens/arquivos).
 def higienizar_para_exportacao(df):
-    """Remove quebras de linha internas e protege contra dados binários (imagens/arquivos)."""
     df_limpo = df.copy()
     
     # Proteção Anti-Binário
@@ -67,7 +56,7 @@ def aplicar_consulta_pronta():
     if escolha == "Selecione uma consulta pronta...":
         limpar_tela() 
     else:
-        st.session_state.query_input = BIBLIOTECA_SQL[escolha]
+        st.session_state.query_input = consultas_rapidas_benner[escolha]
         st.session_state.acionar_execucao_automatica = True 
 
 def limpar_tela():
@@ -86,7 +75,7 @@ st.title("🗄️ Consultas ao Banco de Dados do Benner")
 
 st.selectbox(
     "Consultas Rápidas:", 
-    options=list(BIBLIOTECA_SQL.keys()), 
+    options=list(consultas_rapidas_benner.keys()), 
     key="combo_biblioteca",
     on_change=aplicar_consulta_pronta
 )

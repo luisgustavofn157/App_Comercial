@@ -1,4 +1,4 @@
-BIBLIOTECA_SQL = {
+consultas_rapidas_benner = {
     "Selecione uma consulta pronta...": "",
     "Tanque de Compra": """
 SELECT NOMEMARCA, CNPJFORNECEDOR, COUNT(HANDLE)
