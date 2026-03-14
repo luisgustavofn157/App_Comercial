@@ -1,13 +1,12 @@
 import pandas as pd
 import traceback
 import io
-from modulos.importacao_inicial import encontrar_tabela_valida
+from tratamento_de_dados.landing.identificador_tabelas import encontrar_tabela_valida
 
 def processar_arquivos_upload(arquivos_upados):
     """
-    Recebe os arquivos crus da interface, descobre a extensão,
-    aplica o motor de leitura correto e envia para o Especialista validar.
-    Retorna uma lista de tabelas encontradas e uma lista de erros (se houver).
+    Motor exclusivo de I/O. Descobre a extensão, aplica a engine correta de leitura
+    e repassa o DataFrame cru para a heurística de identificação.
     """
     tabelas_extraidas = []
     erros_encontrados = []
@@ -21,8 +20,8 @@ def processar_arquivos_upload(arquivos_upados):
             bytes_arquivo = io.BytesIO(arquivo.getvalue())
             
             if ext == 'csv':
-                df = pd.read_csv(bytes_arquivo, sep=None, engine='python', header=None)
-                resultado = encontrar_tabela_valida(df, nome_curto, "CSV")
+                df_cru = pd.read_csv(bytes_arquivo, sep=None, engine='python', header=None)
+                resultado = encontrar_tabela_valida(df_cru, nome_curto, "CSV")
                 if resultado: tabelas_extraidas.append(resultado)
             else:
                 motor = 'openpyxl'
@@ -36,7 +35,6 @@ def processar_arquivos_upload(arquivos_upados):
                     if resultado: tabelas_extraidas.append(resultado)
                     
         except Exception as e:
-            # Em vez de travar tudo, capturamos o erro e devolvemos organizadamente para a interface
             erros_encontrados.append({
                 "arquivo": nome_curto,
                 "traceback": traceback.format_exc()

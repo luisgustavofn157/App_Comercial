@@ -5,8 +5,8 @@ from sqlalchemy.exc import OperationalError, ProgrammingError
 # IMPORTAÇÕES DA ARQUITETURA
 from configuracoes.state_manager import inicializar_estado, resetar_banco_dados
 from banco_de_dados.conexao_benner import executar_consulta_benner
-from banco_de_dados.consultas_rapidas_benner import consultas_rapidas_benner
 from banco_de_dados.tratamento_sql import higienizar_para_exportacao
+from banco_de_dados.repositorio_sql import MENU_CONSULTAS_RAPIDAS
 from modulos.exportador import exportar_consulta_sql
 
 # Garante que as variáveis existam
@@ -16,13 +16,13 @@ inicializar_estado()
 # CALLBACKS DE TELA
 # ==========================================
 def callback_combo_prontas():
-    """Acionado quando o usuário escolhe uma query pronta no SelectBox."""
     escolha = st.session_state.db_combo_biblioteca
     if escolha == "Selecione uma consulta pronta...":
         resetar_banco_dados()
     else:
-        st.session_state.db_query_input = consultas_rapidas_benner[escolha]
-        st.session_state.db_executar_agora = True 
+        # Puxa o SQL diretamente do novo dicionário limpo
+        st.session_state.db_query_input = MENU_CONSULTAS_RAPIDAS[escolha]
+        st.session_state.db_executar_agora = True
 
 # ==========================================
 # UI - CABEÇALHO
@@ -31,7 +31,8 @@ st.title("🗄️ Consultas ao Banco de Dados do Benner")
 
 st.selectbox(
     "Consultas Rápidas:", 
-    options=["Selecione uma consulta pronta..."] + list(consultas_rapidas_benner.keys()), 
+    # É aqui que o texto da interface deve morar, e não no repositório!
+    options=["Selecione uma consulta pronta..."] + list(MENU_CONSULTAS_RAPIDAS.keys()), 
     key="db_combo_biblioteca",
     on_change=callback_combo_prontas
 )

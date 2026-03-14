@@ -20,6 +20,14 @@ def inicializar_banco():
     conn = conectar_banco()
     cursor = conn.cursor()
     
+    # Tabela 1: Perfis (Criados pelo usuário)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS tb_perfil (
+            id_perfil INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome_perfil TEXT UNIQUE NOT NULL
+        )
+    ''')
+    
     # Tabela 1: Marcas
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tb_marca (
@@ -28,16 +36,8 @@ def inicializar_banco():
             nome_marca TEXT NOT NULL
         )
     ''')
-    
-    # Tabela 2: Perfis (Criados pelo usuário)
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS tb_perfil (
-            id_perfil INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome_perfil TEXT UNIQUE NOT NULL
-        )
-    ''')
-    
-    # Tabela 3: Relacionamento (Perfil x Marca)
+
+    # Tabela 2: Relacionamento (Perfil x Marca)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tb_perfil_marca (
             id_perfil INTEGER,
@@ -48,7 +48,7 @@ def inicializar_banco():
         )
     ''')
 
-    # Tabela 4: Memória de aprendizado de colunas
+    # Tabela 3: Memória de aprendizado de colunas
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tb_memoria_coluna (
             id_mapeamento INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,19 +58,6 @@ def inicializar_banco():
             pontuacao REAL NOT NULL,
             FOREIGN KEY(id_perfil) REFERENCES tb_perfil(id_perfil) ON DELETE CASCADE,
             UNIQUE(id_perfil, coluna_planilha, campo_sistema)
-        )
-    ''')
-
-    # Tabela 5: Log de Sincronização (Auditoria)
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS tb_log_sincronizacao (
-            id_log INTEGER PRIMARY KEY AUTOINCREMENT,
-            tabela_destino TEXT NOT NULL,
-            data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-            linhas_inseridas INTEGER DEFAULT 0,
-            linhas_atualizadas INTEGER DEFAULT 0,
-            linhas_deletadas INTEGER DEFAULT 0,
-            status TEXT NOT NULL
         )
     ''')
 

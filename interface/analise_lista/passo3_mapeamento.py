@@ -19,7 +19,7 @@ def renderizar_passo_3():
     if not aprovadas:
         st.warning("Nada selecionado.")
         # Como resetar_fluxo deve estar no seu state_manager, você pode importá-lo aqui se precisar do botão de voltar
-        from utils.state_manager import resetar_fluxo
+        from configuracoes.state_manager import resetar_fluxo
         st.button("Voltar", on_click=resetar_fluxo)
         return
 
@@ -47,7 +47,7 @@ def renderizar_passo_3():
 
             amostra = df_completo[col].dropna().astype(str).head(3).tolist()
             dados_ui.append({
-                "Coluna Original": str(col),
+                "Coluna Original Lista": str(col),
                 "Confiança": nota_final,
                 "Tipo de Dado": match,
                 "Amostra dos Dados": " | ".join(amostra) if amostra else "(Vazia)"
@@ -64,9 +64,9 @@ def renderizar_passo_3():
         width="stretch", 
         height=altura_dinamica,
         hide_index=True,
-        disabled=["Coluna Original", "Confiança", "Amostra dos Dados"],
+        disabled=["Coluna Original Lista", "Confiança", "Amostra dos Dados"],
         column_config={
-            "Coluna Original": st.column_config.TextColumn("Coluna Original", width="medium"),
+            "Coluna Original Lista": st.column_config.TextColumn("Coluna Original Lista", width="medium"),
             "Confiança": st.column_config.ProgressColumn("Confiança", format="%d%%", min_value=0, max_value=100, width="small"),
             "Tipo de Dado": st.column_config.SelectboxColumn("Tipo de Dado", options=NOMES_VISUAIS_ERP, required=True, width="medium"),
             "Amostra dos Dados": st.column_config.TextColumn("Amostra (3 linhas)")
@@ -76,7 +76,7 @@ def renderizar_passo_3():
 
     houve_alteracao_dropdown = False
     for i in range(len(df_editado)):
-        col_excel = df_editado.at[i, "Coluna Original"]
+        col_excel = df_editado.at[i, "Coluna Original Lista"]
         novo_mapeamento = df_editado.at[i, "Tipo de Dado"]
         mapeamento_antigo = st.session_state.df_mapeamento_ui.at[i, "Tipo de Dado"]
 
@@ -93,7 +93,7 @@ def renderizar_passo_3():
     st.session_state.df_mapeamento_ui = df_editado.copy()
     if houve_alteracao_dropdown: st.rerun()
 
-    mapeamento_atualizado = dict(zip(df_editado["Coluna Original"], df_editado["Tipo de Dado"]))
+    mapeamento_atualizado = dict(zip(df_editado["Coluna Original Lista"], df_editado["Tipo de Dado"]))
     st.session_state.mapeamento_temporario = mapeamento_atualizado
     
     escolhas = [v for v in mapeamento_atualizado.values() if v != DICIONARIO_ERP["IGNORAR"]]
@@ -132,7 +132,7 @@ def renderizar_passo_3():
                             registrar_feedback(col_sec, DICIONARIO_ERP[d], st.session_state.perfil_selecionado)
                             st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
                             st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
-                            st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original"] != col_sec]
+                            st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original Lista"] != col_sec]
                         
                         st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui.reset_index(drop=True)
                         st.success("Colunas mescladas e padrão memorizado com segurança!")

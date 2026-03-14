@@ -1,7 +1,12 @@
 import streamlit as st
-from modulos.orquestrador_importacao import processar_arquivos_upload
+from tratamento_de_dados.landing.leitor_arquivos import processar_arquivos_upload
 from banco_de_dados.gerenciador_memoria import obter_perfis, atualizar_marcas_do_perfil, obter_marcas_por_perfil
 from banco_de_dados.conexao_benner import executar_consulta_benner
+from banco_de_dados.repositorio_sql import SQL_MARCAS_ATIVAS
+
+def salvar_novo_perfil_callback(nome_perfil, marcas_escolhidas):
+    atualizar_marcas_do_perfil(nome_perfil, marcas_escolhidas)
+    st.session_state.selectbox_perfil = nome_perfil
 
 def salvar_edicao_callback(perfil, chave_do_widget, chave_do_toggle):
     novas_marcas = st.session_state[chave_do_widget] 
@@ -34,10 +39,9 @@ def renderizar_passo_1():
             marcas_escolhidas = st.multiselect("Marcas vinculadas:", options=[], disabled=True)
             
         elif perfil_escolhido == "➕ Criar Novo Perfil...":
-            # CARREGAMENTO SOB DEMANDA 1: Vai ao Benner apenas ao criar perfil
-            with st.spinner("🔄 A consultar o Benner em tempo real..."):
-                QUERY_BENNER = "select nome from PD_MARCASPRODUTOS pm"
-                df_marcas = executar_consulta_benner(QUERY_BENNER)
+            # Consulta Marcas no Benner sob demanda
+            with st.spinner("🔄 Consultando Benner..."):
+                df_marcas = executar_consulta_benner(SQL_MARCAS_ATIVAS)
                 todas_marcas_db = sorted(df_marcas.iloc[:, 0].astype(str).str.strip().dropna().unique().tolist())
                 
             marcas_escolhidas = st.multiselect(
@@ -47,11 +51,15 @@ def renderizar_passo_1():
             )
             
             if nome_novo_perfil.strip() and marcas_escolhidas:
-                if st.button("💾 Salvar Novo Perfil", type="primary", use_container_width=True):
-                    atualizar_marcas_do_perfil(nome_novo_perfil, marcas_escolhidas)
-                    st.toast("✅ Perfil criado com sucesso!")
-                    st.rerun()
-                    
+                # O botão agora usa o on_click para chamar o callback
+                st.button(
+                    "💾 Salvar Novo Perfil", 
+                    type="primary", 
+                    use_container_width=True,
+                    on_click=salvar_novo_perfil_callback,
+                    args=(nome_novo_perfil.strip(), marcas_escolhidas)
+                )
+
         else:
             # DIA A DIA: Carrega ultra-rápido APENAS do banco local SQLite
             marcas_vinculadas_db = obter_marcas_por_perfil(perfil_escolhido)
@@ -68,10 +76,9 @@ def renderizar_passo_1():
                     key=chave_dinamica_widget
                 )
             else:
-                # CARREGAMENTO SOB DEMANDA 2: Vai ao Benner apenas se o toggle de edição for ativado
-                with st.spinner("🔄 A consultar o Benner em tempo real para edição..."):
-                    QUERY_BENNER = "select nome from PD_MARCASPRODUTOS pm"
-                    df_marcas = executar_consulta_benner(QUERY_BENNER)
+                # Consulta Marcas no Benner sob demanda para edição
+                with st.spinner("🔄 Consultando Benner..."):
+                    df_marcas = executar_consulta_benner(SQL_MARCAS_ATIVAS)
                     todas_marcas_db = sorted(df_marcas.iloc[:, 0].astype(str).str.strip().dropna().unique().tolist())
                 
                 # O filtro de segurança para não travar o Streamlit continua ativo
@@ -114,11 +121,9 @@ def renderizar_passo_1():
     
     st.divider()
     
-    # --- REGRAS DE AVANÇO CORRIGIDAS ---
     esta_editando = st.session_state.get(chave_toggle, False)
     tem_marcas = len(marcas_escolhidas) > 0
     
-    # Bloqueia estritamente o avanço se o usuário estiver na tela de criação (evita "perfil fantasma")
     perfil_valido_para_avanco = perfil_escolhido not in ["Selecione...", "➕ Criar Novo Perfil..."]
     
     pode_avancar = (
@@ -132,7 +137,7 @@ def renderizar_passo_1():
         st.session_state.perfil_selecionado = perfil_escolhido
         st.session_state.marcas_selecionadas = marcas_escolhidas 
         
-        with st.spinner("Aguardo enquanto o sistema está lendo o arquivo..."):
+        with st.spinner("Aguarde enquanto o sistema está lendo o arquivo..."):
             tabelas, erros = processar_arquivos_upload(arquivos)
             if erros:
                 for erro in erros: st.error(f"🚨 Erro em: {erro['arquivo']}")
