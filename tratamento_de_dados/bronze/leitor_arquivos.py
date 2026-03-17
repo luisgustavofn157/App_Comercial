@@ -1,7 +1,7 @@
 import pandas as pd
 import traceback
 import io
-from tratamento_de_dados.landing.identificador_tabelas import encontrar_tabela_valida
+from tratamento_de_dados.bronze.identificador_tabelas import encontrar_tabela_valida
 
 def processar_arquivos_upload(arquivos_upados):
     """

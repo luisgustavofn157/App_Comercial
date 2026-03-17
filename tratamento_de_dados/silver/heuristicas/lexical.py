@@ -1,5 +1,5 @@
 from difflib import SequenceMatcher
-from modulos.classificador.aprendizado import normalizar_termo
+from tratamento_de_dados.silver.consultor_memoria import normalizar_termo
 from configuracoes.config_erp import DICIONARIO_SINONIMOS
 
 def avaliar_titulo(col_norm, conceito_norm, id_conceito):

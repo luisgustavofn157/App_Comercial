@@ -1,5 +1,5 @@
 import streamlit as st
-from tratamento_de_dados.landing.gerador_bronze import gerar_camada_bronze
+from tratamento_de_dados.bronze.gerador_bronze import gerar_camada_bronze
 
 def renderizar_passo_2():
     st.header("👁️ Passo 2: Definir Intervalos de Preço")

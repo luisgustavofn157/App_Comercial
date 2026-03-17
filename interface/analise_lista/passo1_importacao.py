@@ -1,5 +1,5 @@
 import streamlit as st
-from tratamento_de_dados.landing.leitor_arquivos import processar_arquivos_upload
+from tratamento_de_dados.bronze.leitor_arquivos import processar_arquivos_upload
 from banco_de_dados.gerenciador_memoria import obter_perfis, atualizar_marcas_do_perfil, obter_marcas_por_perfil
 from banco_de_dados.conexao_benner import executar_consulta_benner
 from banco_de_dados.repositorio_sql import SQL_MARCAS_ATIVAS

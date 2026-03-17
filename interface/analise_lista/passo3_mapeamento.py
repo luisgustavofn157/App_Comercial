@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
-from modulos.consolidador import consolidar_dataframes
+from tratamento_de_dados.funcoes_tratamento import consolidar_dataframes
 from configuracoes.config_erp import DICIONARIO_ERP, NOMES_VISUAIS_ERP, CONCEITOS_MULTIPLOS, REVERSO_ERP
-from modulos.classificador.pipeline import classificar_dataset_completo, avaliar_coluna_fase1
-from modulos.classificador.aprendizado import registrar_feedback
-from modulos.validador_comercial import aplicar_filtro_morte, higienizar_dados
-from modulos.exportador import exportar_lista_limpa
+from tratamento_de_dados.silver.avaliador_colunas import classificar_dataset_completo, avaliar_coluna_fase1
+from tratamento_de_dados.silver.consultor_memoria import registrar_feedback
+from tratamento_de_dados.silver.gerador_silver import forjar_camada_silver, mesclar_colunas_seguras
+from tratamento_de_dados.silver.motor_silver import executar_motor_silver
+# Removi os imports do validador_comercial e exportador (eles vão agir depois)
 
 # Ajuste as variáveis de debug conforme sua necessidade
 DEBUG_USAR_MEMORIA = True
@@ -18,11 +19,11 @@ def renderizar_passo_3():
     
     if not aprovadas:
         st.warning("Nada selecionado.")
-        # Como resetar_fluxo deve estar no seu state_manager, você pode importá-lo aqui se precisar do botão de voltar
         from configuracoes.state_manager import resetar_fluxo
         st.button("Voltar", on_click=resetar_fluxo)
         return
 
+    # Garante que a Camada Bronze (Bruta) existe
     if "df_bruto_consolidado" not in st.session_state:
         st.session_state.df_bruto_consolidado = consolidar_dataframes(aprovadas)
     
@@ -130,8 +131,14 @@ def renderizar_passo_3():
                         col_mestra = cols_conflito[0]
                         for col_sec in cols_conflito[1:]:
                             registrar_feedback(col_sec, DICIONARIO_ERP[d], st.session_state.perfil_selecionado)
-                            st.session_state.df_bruto_consolidado[col_mestra] = st.session_state.df_bruto_consolidado[col_mestra].fillna(st.session_state.df_bruto_consolidado[col_sec])
-                            st.session_state.df_bruto_consolidado = st.session_state.df_bruto_consolidado.drop(columns=[col_sec])
+                            
+                            # Uso do novo gerador_silver para mesclar
+                            st.session_state.df_bruto_consolidado = mesclar_colunas_seguras(
+                                st.session_state.df_bruto_consolidado, 
+                                col_mestra, 
+                                col_sec
+                            )
+                            
                             st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui[st.session_state.df_mapeamento_ui["Coluna Original Lista"] != col_sec]
                         
                         st.session_state.df_mapeamento_ui = st.session_state.df_mapeamento_ui.reset_index(drop=True)
@@ -143,37 +150,21 @@ def renderizar_passo_3():
             # 1. Salva a Memória da IA
             for col_excel, conceito in mapeamento_atualizado.items():
                 registrar_feedback(col_excel, conceito, st.session_state.perfil_selecionado)
+            
             st.session_state.mapeamento_oficial = mapeamento_atualizado
-            
-            # 2. O Checkpoint do Usuário
-            col_sku_mapeada = next((k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["SKU"]), None)
-            df_vivos, df_lixo = aplicar_filtro_morte(st.session_state.df_bruto_consolidado, col_sku_mapeada)
-            
-            excel_bytes = exportar_lista_limpa(df_vivos, df_lixo)
-            st.session_state.checkpoints["lista_limpa"] = excel_bytes
-            
-            # 3. O Motor Interno do ERP
-            df_motor = df_vivos.copy()
-            colunas_uteis = {k: v for k, v in mapeamento_atualizado.items() if v != DICIONARIO_ERP["IGNORAR"]}
-            colunas_lixo = [k for k, v in mapeamento_atualizado.items() if v == DICIONARIO_ERP["IGNORAR"]]
-            df_motor = df_motor.drop(columns=[c for c in colunas_lixo if c in df_motor.columns])
-            
-            contagens = {}
-            for destino in colunas_uteis.values():
-                contagens[destino] = contagens.get(destino, 0) + 1
-            
-            renomeio_final = {}
-            ocorrencias = {}
-            for col_excel, destino in colunas_uteis.items():
-                if contagens[destino] > 1:
-                    ocorrencias[destino] = ocorrencias.get(destino, 0) + 1
-                    renomeio_final[col_excel] = f"{destino} ({ocorrencias[destino]})"
-                else:
-                    renomeio_final[col_excel] = destino
-                    
-            df_motor = df_motor.rename(columns=renomeio_final)
-            df_motor = higienizar_dados(df_motor)
-            
-            st.session_state.df_limpo = df_motor
-            st.session_state.etapa_fluxo = 4
+
+            with st.spinner("Construindo a Camada Silver (Validando dados)..."):
+                # Forja a camada bruta com os nomes do ERP
+                df_mapeado_bruto = forjar_camada_silver(st.session_state.df_bruto_consolidado, mapeamento_atualizado)
+                
+                # AGORA O MOTOR DEVOLVE AS 3 CAIXAS!
+                df_gold, df_remocao, df_erros = executar_motor_silver(df_mapeado_bruto)
+                
+                # Salva os resultados no estado para o Passo 4
+                st.session_state.df_gold = df_gold
+                st.session_state.df_remocao_auto = df_remocao
+                st.session_state.df_com_erros = df_erros
+                
+                st.session_state.etapa_fluxo = 4
+                
             st.rerun()

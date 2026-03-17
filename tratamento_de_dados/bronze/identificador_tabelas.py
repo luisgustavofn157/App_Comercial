@@ -1,47 +1,17 @@
 import pandas as pd
-import unicodedata
 from configuracoes.config_erp import DICIONARIO_SINONIMOS
-
-# ==========================================
-# CONSTANTES COMPUTADAS NA INICIALIZAÇÃO (Otimização de Memória)
-# ==========================================
-def normalizar_texto(texto):
-    """Remove acentos, espaços extra e passa para minúsculas."""
-    if pd.isna(texto): return ""
-    texto = str(texto).lower().strip()
-    return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
+from tratamento_de_dados.funcoes_tratamento import normalizar_cabecalho_extremo, deduplicar_colunas
 
 # Computa os sets UMA ÚNICA VEZ ao carregar o módulo (Performance Máxima)
-SINO_PRECOS = {normalizar_texto(t) for t in DICIONARIO_SINONIMOS.get("PRECO_BASE", [])}
-SINO_CODIGOS = {normalizar_texto(t) for t in DICIONARIO_SINONIMOS.get("SKU", [])}
+SINO_PRECOS = {normalizar_cabecalho_extremo(t) for t in DICIONARIO_SINONIMOS.get("PRECO_BASE", [])}
+SINO_CODIGOS = {normalizar_cabecalho_extremo(t) for t in DICIONARIO_SINONIMOS.get("SKU", [])}
 
 # Cria um SET com todos os sinónimos já normalizados para busca instantânea O(1)
 TODOS_SINONIMOS_SET = {
-    normalizar_texto(item) 
+    normalizar_cabecalho_extremo(item) 
     for sublist in DICIONARIO_SINONIMOS.values() 
     for item in sublist
 }
-
-# ==========================================
-# FUNÇÕES AUXILIARES
-# ==========================================
-def deduplicar_colunas(colunas):
-    nomes_vistos = {}
-    novas_colunas = []
-    
-    for i, col in enumerate(colunas):
-        if not col or str(col).strip() == "":
-            col = f"col_vazia_{i}"
-            
-        if col in nomes_vistos:
-            nomes_vistos[col] += 1
-            nova_col = f"{col}_{nomes_vistos[col]}"
-            novas_colunas.append(nova_col)
-        else:
-            nomes_vistos[col] = 0
-            novas_colunas.append(col)
-            
-    return novas_colunas
 
 # ==========================================
 # FASE 1: ENCONTRAR O CABEÇALHO (RECORTE)
@@ -54,7 +24,7 @@ def pontuar_linha_cabecalho(linha_valores):
     nota = len(celulas_preenchidas) * 1  # Pontuação base por densidade
     
     # Transforma a linha atual num Set de palavras normalizadas
-    textos_linha_set = {normalizar_texto(val) for val in celulas_preenchidas}
+    textos_linha_set = {normalizar_cabecalho_extremo(val) for val in celulas_preenchidas}
     
     # Interseção instantânea com todos os sinónimos do sistema
     termos_encontrados = len(textos_linha_set.intersection(TODOS_SINONIMOS_SET))
@@ -68,28 +38,34 @@ def pontuar_linha_cabecalho(linha_valores):
 def analisar_comportamento_colunas(df):
     tem_conceito_codigo = False
     tem_conceito_preco = False
-    colunas_normalizadas = [normalizar_texto(col) for col in df.columns]
     
-    # 1. Checagem por Nome de Coluna
+    # Aplica a sua nova normalização aos cabeçalhos para os testes
+    colunas_normalizadas = [normalizar_cabecalho_extremo(col) for col in df.columns]
+    
+    # 1. Checagem por Nome de Coluna (Adaptado para o formato COM_UNDERLINE)
     for col in colunas_normalizadas:
-        partes_coluna = set(col.split())
-        if partes_coluna.intersection(SINO_CODIGOS): tem_conceito_codigo = True
-        if partes_coluna.intersection(SINO_PRECOS): tem_conceito_preco = True
+        # Se algum termo do dicionário (ex: "PRECO") estiver contido no nome da coluna (ex: "PRECO_BASE_FORN")
+        if any(termo in col for termo in SINO_CODIGOS): 
+            tem_conceito_codigo = True
+        if any(termo in col for termo in SINO_PRECOS): 
+            tem_conceito_preco = True
             
-    # 2. Checagem por Conteúdo Heurístico (Seguro)
+    # 2. Checagem por Conteúdo (O "Plano B" à prova de balas)
     if not tem_conceito_preco:
         for col in df.columns:
-            # Garante que é numérico e tem formato de preço (evita EANs)
-            if pd.api.types.is_float_dtype(df[col]) or pd.api.types.is_numeric_dtype(df[col]):
-                if df[col].notna().mean() > 0.8:
-                    tem_conceito_preco = True
-                    break
+            # Pega na coluna, transforma em texto, troca vírgula por ponto e força a virar número
+            numeros = pd.to_numeric(df[col].astype(str).str.replace(',', '.'), errors='coerce')
+            
+            # Se a coluna for mais de 80% composta por números (e não for tudo vazio), assumimos que é preço/quantidade
+            if len(numeros.dropna()) > 0 and numeros.notna().mean() > 0.8:
+                tem_conceito_preco = True
+                break
 
     if not tem_conceito_codigo:
         for col in df.columns:
             qtd_total = len(df[col].dropna())
             if qtd_total > 0:
-                # Se a coluna tem quase 100% de valores únicos, é um candidato a SKU
+                # Se a coluna tem quase 100% de valores únicos (IDs, EANs, Códigos), é um Código
                 if (df[col].nunique() / qtd_total) > 0.9:
                     tem_conceito_codigo = True
                     break
@@ -126,7 +102,7 @@ def encontrar_tabela_valida(df_bruto, nome_arquivo, nome_aba):
     
     # Promove a linha vencedora a cabeçalho e deduplica nomes repetidos
     primeira_linha = pd.Series(df_recortado.iloc[0]).ffill()
-    colunas_brutas = primeira_linha.apply(normalizar_texto).tolist()
+    colunas_brutas = primeira_linha.apply(normalizar_cabecalho_extremo).tolist()
     df_recortado.columns = deduplicar_colunas(colunas_brutas) 
     
     # Remove a linha do cabeçalho que ficou nos dados e limpa linhas/colunas vazias
