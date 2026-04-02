@@ -111,7 +111,7 @@ def renderizar_passo_1():
                     )
 
     with col_arq:
-        st.write("Upload de Arquivos")
+        st.write("Arquivos de Lista de Preço")
         arquivos = st.file_uploader(
             "Arquivos", 
             type=['csv', 'xlsx', 'xlsb', 'xls'], 

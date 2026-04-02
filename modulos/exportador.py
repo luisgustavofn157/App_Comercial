@@ -64,7 +64,7 @@ def exportar_devolutiva_erros(df_dados):
         df_dados.to_excel(writer, sheet_name=nome_aba, index=False)
         worksheet = writer.sheets[nome_aba]
         aplicar_estilo_ancora(worksheet, df_dados)
-        
+       
     return output.getvalue()
 
 def exportar_consulta_sql(df_dados):
@@ -82,27 +82,29 @@ def exportar_consulta_sql(df_dados):
 
 def gerar_excel_critica(df_ok, df_remocao, df_erros):
     """
-    Gera o ficheiro de Crítica com as três caixas da Camada Silver.
+    Gera o ficheiro de Crítica com as três caixas da Camada Silver e aplica o estilo corporativo.
     """
     output = io.BytesIO()
     
-    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        # Aba 1: O File Mignon
-        if not df_ok.empty:
-            df_ok.to_excel(writer, sheet_name='Validadas 100%', index=False)
-        else:
-            pd.DataFrame(columns=['Sem dados válidos']).to_excel(writer, sheet_name='Validadas 100%', index=False)
+    # Engine trocado para openpyxl para permitir a formatação
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        
+        # Aba 1: Validadas 100%
+        df_1 = df_ok if not df_ok.empty else pd.DataFrame(columns=['Sem dados válidos'])
+        aba_1 = 'Validadas 100%'
+        df_1.to_excel(writer, sheet_name=aba_1, index=False)
+        aplicar_estilo_ancora(writer.sheets[aba_1], df_1)
             
-        # Aba 2: O Lixo Estrutural
-        if not df_remocao.empty:
-            df_remocao.to_excel(writer, sheet_name='Remoção Automática', index=False)
-        else:
-            pd.DataFrame(columns=['Sem remoções']).to_excel(writer, sheet_name='Remoção Automática', index=False)
+        # Aba 2: Remoção Automática
+        df_2 = df_remocao if not df_remocao.empty else pd.DataFrame(columns=['Sem remoções'])
+        aba_2 = 'Remoção Automática'
+        df_2.to_excel(writer, sheet_name=aba_2, index=False)
+        aplicar_estilo_ancora(writer.sheets[aba_2], df_2)
             
-        # Aba 3: A Quarentena (Com erros de negócio ou conflitos)
-        if not df_erros.empty:
-            df_erros.to_excel(writer, sheet_name='Com Erros', index=False)
-        else:
-            pd.DataFrame(columns=['Sem erros detectados']).to_excel(writer, sheet_name='Com Erros', index=False)
+        # Aba 3: Com Erros
+        df_3 = df_erros if not df_erros.empty else pd.DataFrame(columns=['Sem erros detectados'])
+        aba_3 = 'Com Erros'
+        df_3.to_excel(writer, sheet_name=aba_3, index=False)
+        aplicar_estilo_ancora(writer.sheets[aba_3], df_3)
             
     return output.getvalue()

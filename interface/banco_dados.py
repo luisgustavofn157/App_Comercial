@@ -31,7 +31,6 @@ st.title("🗄️ Consultas ao Banco de Dados do Benner")
 
 st.selectbox(
     "Consultas Rápidas:", 
-    # É aqui que o texto da interface deve morar, e não no repositório!
     options=["Selecione uma consulta pronta..."] + list(MENU_CONSULTAS_RAPIDAS.keys()), 
     key="db_combo_biblioteca",
     on_change=callback_combo_prontas
@@ -58,20 +57,19 @@ col2.button(label_btn_limpar, on_click=resetar_banco_dados, use_container_width=
 if "db_resultado_sql" in st.session_state:
     df_bruto = st.session_state.db_resultado_sql
     
-    # Adia a geração de bytes até o usuário querer baixar
-    with col3.popover("📄 Exportar", use_container_width=True):
-        st.caption("Gerar arquivo Excel?")
-        if st.button("Sim, processar e baixar .XLSX", key="btn_gerar_excel", use_container_width=True):
-            with st.spinner("Gerando arquivo..."):
-                df_seguro = higienizar_para_exportacao(df_bruto)
-                bytes_excel = exportar_consulta_sql(df_seguro)
-                st.download_button(
-                    label="⬇️ Clique aqui para baixar", 
-                    data=bytes_excel, 
-                    file_name="extracao.xlsx", 
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-                    use_container_width=True
-                )
+    # INTELIGÊNCIA DE UX: Gera o Excel 1x na memória e deixa pronto para download com 1 clique
+    if "db_bytes_excel" not in st.session_state:
+        with st.spinner("Preparando Excel para download..."):
+            df_seguro = higienizar_para_exportacao(df_bruto)
+            st.session_state.db_bytes_excel = exportar_consulta_sql(df_seguro)
+            
+    col3.download_button(
+        label="📥 Baixar Excel", 
+        data=st.session_state.db_bytes_excel, 
+        file_name="extracao_benner.xlsx", 
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+        use_container_width=True
+    )
     
     # Cópia para Clipboard
     if len(df_bruto) <= 5000:
@@ -94,14 +92,17 @@ if vai_executar:
     else:
         with st.spinner("Consultando o banco do Benner..."):
             try:
+                # Limpa o cache do Excel antigo sempre que uma nova query for rodar
+                if "db_bytes_excel" in st.session_state:
+                    del st.session_state.db_bytes_excel
+                    
                 start_time = time.time()
                 df_resultado = executar_consulta_benner(query)
                 end_time = time.time()
                 
-                # Salva apenas o resultado bruto. Tratamento ocorre na hora de exportar/copiar.
                 st.session_state.db_resultado_sql = df_resultado
                 st.session_state.db_tempo_execucao = end_time - start_time
-                st.rerun() # Único rerun necessário e de forma controlada
+                st.rerun() 
                 
             except ValueError as ve:
                 st.error("🛡️ Ação não permitida")

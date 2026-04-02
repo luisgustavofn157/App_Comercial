@@ -19,23 +19,23 @@ def renderizar_passo_4():
     df_com_erros = st.session_state.df_com_erros
 
     # ==========================================
-    # 1. PAINEL DE MÉTRICAS (Simplificado e Limpo)
+    # 1. PAINEL DE MÉTRICAS (Padronizado com %)
     # ==========================================
     linhas_ok = len(df_gold)
     linhas_removidas = len(df_remocao_auto)
     linhas_erro = len(df_com_erros)
     total_linhas = linhas_ok + linhas_removidas + linhas_erro
     
-    taxa = (linhas_ok / total_linhas) * 100 if total_linhas > 0 else 0
+    # Cálculo das porcentagens de cada coluna
+    taxa_ok = (linhas_ok / total_linhas) * 100 if total_linhas > 0 else 0
+    taxa_removidas = (linhas_removidas / total_linhas) * 100 if total_linhas > 0 else 0
+    taxa_erro = (linhas_erro / total_linhas) * 100 if total_linhas > 0 else 0
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     c1.metric("📦 Linhas Analisadas", total_linhas)
-    c2.metric("✅ Validadas 100%", linhas_ok, delta=f"{taxa:.1f}% Retenção", delta_color="normal")
-    c3.metric("🚨 Com Erros", linhas_erro, delta="Ação Necessária" if linhas_erro > 0 else "0", delta_color="inverse" if linhas_erro > 0 else "off")
-    
-    with st.expander(f"🗑️ Ver Registos de Remoção Automática ({linhas_removidas} linhas)"):
-        st.write("Estas linhas falharam nos critérios mínimos (Falta de SKU/Preço ou eram cópias 100% exatas). Foram removidas do processo.")
-        st.dataframe(df_remocao_auto.head(100), use_container_width=True)
+    c2.metric("✅ Validadas 100%", linhas_ok, delta=f"{taxa_ok:.1f}%", delta_color="normal")
+    c3.metric("🗑️ Remoção Automática", linhas_removidas, delta=f"{taxa_removidas:.1f}%", delta_color="off")
+    c4.metric("🚨 Com Erros", linhas_erro, delta=f"{taxa_erro:.1f}%", delta_color="inverse" if linhas_erro > 0 else "off")
 
     st.divider()
 
@@ -45,10 +45,9 @@ def renderizar_passo_4():
     tem_bloqueio = (linhas_erro > 0)
     
     if tem_bloqueio:
-        st.error("🛑 **Existem linhas retidas na Quarentena.**")
-        st.write("1. Faça o download do ficheiro de crítica abaixo.")
-        st.write("2. Na aba **'Com Erros'**, verifique a coluna de ALERTA para saber o que falhou (ex: 'NCM Inválido', 'SKU Duplicado com divergência').")
-        st.write("3. Altere o valor diretamente no Excel, guarde e faça o upload do ficheiro aqui para revalidar.")
+        st.error("🛑 **Existem linhas com erros.**")
+        st.write("1. Baixe o arquivo e revise as abas Remoção Automática e Com Erros.")
+        st.write("2. Deixe apenas a aba Validadas 100% com o que você deseja seguir com a análise.")
         
         # --- MÁSCARA DE EXPORTAÇÃO (Veste o nome Original do fornecedor) ---
         mapa_reverso = st.session_state.get("mapa_tecnico_para_original", {})
@@ -61,7 +60,7 @@ def renderizar_passo_4():
         
         perfil = st.session_state.get("perfil_selecionado", "Geral")
         st.download_button(
-            label="📥 1. Baixar Ficheiro de Crítica (.XLSX)",
+            label="Baixar Arquivo de Críticas (.XLSX)",
             data=excel_bytes,
             file_name=f"Critica_Erros_{perfil}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -70,7 +69,7 @@ def renderizar_passo_4():
         )
         
         st.markdown("---")
-        st.subheader("📤 2. Enviar Ficheiro Corrigido")
+        st.subheader("Enviar Arquivo Corrigido")
         arquivo_corrigido = st.file_uploader("Suba o Excel corrigido aqui para reavaliar as regras", type=["xlsx"])
         
         if arquivo_corrigido:
@@ -99,20 +98,12 @@ def renderizar_passo_4():
                 st.session_state.df_remocao_auto = novo_df_remocao
                 st.session_state.df_com_erros = novo_df_erros
                 st.rerun()
-                
-        st.divider()
-        if st.button("⬅️ Voltar ao Mapeamento (Descartar tudo e recomeçar)", type="secondary"):
-            for k in ["df_gold", "df_remocao_auto", "df_com_erros"]:
-                if k in st.session_state: del st.session_state[k]
-            st.session_state.etapa_fluxo = 3
-            st.rerun()
 
     else:
         # ==========================================
         # 3. CAMINHO FELIZ (Consultar ERP)
         # ==========================================
-        st.success("🎉 **BASE ÍNTEGRA! As regras de negócio foram atendidas a 100%.**")
-        st.write("O sistema cruzou os dados validados com a base de dados do Benner:")
+        st.success("🎉 **Todas as linhas estão tratadas, pode avançar para a Análise de Preço**")
         
         if "df_gold_validado" not in st.session_state:
             with st.spinner("A consultar o ERP para validar SKUs e NCMs..."):

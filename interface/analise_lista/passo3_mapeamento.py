@@ -56,7 +56,7 @@ def renderizar_passo_3():
         st.session_state.df_mapeamento_ui = pd.DataFrame(dados_ui)
 
     st.markdown(f"#### ⚙️ Perfil Selecionado: `{st.session_state.perfil_selecionado}`")
-    st.write("O sistema já identificou algumas colunas, revise e corrija se necessário")
+    st.write("O sistema já identificou algumas colunas, se necessário clique nos campos da coluna Tipo de Dado para corrigir.")
 
     altura_dinamica = (len(st.session_state.df_mapeamento_ui) * 35) + 42
 

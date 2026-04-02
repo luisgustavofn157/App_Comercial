@@ -31,7 +31,6 @@ def resetar_fluxo():
     for k in chaves_para_limpar:
         if k in st.session_state:
             del st.session_state[k]
-    st.rerun()
 
 def resetar_banco_dados():
     """Limpa a tela e a memória da interface do banco de dados."""
